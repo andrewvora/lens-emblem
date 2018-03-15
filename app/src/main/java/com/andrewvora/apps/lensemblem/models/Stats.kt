@@ -1,17 +1,14 @@
 package com.andrewvora.apps.lensemblem.models
 
 import android.annotation.SuppressLint
-import android.arch.persistence.room.ColumnInfo
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.ForeignKey
+import android.arch.persistence.room.*
 import android.arch.persistence.room.ForeignKey.CASCADE
-import android.arch.persistence.room.PrimaryKey
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 
-internal const val TABLE_HERO_STATS = "hero_stats_v1"
+internal const val TABLE_HERO_STATS = "hero_stats"
 
 internal const val COLUMN_EQUIPPED = "equipped"
 internal const val COLUMN_LEVEL = "level"
@@ -22,6 +19,7 @@ internal const val COLUMN_DEF = "def"
 internal const val COLUMN_RES = "res"
 internal const val COLUMN_SP = "sp"
 internal const val COLUMN_HM = "hm"
+internal const val COLUMN_STARS = "stars"
 
 internal const val COLUMN_HERO_ID = "hero_id"
 
@@ -32,6 +30,7 @@ internal const val COLUMN_HERO_ID = "hero_id"
 @SuppressLint("ParcelCreator")
 @Parcelize
 @Entity(tableName = TABLE_HERO_STATS,
+        indices = [Index(COLUMN_HERO_ID)],
         foreignKeys = [
             ForeignKey(
                     entity = Hero::class,
@@ -40,11 +39,11 @@ internal const val COLUMN_HERO_ID = "hero_id"
                     onDelete = CASCADE)
         ])
 data class Stats(
-        @PrimaryKey
-        var id: Int,
+        @PrimaryKey(autoGenerate = true)
+        var id: Int = 0,
         @SerializedName("level")
         @ColumnInfo(name = COLUMN_LEVEL)
-        var level: Int,
+        var level: Int = 1,
         @SerializedName("hp")
         @ColumnInfo(name = COLUMN_HP)
         var hp: Int,
@@ -62,13 +61,16 @@ data class Stats(
         var res: Int,
         @SerializedName("sp")
         @ColumnInfo(name = COLUMN_SP)
-        var sp: Int,
+        var sp: Int = 0,
         @SerializedName("hm")
         @ColumnInfo(name = COLUMN_HM)
-        var hm: Int,
+        var hm: Int = 0,
+        @SerializedName("stars")
+        @ColumnInfo(name = COLUMN_STARS)
+        var stars: Int = 0,
         @SerializedName("equipped")
         @ColumnInfo(name = COLUMN_EQUIPPED)
-        var equipped: Boolean,
+        var equipped: Boolean = false,
         @ColumnInfo(name = COLUMN_HERO_ID)
-        var heroId: Int
+        var heroId: Int = 0
 ): Parcelable

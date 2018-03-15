@@ -3,15 +3,15 @@ package com.andrewvora.apps.lensemblem
 import android.app.Notification
 import android.app.Service
 import android.content.Intent
-import android.graphics.Bitmap
 import android.os.*
 import android.util.Log
-import android.widget.ImageView
 import android.widget.Toast
 import com.andrewvora.apps.lensemblem.dagger.component
-import com.andrewvora.apps.lensemblem.notifications.NotificationHelper
-import com.andrewvora.apps.lensemblem.ocr.OCRHelper
 import com.andrewvora.apps.lensemblem.imageprocessing.ScreenshotHelper
+import com.andrewvora.apps.lensemblem.notifications.NotificationHelper
+import com.andrewvora.apps.lensemblem.ocr.OCRHeroProcessor
+import com.andrewvora.apps.lensemblem.repos.HeroesRepo
+import com.andrewvora.apps.lensemblem.statprocessing.IVProcessor
 import javax.inject.Inject
 
 /**
@@ -20,11 +20,22 @@ import javax.inject.Inject
  */
 class LensEmblemService : Service() {
 
+    enum class ServiceState {
+        START,
+        READY,
+        PROCESSING
+    }
+
     @Inject lateinit var screenshotHelper: ScreenshotHelper
-    @Inject lateinit var ocrHelper: OCRHelper
+    @Inject lateinit var heroProcessor: OCRHeroProcessor
+    @Inject lateinit var ivProcessor: IVProcessor
+    @Inject lateinit var heroesRepo: HeroesRepo
 
     private lateinit var serviceHandler: Handler
     private lateinit var serviceLooper: Looper
+
+    private var currentState = ServiceState.START
+    private var stepCounter = 1
 
     override fun onCreate() {
         application.component().inject(this)
@@ -35,16 +46,39 @@ class LensEmblemService : Service() {
         handlerThread.start()
         serviceLooper = handlerThread.looper
         serviceHandler = object: Handler(serviceLooper) {
-            override fun handleMessage(msg: Message?) {
-                when (msg?.arg2) {
-                    CMD_START -> makeToast("Service started!")
-                    CMD_PROCESS -> {
-                        makeToast("Capture in 3 seconds...")
-                        pause(3000)
+            @Synchronized override fun handleMessage(msg: Message?) {
+                stepCounter++
+                stepCounter %= (ServiceState.values().size + 1)
+                val state = ServiceState.values()[msg?.arg2 ?: 0]
+                when (state) {
+                    ServiceState.START -> {
+                        makeToast("$stepCounter. Service started!")
+                        currentState = ServiceState.READY
+                    }
+                    ServiceState.READY -> {
+                        currentState = ServiceState.PROCESSING
+                        makeToast("$stepCounter. Capture in 5 seconds...")
+                        pause(5000)
 
                         screenshotHelper.takeScreenshot {
+                            val hero = heroProcessor.processHeroProfile(it)
+                            val heroFromDb = heroesRepo.getHero(hero.title, hero.name).blockingGet()
 
+                            val capturedStats = hero.stats?.first()
+                            val level = capturedStats?.level
+                            val sourceStats = heroFromDb?.stats?.find { it.equipped && it.level == level }
+
+                            if (capturedStats != null && sourceStats != null) {
+                                val baneBoon = ivProcessor.calculateIVs(sourceStats, capturedStats)
+                                makeToast("${heroFromDb.title} ${heroFromDb.name}: " +
+                                        "+${baneBoon.first.name}, -${baneBoon.second.name}")
+                            }
                         }
+
+                        currentState = ServiceState.READY
+                    }
+                    else -> {
+                        makeToast("$stepCounter. Processing")
                     }
                 }
             }
@@ -61,6 +95,8 @@ class LensEmblemService : Service() {
         }
     }
 
+    /**
+    // utility method for diagnosing bounding boxes
     private fun makeImageToast(bm: Bitmap) {
         Handler(Looper.getMainLooper()).post {
             val iv = ImageView(application).apply {
@@ -72,6 +108,7 @@ class LensEmblemService : Service() {
             }.show()
         }
     }
+    */
 
     private fun makeToast(msg: String) {
         Handler(Looper.getMainLooper()).post {
@@ -90,7 +127,7 @@ class LensEmblemService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val msg = serviceHandler.obtainMessage()
         msg.arg1 = startId
-        msg.arg2 = CMD_START
+        msg.arg2 = currentState.ordinal
 
         serviceHandler.sendMessage(msg)
 
@@ -108,8 +145,5 @@ class LensEmblemService : Service() {
 
     companion object {
         private const val SERVICE_ID = 1000
-
-        private const val CMD_START = 1
-        private const val CMD_PROCESS = 2
     }
 }

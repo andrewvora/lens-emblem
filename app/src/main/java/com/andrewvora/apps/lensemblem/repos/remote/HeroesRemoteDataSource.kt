@@ -1,11 +1,14 @@
 package com.andrewvora.apps.lensemblem.repos.remote
 
-import android.app.Application
+import com.andrewvora.apps.lensemblem.dagger.ConstantsModule.Companion.HERO_STATS_URL
 import com.andrewvora.apps.lensemblem.models.Hero
-import com.andrewvora.apps.lensemblem.models.Stats
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import io.reactivex.Single
 import okhttp3.OkHttpClient
+import okhttp3.Request
 import javax.inject.Inject
+import javax.inject.Named
 import javax.inject.Singleton
 
 /**
@@ -14,18 +17,30 @@ import javax.inject.Singleton
  */
 @Singleton
 class HeroesRemoteDataSource
-@Inject constructor(private val application: Application,
-                    private val httpClient: OkHttpClient) {
+@Inject constructor(private val httpClient: OkHttpClient,
+                    private val gson: Gson,
+                    @Named(HERO_STATS_URL) private val sourceUrl: String) {
 
     fun getHeroData(): Single<List<Hero>> {
         return Single.defer {
-            Single.just<List<Hero>>(emptyList())
+            val request = getRequest()
+            val response = httpClient.newCall(request).execute()
+
+            if (response.isSuccessful) {
+                val heroes = gson.fromJson<List<Hero>>(
+                        response.body()?.charStream(),
+                        object: TypeToken<List<Hero>>() {}.type)
+
+                return@defer Single.just<List<Hero>>(heroes)
+            } else {
+                throw Exception("Request failed")
+            }
         }
     }
 
-    fun getHeroStatsData(): Single<List<Stats>> {
-        return Single.defer {
-            Single.just<List<Stats>>(emptyList())
-        }
+    private fun getRequest(): Request {
+        return Request.Builder()
+                .url(sourceUrl)
+                .build()
     }
 }

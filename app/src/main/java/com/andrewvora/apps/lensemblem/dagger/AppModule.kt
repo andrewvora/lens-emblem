@@ -4,10 +4,10 @@ import android.app.Application
 import android.arch.persistence.room.Room
 import com.andrewvora.apps.lensemblem.database.DB_NAME
 import com.andrewvora.apps.lensemblem.database.LensEmblemDatabase
-import com.andrewvora.apps.lensemblem.imageprocessing.BitmapHelper
 import com.andrewvora.apps.lensemblem.imageprocessing.ScreenshotHelper
 import com.andrewvora.apps.lensemblem.notifications.NotificationHelper
 import com.andrewvora.apps.lensemblem.ocr.OCRHelper
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -20,6 +20,9 @@ import javax.inject.Singleton
 @Module
 class AppModule(private val app: Application) {
 
+    private val database = Room.databaseBuilder(app, LensEmblemDatabase::class.java, DB_NAME)
+            .build()
+
     @Provides @Singleton
     fun providesApp(): Application {
         return app
@@ -31,8 +34,13 @@ class AppModule(private val app: Application) {
     }
 
     @Provides @Singleton
+    fun providesGson(): Gson {
+        return Gson()
+    }
+
+    @Provides @Singleton
     fun providesDatabase(): LensEmblemDatabase {
-        return Room.databaseBuilder(app, LensEmblemDatabase::class.java, DB_NAME).build()
+        return database
     }
 
     @Provides @Singleton
@@ -43,11 +51,6 @@ class AppModule(private val app: Application) {
     @Provides @Singleton
     fun providesOcrHelper(): OCRHelper {
         return OCRHelper(app)
-    }
-
-    @Provides @Singleton
-    fun providesBitmapHelper(): BitmapHelper {
-        return BitmapHelper(app)
     }
 
     @Provides @Singleton

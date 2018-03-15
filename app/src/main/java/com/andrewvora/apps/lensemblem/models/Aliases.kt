@@ -22,7 +22,7 @@ internal const val COLUMN_HERO_NAME = "hero_name"
 @Parcelize
 @Entity(tableName = TABLE_TITLE_ALIAS)
 data class TitleAlias(
-        @PrimaryKey var id: Int,
+        @PrimaryKey(autoGenerate = true) var id: Int,
         @ColumnInfo(name = COLUMN_CAPTURED_TEXT) var capturedText: String,
         @ColumnInfo(name = COLUMN_HERO_TITLE) var heroTitle: String
 ): Parcelable
@@ -35,7 +35,7 @@ data class TitleAlias(
 @Parcelize
 @Entity(tableName = TABLE_NAME_ALIAS)
 data class NameAlias(
-        @PrimaryKey var id: Int,
+        @PrimaryKey(autoGenerate = true) var id: Int,
         @ColumnInfo(name = COLUMN_CAPTURED_TEXT) var capturedText: String,
         @ColumnInfo(name = COLUMN_HERO_NAME) var heroName: String
 ): Parcelable

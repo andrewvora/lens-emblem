@@ -4,6 +4,7 @@ import android.arch.persistence.room.Database
 import android.arch.persistence.room.RoomDatabase
 import com.andrewvora.apps.lensemblem.models.Hero
 import com.andrewvora.apps.lensemblem.models.NameAlias
+import com.andrewvora.apps.lensemblem.models.Stats
 import com.andrewvora.apps.lensemblem.models.TitleAlias
 
 
@@ -16,9 +17,11 @@ internal const val DB_NAME = "lens_emblem"
 @Database(version = 1, entities = [
     Hero::class,
     NameAlias::class,
-    TitleAlias::class
+    TitleAlias::class,
+    Stats::class
 ])
 abstract class LensEmblemDatabase : RoomDatabase() {
     abstract fun heroDao(): HeroDao
     abstract fun aliasDao(): AliasDao
+    abstract fun statsDao(): StatsDao
 }

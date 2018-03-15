@@ -11,7 +11,7 @@ import javax.inject.Singleton
  * Created on 3/3/2018.
  * @author Andrew Vorakrajangthiti
  */
-@Component(modules = [AppModule::class])
+@Component(modules = [AppModule::class, ConstantsModule::class])
 @Singleton
 interface AppComponent {
     fun inject(service: LensEmblemService)

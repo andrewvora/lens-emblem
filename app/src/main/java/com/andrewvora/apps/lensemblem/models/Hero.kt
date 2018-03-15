@@ -21,7 +21,7 @@ internal const val COLUMN_NAME = "name"
 @Parcelize
 @Entity(tableName = TABLE_HERO)
 data class Hero(
-        @PrimaryKey
+        @PrimaryKey(autoGenerate = true)
         var id: Int = 0,
 
         @ColumnInfo(name = COLUMN_TITLE)

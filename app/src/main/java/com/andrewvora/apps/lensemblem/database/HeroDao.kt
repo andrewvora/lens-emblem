@@ -26,4 +26,7 @@ interface HeroDao {
 
     @Delete
     fun delete(hero: Hero)
+
+    @Query("DELETE FROM $TABLE_HERO WHERE 1=1")
+    fun deleteAll()
 }

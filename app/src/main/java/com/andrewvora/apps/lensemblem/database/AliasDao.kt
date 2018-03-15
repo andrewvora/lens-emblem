@@ -13,16 +13,16 @@ import com.andrewvora.apps.lensemblem.models.*
 @Dao
 interface AliasDao {
 
-    @Query("SELECT * FROM ${TABLE_TITLE_ALIAS}")
+    @Query("SELECT * FROM $TABLE_TITLE_ALIAS")
     fun getTitleAliases(): List<TitleAlias>
 
-    @Query("SELECT * FROM ${TABLE_TITLE_ALIAS} WHERE ${COLUMN_CAPTURED_TEXT} LIKE :capturedText")
+    @Query("SELECT * FROM $TABLE_TITLE_ALIAS WHERE $COLUMN_CAPTURED_TEXT LIKE :capturedText")
     fun getTitleAliases(capturedText: String): List<TitleAlias>
 
-    @Query("SELECT * FROM ${TABLE_NAME_ALIAS}")
+    @Query("SELECT * FROM $TABLE_NAME_ALIAS")
     fun getNameAliases(): List<NameAlias>
 
-    @Query("SELECT * FROM ${TABLE_NAME_ALIAS} WHERE ${COLUMN_CAPTURED_TEXT} LIKE :capturedText")
+    @Query("SELECT * FROM $TABLE_NAME_ALIAS WHERE $COLUMN_CAPTURED_TEXT LIKE :capturedText")
     fun getNameAliases(capturedText: String): List<NameAlias>
 
     @Insert
@@ -36,4 +36,10 @@ interface AliasDao {
 
     @Delete
     fun delete(titleAlias: TitleAlias)
+
+    @Query("DELETE FROM $TABLE_NAME_ALIAS WHERE 1=1")
+    fun deleteAllNames()
+
+    @Query("DELETE FROM $TABLE_TITLE_ALIAS WHERE 1=1")
+    fun deleteAllTitles()
 }

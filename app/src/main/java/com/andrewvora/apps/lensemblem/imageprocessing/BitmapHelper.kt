@@ -1,35 +1,37 @@
 package com.andrewvora.apps.lensemblem.imageprocessing
 
-import android.content.Context
 import android.graphics.Bitmap
+import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
  * Created on 2/28/2018.
  * @author Andrew Vorakrajangthiti
  */
-class BitmapHelper(context: Context) {
+@Singleton
+class BitmapHelper
+@Inject constructor() {
     fun getCharacterTitleBitmap(srcBitmap: Bitmap): Bitmap {
-        val x = 0
+        val x = srcBitmap.width * 0.1
         val y = srcBitmap.height * 0.425
         val width = srcBitmap.width * 0.5
         val height = srcBitmap.height * 0.07
         return Bitmap.createBitmap(
                 srcBitmap,
-                x,
+                x.toInt(),
                 y.toInt(),
                 width.toInt(),
                 height.toInt())
     }
 
     fun getCharacterNameBitmap(srcBitmap: Bitmap): Bitmap {
-        val x = 0
+        val x = srcBitmap.width * 0.1
         val y = srcBitmap.height * 0.48
-        val width = srcBitmap.width * 0.6
+        val width = srcBitmap.width * 0.45
         val height = srcBitmap.height * 0.07
         return Bitmap.createBitmap(
                 srcBitmap,
-                x,
+                x.toInt(),
                 y.toInt(),
                 width.toInt(),
                 height.toInt())

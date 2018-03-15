@@ -19,6 +19,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".data.FullScreenActivity"/>
+
         <service
             android:name=".LensEmblemService"
             android:exported="false"/>

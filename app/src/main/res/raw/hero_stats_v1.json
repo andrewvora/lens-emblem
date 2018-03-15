@@ -1,3 +1,43 @@
-{
-
-}
+[
+  {
+    "title": "Empty Vessel",
+    "name": "Takumi",
+    "stats": [
+      {
+        "level": 1,
+        "hp": 15,
+        "atk": 9,
+        "spd": 10,
+        "def": 6,
+        "res": 5,
+        "sp": 0,
+        "stars": 5,
+        "hm": 0,
+        "equipped": false
+      },
+      {
+        "level": 40,
+        "hp": 37,
+        "atk": 31,
+        "spd": 34,
+        "def": 25,
+        "res": 24,
+        "sp": 0,
+        "hm": 0,
+        "equipped": false
+      },
+      {
+        "level": 40,
+        "hp": 37,
+        "atk": 45,
+        "spd": 37,
+        "def": 25,
+        "res": 24,
+        "sp": 0,
+        "stars": 5,
+        "hm": 0,
+        "equipped": true
+      }
+    ]
+  }
+]
