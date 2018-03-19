@@ -3,4 +3,5 @@
 
     <string name="service_notification_channel_name">Lens Emblem Service</string>
     <string name="service_notification_channel_description">The primary notifications delivered by Lens Emblem</string>
+    <string name="error_could_not_find_hero">Could not find matching hero.</string>
 </resources>

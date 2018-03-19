@@ -2,6 +2,7 @@ package com.andrewvora.apps.lensemblem.ocr
 
 import android.graphics.Bitmap
 import com.andrewvora.apps.lensemblem.imageprocessing.BitmapHelper
+import com.andrewvora.apps.lensemblem.imageprocessing.BoundingConfig
 import com.andrewvora.apps.lensemblem.models.Hero
 import com.andrewvora.apps.lensemblem.models.Stats
 import com.andrewvora.apps.lensemblem.repos.HeroesRepo
@@ -18,6 +19,9 @@ class OCRHeroProcessor
                     private val bitmapHelper: BitmapHelper,
                     private val heroRepo: HeroesRepo) {
 
+    init {
+        bitmapHelper.setBoundingConfig(BoundingConfig.Nexus5)
+    }
 
     fun processHeroProfile(profileBitmap: Bitmap): Hero {
         val titleBitmap = bitmapHelper.getCharacterTitleBitmap(profileBitmap)
@@ -25,43 +29,43 @@ class OCRHeroProcessor
         val levelBitmap = bitmapHelper.getCharacterLevelBitmap(profileBitmap)
         val statsBitmap = bitmapHelper.getCharacterStatsBitmap(profileBitmap)
 
-        val heroTitle = processHeroTitle(titleBitmap)
-        val heroName = processHeroName(nameBitmap)
-        val heroLevel = processHeroLevel(levelBitmap)
-        val heroStats = processHeroStats(statsBitmap).copy(level = heroLevel)
+        val heroTitle = processHeroTitle(bitmapHelper.makeHighContrast(titleBitmap))
+        val heroName = processHeroName(bitmapHelper.makeHighContrast(nameBitmap))
+        val heroLevel = processHeroLevel(bitmapHelper.makeHighContrast(levelBitmap))
+        val heroStats = processHeroStats(bitmapHelper.makeHighContrast(statsBitmap)).copy(level = heroLevel)
 
         return Hero(title = heroTitle, name = heroName, stats = listOf(heroStats))
     }
 
     fun processHeroTitle(titleBitmap: Bitmap): String {
-        val titleText = ocrHelper.readAllText(titleBitmap)
+        val titleText = ocrHelper.readAllText(titleBitmap).toLowerCase()
         val titleAliases = heroRepo.getTitleAliases().blockingGet()
         return titleAliases.find {alias ->
-            titleText.contains(alias.capturedText)
-        }?.heroTitle ?: DEFAULT_TITLE
+            titleText.contains(alias.capturedText.toLowerCase())
+        }?.heroTitle ?: titleText
     }
 
     fun processHeroName(nameBitmap: Bitmap): String {
-        val nameText = ocrHelper.readAllText(nameBitmap)
+        val nameText = ocrHelper.readAllText(nameBitmap).toLowerCase()
         val nameAliases = heroRepo.getNameAliases().blockingGet()
         return nameAliases.find { alias ->
-            nameText.contains(alias.capturedText)
-        }?.heroName ?: DEFAULT_NAME
+            nameText.contains(alias.capturedText.toLowerCase())
+        }?.heroName ?: nameText
     }
 
     fun processHeroLevel(levelBitmap: Bitmap): Int {
-        val levelText = ocrHelper.readAllText(levelBitmap)
-        val trimmedLevelText = Regex("(LV.*\\d{2})").find(levelText)?.value ?: ""
+        val levelText = ocrHelper.readAllText(levelBitmap).toLowerCase()
+        val trimmedLevelText = Regex("(lv|iv)\\.*\\s*\\d{1,2}").find(levelText)?.value ?: ""
         return parseNumber(trimmedLevelText)
     }
 
     fun processHeroStats(statsBitmap: Bitmap): Stats {
-        val statsText = ocrHelper.readAllText(statsBitmap)
-        val hpText = Regex("HP.*\\d{1,2}").find(statsText)?.value ?: ""
-        val atkText = Regex("Atk.*\\d{1,2}").find(statsText)?.value ?: ""
-        val spdText = Regex("Spd.*\\d{1,2}").find(statsText)?.value ?: ""
-        val defText = Regex("Def.*\\d{1,2}").find(statsText)?.value ?: ""
-        val resText = Regex("Res.*\\d{1,2}").find(statsText)?.value ?: ""
+        val statsText = ocrHelper.readAllText(statsBitmap).toLowerCase()
+        val hpText = Regex("hp.*\\d{1,2}").find(statsText)?.value ?: ""
+        val atkText = Regex("atk.*\\d{1,2}").find(statsText)?.value ?: ""
+        val spdText = Regex("spd.*\\d{1,2}").find(statsText)?.value ?: ""
+        val defText = Regex("def.*\\d{1,2}").find(statsText)?.value ?: ""
+        val resText = Regex("res.*\\d{1,2}").find(statsText)?.value ?: ""
 
         val hp = parseNumber(hpText)
         val atk = parseNumber(atkText)
@@ -73,11 +77,17 @@ class OCRHeroProcessor
     }
 
     private fun parseNumber(str: String): Int {
-        return Regex("\\D+").replace(str, "").toInt()
+        return try {
+            Regex("\\D+").replace(str, "").toInt()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            DEFAULT_LEVEL
+        }
     }
 
     companion object {
         private const val DEFAULT_NAME = "unknown"
         private const val DEFAULT_TITLE = "unknown"
+        private const val DEFAULT_LEVEL = 1
     }
 }

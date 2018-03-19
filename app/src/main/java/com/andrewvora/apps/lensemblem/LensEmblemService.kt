@@ -72,6 +72,8 @@ class LensEmblemService : Service() {
                                 val baneBoon = ivProcessor.calculateIVs(sourceStats, capturedStats)
                                 makeToast("${heroFromDb.title} ${heroFromDb.name}: " +
                                         "+${baneBoon.first.name}, -${baneBoon.second.name}")
+                            } else {
+                                makeToast(getString(R.string.error_could_not_find_hero))
                             }
                         }
 
