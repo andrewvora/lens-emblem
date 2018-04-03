@@ -53,7 +53,7 @@ class HeroesLocalDataSource
             return Single.just(hero)
         }
 
-        return Single.just(null)
+        return Single.error(RuntimeException("Could not find $title - $name"))
     }
 
     fun getHeroDataFromDatabase(): Single<List<Hero>> {

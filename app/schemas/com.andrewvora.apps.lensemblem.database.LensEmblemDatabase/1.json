@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "8284722bab2f021fa4c56891e8f857c9",
+    "identityHash": "b6a49c30b5b327dc1a92e49083658a53",
     "entities": [
       {
         "tableName": "heroes",
@@ -102,7 +102,7 @@
       },
       {
         "tableName": "hero_stats",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `level` INTEGER NOT NULL, `hp` INTEGER NOT NULL, `atk` INTEGER NOT NULL, `spd` INTEGER NOT NULL, `def` INTEGER NOT NULL, `res` INTEGER NOT NULL, `sp` INTEGER NOT NULL, `hm` INTEGER NOT NULL, `stars` INTEGER NOT NULL, `equipped` INTEGER NOT NULL, `hero_id` INTEGER NOT NULL, FOREIGN KEY(`hero_id`) REFERENCES `heroes`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `level` INTEGER NOT NULL, `hp` INTEGER NOT NULL, `atk` INTEGER NOT NULL, `spd` INTEGER NOT NULL, `def` INTEGER NOT NULL, `res` INTEGER NOT NULL, `sp` INTEGER NOT NULL, `hm` INTEGER NOT NULL, `rarity` INTEGER NOT NULL, `equipped` INTEGER NOT NULL, `hero_id` INTEGER NOT NULL, FOREIGN KEY(`hero_id`) REFERENCES `heroes`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -159,8 +159,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "stars",
-            "columnName": "stars",
+            "fieldPath": "rarity",
+            "columnName": "rarity",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -206,11 +206,105 @@
             ]
           }
         ]
+      },
+      {
+        "tableName": "app_messages",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT NOT NULL, `message` TEXT NOT NULL, `type` TEXT, `posted_at` INTEGER, `created_at` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "message",
+            "columnName": "message",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "posted",
+            "columnName": "posted_at",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "created",
+            "columnName": "created_at",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "bounds",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `x_mod` REAL NOT NULL, `y_mod` REAL NOT NULL, `width_mod` REAL NOT NULL, `height_mod` REAL NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "xMod",
+            "columnName": "x_mod",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "yMod",
+            "columnName": "y_mod",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "widthMod",
+            "columnName": "width_mod",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "heightMod",
+            "columnName": "height_mod",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"8284722bab2f021fa4c56891e8f857c9\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"b6a49c30b5b327dc1a92e49083658a53\")"
     ]
   }
 }

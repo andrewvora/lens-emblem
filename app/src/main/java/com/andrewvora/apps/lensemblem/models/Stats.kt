@@ -19,7 +19,7 @@ internal const val COLUMN_DEF = "def"
 internal const val COLUMN_RES = "res"
 internal const val COLUMN_SP = "sp"
 internal const val COLUMN_HM = "hm"
-internal const val COLUMN_STARS = "stars"
+internal const val COLUMN_RARITY = "rarity"
 
 internal const val COLUMN_HERO_ID = "hero_id"
 
@@ -65,9 +65,9 @@ data class Stats(
         @SerializedName("hm")
         @ColumnInfo(name = COLUMN_HM)
         var hm: Int = 0,
-        @SerializedName("stars")
-        @ColumnInfo(name = COLUMN_STARS)
-        var stars: Int = 0,
+        @SerializedName("rarity")
+        @ColumnInfo(name = COLUMN_RARITY)
+        var rarity: Int = 0,
         @SerializedName("equipped")
         @ColumnInfo(name = COLUMN_EQUIPPED)
         var equipped: Boolean = false,

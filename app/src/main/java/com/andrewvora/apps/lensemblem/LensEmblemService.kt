@@ -66,7 +66,9 @@ class LensEmblemService : Service() {
 
                             val capturedStats = hero.stats?.first()
                             val level = capturedStats?.level
-                            val sourceStats = heroFromDb?.stats?.find { it.equipped && it.level == level }
+                            val sourceStats = heroFromDb?.stats?.find {
+                                it.equipped && it.level == level && ivProcessor.statsAdequatelyMatch(it, capturedStats)
+                            }
 
                             if (capturedStats != null && sourceStats != null) {
                                 val baneBoon = ivProcessor.calculateIVs(sourceStats, capturedStats)
@@ -96,21 +98,6 @@ class LensEmblemService : Service() {
             e.printStackTrace()
         }
     }
-
-    /**
-    // utility method for diagnosing bounding boxes
-    private fun makeImageToast(bm: Bitmap) {
-        Handler(Looper.getMainLooper()).post {
-            val iv = ImageView(application).apply {
-                setImageBitmap(bm)
-            }
-            Toast(application).apply {
-                view = iv
-                duration = Toast.LENGTH_SHORT
-            }.show()
-        }
-    }
-    */
 
     private fun makeToast(msg: String) {
         Handler(Looper.getMainLooper()).post {

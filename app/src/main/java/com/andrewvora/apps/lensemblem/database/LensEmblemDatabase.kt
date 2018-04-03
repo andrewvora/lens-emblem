@@ -2,10 +2,9 @@ package com.andrewvora.apps.lensemblem.database
 
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.RoomDatabase
-import com.andrewvora.apps.lensemblem.models.Hero
-import com.andrewvora.apps.lensemblem.models.NameAlias
-import com.andrewvora.apps.lensemblem.models.Stats
-import com.andrewvora.apps.lensemblem.models.TitleAlias
+import android.arch.persistence.room.TypeConverters
+import com.andrewvora.apps.lensemblem.models.*
+import com.andrewvora.apps.lensemblem.database.converters.RoomDateConverter
 
 
 internal const val DB_NAME = "lens_emblem"
@@ -18,10 +17,15 @@ internal const val DB_NAME = "lens_emblem"
     Hero::class,
     NameAlias::class,
     TitleAlias::class,
-    Stats::class
+    Stats::class,
+    AppMessage::class,
+    Bounds::class
 ])
+@TypeConverters(RoomDateConverter::class)
 abstract class LensEmblemDatabase : RoomDatabase() {
     abstract fun heroDao(): HeroDao
     abstract fun aliasDao(): AliasDao
     abstract fun statsDao(): StatsDao
+    abstract fun messageDao(): MessageDao
+    abstract fun boundsDao(): BoundsDao
 }

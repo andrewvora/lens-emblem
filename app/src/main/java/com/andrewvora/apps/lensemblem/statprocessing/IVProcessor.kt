@@ -1,8 +1,6 @@
 package com.andrewvora.apps.lensemblem.statprocessing
 
-import com.andrewvora.apps.lensemblem.models.Hero
 import com.andrewvora.apps.lensemblem.models.Stats
-import com.andrewvora.apps.lensemblem.repos.HeroesRepo
 import javax.inject.Inject
 
 /**
@@ -10,7 +8,7 @@ import javax.inject.Inject
  * @author Andrew Vorakrajangthiti
  */
 class IVProcessor
-@Inject constructor(private val heroesRepo: HeroesRepo) {
+@Inject constructor() {
     enum class Stat {
         HP,
         ATK,
@@ -19,6 +17,7 @@ class IVProcessor
         RES,
         NONE
     }
+
     fun calculateIVs(sourceStats: Stats, stats: Stats): Pair<Stat, Stat> {
         val bane = when {
             stats.hp < sourceStats.hp -> Stat.HP
@@ -38,5 +37,34 @@ class IVProcessor
         }
 
         return Pair(boon, bane)
+    }
+
+    /**
+     * Since we can't process the rarity easily,
+     * we run based on "adequate" match, as in,
+     * most of the stats match, where the mismatches
+     * are likely the IVs
+     */
+    fun statsAdequatelyMatch(sourceStats: Stats, stats: Stats): Boolean {
+        val hpMatched = sourceStats.hp == stats.hp
+        val atkMatched = sourceStats.atk == stats.atk
+        val spdMatched = sourceStats.spd == stats.spd
+        val defMatched = sourceStats.def == stats.def
+        val resMatched = sourceStats.res == stats.res
+
+        val mismatches = arrayOf(hpMatched, atkMatched, spdMatched, defMatched, resMatched)
+                .count { !it }
+
+        if (mismatches == 0 || mismatches == 2) {
+            val ivs = calculateIVs(sourceStats, stats)
+
+            val baneBoonMatch = ivs.first == ivs.second
+            val doesNotViolateNoneConstraint = ivs.first != ivs.second &&
+                    ivs.first != Stat.NONE &&
+                    ivs.second != Stat.NONE
+            return baneBoonMatch || doesNotViolateNoneConstraint
+        } else {
+            return false
+        }
     }
 }
