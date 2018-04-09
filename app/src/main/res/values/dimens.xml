@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="horizontal_margin">16dp</dimen>
+    <dimen name="vertical_margin">12dp</dimen>
+    <dimen name="vertical_spacer_margin">8dp</dimen>
+    
+    <dimen name="bounds_picker_view_border_line_size">3dp</dimen>
+    <dimen name="bounds_picker_view_corner_line_size">5dp</dimen>
+    <dimen name="bounds_picker_view_touch_radius">24dp</dimen>
+    <dimen name="bounds_picker_view_boundary_radius">3dp</dimen>
+    <dimen name="bounds_picker_view_corner_line_length">20dp</dimen>
+</resources>

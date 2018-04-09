@@ -10,8 +10,7 @@ import android.hardware.display.VirtualDisplay
 import android.media.ImageReader
 import android.media.projection.MediaProjection
 import android.media.projection.MediaProjectionManager
-import com.andrewvora.apps.lensemblem.permissions.PermissionsActivity
-import javax.inject.Singleton
+import com.andrewvora.apps.lensemblem.permissions.PermissionsFragment
 
 /**
  * Created on 2/27/2018.
@@ -37,7 +36,7 @@ class ScreenshotHelper(val app: Application) {
     }
 
     fun getPermission() {
-        app.startActivity(Intent(app, PermissionsActivity::class.java))
+        app.startActivity(Intent(app, PermissionsFragment::class.java))
     }
 
     fun getPermissionIntent(): Intent {

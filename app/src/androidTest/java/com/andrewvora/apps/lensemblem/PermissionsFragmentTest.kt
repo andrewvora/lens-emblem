@@ -9,7 +9,7 @@ import org.junit.runner.RunWith
  * @author Andrew Vorakrajangthiti
  */
 @RunWith(AndroidJUnit4::class)
-class PermissionsActivityTest {
+class PermissionsFragmentTest {
     @Test
     fun test() {
 

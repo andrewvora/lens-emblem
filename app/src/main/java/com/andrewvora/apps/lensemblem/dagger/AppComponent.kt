@@ -3,7 +3,10 @@ package com.andrewvora.apps.lensemblem.dagger
 import android.app.Application
 import com.andrewvora.apps.lensemblem.LensEmblemApp
 import com.andrewvora.apps.lensemblem.LensEmblemService
-import com.andrewvora.apps.lensemblem.permissions.PermissionsActivity
+import com.andrewvora.apps.lensemblem.MainActivity
+import com.andrewvora.apps.lensemblem.boundspicker.BoundsPickerFragment
+import com.andrewvora.apps.lensemblem.notifications.NotificationFragment
+import com.andrewvora.apps.lensemblem.permissions.PermissionsFragment
 import dagger.Component
 import javax.inject.Singleton
 
@@ -15,7 +18,10 @@ import javax.inject.Singleton
 @Singleton
 interface AppComponent {
     fun inject(service: LensEmblemService)
-    fun inject(activity: PermissionsActivity)
+    fun inject(fragment: PermissionsFragment)
+    fun inject(fragment: BoundsPickerFragment)
+    fun inject(fragment: NotificationFragment)
+    fun inject(activity: MainActivity)
 }
 
 fun Application.component(): AppComponent {

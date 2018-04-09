@@ -2,10 +2,13 @@ package com.andrewvora.apps.lensemblem
 
 import android.app.Notification
 import android.app.Service
+import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.*
 import android.util.Log
 import android.widget.Toast
+import com.andrewvora.apps.lensemblem.capturehistory.LatestScreenshot
 import com.andrewvora.apps.lensemblem.dagger.component
 import com.andrewvora.apps.lensemblem.imageprocessing.ScreenshotHelper
 import com.andrewvora.apps.lensemblem.notifications.NotificationHelper
@@ -15,6 +18,7 @@ import com.andrewvora.apps.lensemblem.statprocessing.IVProcessor
 import javax.inject.Inject
 
 /**
+ * Background service that takes screenshots and processes them.
  * Created on 2/26/2018.
  * @author Andrew Vorakrajangthiti
  */
@@ -30,6 +34,7 @@ class LensEmblemService : Service() {
     @Inject lateinit var heroProcessor: OCRHeroProcessor
     @Inject lateinit var ivProcessor: IVProcessor
     @Inject lateinit var heroesRepo: HeroesRepo
+    @Inject lateinit var latestScreenshot: LatestScreenshot
 
     private lateinit var serviceHandler: Handler
     private lateinit var serviceLooper: Looper
@@ -61,21 +66,10 @@ class LensEmblemService : Service() {
                         pause(5000)
 
                         screenshotHelper.takeScreenshot {
-                            val hero = heroProcessor.processHeroProfile(it)
-                            val heroFromDb = heroesRepo.getHero(hero.title, hero.name).blockingGet()
-
-                            val capturedStats = hero.stats?.first()
-                            val level = capturedStats?.level
-                            val sourceStats = heroFromDb?.stats?.find {
-                                it.equipped && it.level == level && ivProcessor.statsAdequatelyMatch(it, capturedStats)
-                            }
-
-                            if (capturedStats != null && sourceStats != null) {
-                                val baneBoon = ivProcessor.calculateIVs(sourceStats, capturedStats)
-                                makeToast("${heroFromDb.title} ${heroFromDb.name}: " +
-                                        "+${baneBoon.first.name}, -${baneBoon.second.name}")
-                            } else {
-                                makeToast(getString(R.string.error_could_not_find_hero))
+                            try {
+                                screenshotTaken(it)
+                            } catch (e: Exception) {
+                                e.printStackTrace()
                             }
                         }
 
@@ -89,6 +83,27 @@ class LensEmblemService : Service() {
         }
 
         startForeground(SERVICE_ID, createNotification())
+    }
+
+    private fun screenshotTaken(bitmap: Bitmap) {
+        latestScreenshot.lastScreenshot = bitmap
+
+        val hero = heroProcessor.processHeroProfile(bitmap)
+        val heroFromDb = heroesRepo.getHero(hero.title, hero.name).blockingGet()
+
+        val capturedStats = hero.stats?.first()
+        val level = capturedStats?.level
+        val sourceStats = heroFromDb?.stats?.find {
+            it.equipped && it.level == level && ivProcessor.statsAdequatelyMatch(it, capturedStats)
+        }
+
+        if (capturedStats != null && sourceStats != null) {
+            val baneBoon = ivProcessor.calculateIVs(sourceStats, capturedStats)
+            makeToast("${heroFromDb.title} ${heroFromDb.name}: " +
+                    "+${baneBoon.first.name}, -${baneBoon.second.name}")
+        } else {
+            makeToast(getString(R.string.error_could_not_find_hero))
+        }
     }
 
     private fun pause(millis: Long) {
@@ -134,5 +149,9 @@ class LensEmblemService : Service() {
 
     companion object {
         private const val SERVICE_ID = 1000
+
+        fun start(context: Context): Intent {
+            return Intent(context, LensEmblemService::class.java)
+        }
     }
 }
