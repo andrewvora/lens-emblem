@@ -58,6 +58,19 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
         }
     }
 
+    fun setCoordinates(left: Float, top: Float, right: Float, bottom: Float) {
+        Edge.LEFT.coordinate = left
+        Edge.TOP.coordinate = top
+        Edge.RIGHT.coordinate = right
+        Edge.BOTTOM.coordinate = bottom
+        invalidate()
+    }
+
+    fun getLeftEdge(): Float = Edge.LEFT.coordinate
+    fun getTopEdge(): Float = Edge.TOP.coordinate
+    fun getRightEdge(): Float = Edge.RIGHT.coordinate
+    fun getBottomEdge(): Float = Edge.BOTTOM.coordinate
+
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         super.onLayout(changed, left, top, right, bottom)
 
@@ -243,86 +256,6 @@ private enum class Edge {
         }
     }
 
-    fun isUpdatedRectOutOfBounds(edge: Edge, imageRect: RectF, aspectRatio: Float): Boolean {
-        val boundaryOffset = edge.alignToOffset(imageRect)
-
-        when (this) {
-            LEFT -> {
-                if (edge == TOP) {
-                    val top = imageRect.top
-                    val bottom = BOTTOM.coordinate - boundaryOffset
-                    val right = RIGHT.coordinate
-                    val left = calculateAspectRatioLeft(top, right, bottom, aspectRatio)
-                    return isOutOfBounds(top, left, bottom, right, imageRect)
-                } else if (edge == BOTTOM) {
-                    val bottom = imageRect.bottom
-                    val top = TOP.coordinate - boundaryOffset
-                    val right = RIGHT.coordinate
-                    val left = calculateAspectRatioLeft(top, right, bottom, aspectRatio)
-                    return isOutOfBounds(top, left, bottom, right, imageRect)
-                }
-            }
-            TOP -> {
-                if (edge == LEFT) {
-                    val left = imageRect.left
-                    val right = RIGHT.coordinate - boundaryOffset
-                    val bottom = BOTTOM.coordinate
-                    val top = calculateAspectRatioTop(left, right, bottom, aspectRatio)
-                    return isOutOfBounds(top, left, bottom, right, imageRect)
-                } else if (edge == RIGHT) {
-                    val right = imageRect.right
-                    val left = LEFT.coordinate - boundaryOffset
-                    val bottom = BOTTOM.coordinate
-                    val top = calculateAspectRatioTop(left, right, bottom, aspectRatio)
-                    return isOutOfBounds(top, left, bottom, right, imageRect)
-                }
-            }
-            RIGHT -> {
-                if (edge == TOP) {
-                    val top = imageRect.top
-                    val bottom = BOTTOM.coordinate - boundaryOffset
-                    val left = LEFT.coordinate
-                    val right = calculateAspectRatioRight(left, top, bottom, aspectRatio)
-                    return isOutOfBounds(top, left, bottom, right, imageRect)
-                } else if (edge == BOTTOM) {
-                    val bottom = imageRect.bottom
-                    val top = TOP.coordinate - boundaryOffset
-                    val left = LEFT.coordinate
-                    val right = calculateAspectRatioRight(left, top, bottom, aspectRatio)
-                    return isOutOfBounds(top, left, bottom, right, imageRect)
-                }
-            }
-            BOTTOM -> {
-                if (edge == LEFT) {
-                    val left = imageRect.left
-                    val right = RIGHT.coordinate - boundaryOffset
-                    val top = TOP.coordinate
-                    val bottom = calculateAspectRatioBottom(left, top, right, aspectRatio)
-                    return isOutOfBounds(top, left, bottom, right, imageRect)
-                } else if (edge == RIGHT) {
-                    val right = imageRect.right
-                    val left = LEFT.coordinate - boundaryOffset
-                    val top = TOP.coordinate
-                    val bottom = calculateAspectRatioBottom(left, top, right, aspectRatio)
-                    return isOutOfBounds(top, left, bottom, right, imageRect)
-                }
-            }
-        }
-
-        return true
-    }
-
-    private fun isOutOfBounds(top: Float,
-                              left: Float,
-                              bottom: Float,
-                              right: Float,
-                              imageRect: RectF): Boolean {
-        return  top < imageRect.top ||
-                left < imageRect.left ||
-                bottom > imageRect.bottom ||
-                right > imageRect.right
-    }
-
     fun alignToRectBoundary(imageRect: RectF): Float {
         val prevCoordinate = coordinate
         coordinate = when (this) {
@@ -335,15 +268,6 @@ private enum class Edge {
         return coordinate - prevCoordinate
     }
 
-    fun alignToOffset(imageRect: RectF): Float {
-        return when (this) {
-            LEFT -> { imageRect.left }
-            TOP -> { imageRect.top }
-            RIGHT -> { imageRect.right }
-            BOTTOM -> { imageRect.bottom }
-        } - coordinate
-    }
-
     fun isOutsideMargin(rectF: RectF, margin: Float): Boolean {
         return when (this) {
             LEFT -> { coordinate - rectF.left < margin }
@@ -353,38 +277,11 @@ private enum class Edge {
         }
     }
 
-    private fun calculateAspectRatioLeft(top: Float,
-                                         right: Float,
-                                         bottom: Float,
-                                         targetAspectRatio: Float): Float {
-        return right - (targetAspectRatio * (bottom - top))
-    }
-
-    private fun calculateAspectRatioTop(left: Float,
-                                        right: Float,
-                                        bottom: Float,
-                                        targetAspectRatio: Float): Float {
-        return bottom - ((right - left) / targetAspectRatio)
-    }
-
-    private fun calculateAspectRatioRight(left: Float,
-                                          top: Float,
-                                          bottom: Float,
-                                          targetAspectRatio: Float): Float {
-        return (targetAspectRatio * (bottom - top)) + left
-    }
-
-    private fun calculateAspectRatioBottom(left: Float,
-                                           top: Float,
-                                           right: Float,
-                                           targetAspectRatio: Float): Float {
-        return ((right - left) / targetAspectRatio) + top
-    }
-
     companion object {
         // min distance between any two parallel edges
         private const val MIN_EDGE_DISTANCE_PX = 40
 
+        @Suppress("unused")
         fun width(): Float {
             return Edge.RIGHT.coordinate - Edge.LEFT.coordinate
         }
@@ -637,8 +534,12 @@ private enum class Handle(private val handleHelper: HandleHelper) {
     }
 }
 
-private open class HandleHelper(private var horizontalEdge: Edge?,
-                                private var verticalEdge: Edge?) {
+private open class HandleHelper(horizontalEdge: Edge?,
+                                verticalEdge: Edge?) {
+    companion object {
+        private const val UNFIXED_ASPECT_RATIO_CONSTANT = 1f
+    }
+
     var edges: Pair<Edge?, Edge?> = Pair(horizontalEdge, verticalEdge)
 
     open fun updateSelectionWindow(x: Float,
@@ -647,35 +548,6 @@ private open class HandleHelper(private var horizontalEdge: Edge?,
                               boundaryRadius: Float) {
         edges.first?.adjustCoordinate(x, y, imageRect, boundaryRadius, UNFIXED_ASPECT_RATIO_CONSTANT)
         edges.second?.adjustCoordinate(x, y, imageRect, boundaryRadius, UNFIXED_ASPECT_RATIO_CONSTANT)
-    }
-
-    fun edges(x: Float, y: Float, targetAspectRatio: Float): Pair<Edge?, Edge?> {
-        val aspectRatio = aspectRatio(x, y)
-
-        return if (aspectRatio > targetAspectRatio) {
-            edges = Pair(verticalEdge, horizontalEdge)
-            edges
-        } else {
-            edges = Pair(horizontalEdge, verticalEdge)
-            edges
-        }
-    }
-
-    private fun aspectRatio(x: Float, y: Float): Float {
-        return calculateAspectRatio(
-                if (verticalEdge == Edge.LEFT) x else Edge.LEFT.coordinate,
-                if (horizontalEdge == Edge.TOP) y else Edge.TOP.coordinate,
-                if (verticalEdge == Edge.RIGHT) x else Edge.RIGHT.coordinate,
-                if (horizontalEdge == Edge.BOTTOM) y else Edge.BOTTOM.coordinate
-        )
-    }
-
-    private fun calculateAspectRatio(left: Float, top: Float, right: Float, bottom: Float): Float {
-        return (right - left) / (bottom - top)
-    }
-
-    companion object {
-        private const val UNFIXED_ASPECT_RATIO_CONSTANT = 1f
     }
 
     class CenterHandleHelper : HandleHelper(null, null) {

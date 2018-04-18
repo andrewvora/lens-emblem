@@ -2,7 +2,7 @@ package com.andrewvora.apps.lensemblem.ocr
 
 import android.graphics.Bitmap
 import com.andrewvora.apps.lensemblem.imageprocessing.BitmapHelper
-import com.andrewvora.apps.lensemblem.imageprocessing.BoundingConfig
+import com.andrewvora.apps.lensemblem.boundspicker.BoundingConfig
 import com.andrewvora.apps.lensemblem.models.Hero
 import com.andrewvora.apps.lensemblem.models.Stats
 import com.andrewvora.apps.lensemblem.repos.HeroesRepo
@@ -86,8 +86,6 @@ class OCRHeroProcessor
     }
 
     companion object {
-        private const val DEFAULT_NAME = "unknown"
-        private const val DEFAULT_TITLE = "unknown"
         private const val DEFAULT_LEVEL = 1
     }
 }

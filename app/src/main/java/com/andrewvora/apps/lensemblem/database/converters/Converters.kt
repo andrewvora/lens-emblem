@@ -1,6 +1,7 @@
 package com.andrewvora.apps.lensemblem.database.converters
 
 import android.arch.persistence.room.TypeConverter
+import com.andrewvora.apps.lensemblem.models.BoundsType
 import java.util.*
 
 /**
@@ -19,6 +20,22 @@ class RoomDateConverter {
         @JvmStatic
         fun toTimestamp(date: Date?): Long? {
             return date?.time
+        }
+    }
+}
+
+class BoundsTypeConverter {
+    companion object {
+        @TypeConverter
+        @JvmStatic
+        fun fromBoundsTypeOrdinal(value: Int): BoundsType {
+            return BoundsType.values()[value]
+        }
+
+        @TypeConverter
+        @JvmStatic
+        fun toBoundsTypeOrdinal(value: BoundsType): Int {
+            return value.ordinal
         }
     }
 }

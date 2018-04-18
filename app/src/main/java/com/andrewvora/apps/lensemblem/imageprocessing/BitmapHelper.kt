@@ -2,6 +2,7 @@ package com.andrewvora.apps.lensemblem.imageprocessing
 
 import android.graphics.*
 import android.support.annotation.IntRange
+import com.andrewvora.apps.lensemblem.boundspicker.BoundingConfig
 import javax.inject.Inject
 import javax.inject.Singleton
 

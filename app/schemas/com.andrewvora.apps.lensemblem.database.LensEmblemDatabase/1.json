@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "b6a49c30b5b327dc1a92e49083658a53",
+    "identityHash": "8c8a1e011fc2ed53d5d97c27fe13f36c",
     "entities": [
       {
         "tableName": "heroes",
@@ -259,7 +259,7 @@
       },
       {
         "tableName": "bounds",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `x_mod` REAL NOT NULL, `y_mod` REAL NOT NULL, `width_mod` REAL NOT NULL, `height_mod` REAL NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `x_mod` REAL NOT NULL, `y_mod` REAL NOT NULL, `width_mod` REAL NOT NULL, `height_mod` REAL NOT NULL, `bounds_type` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -290,6 +290,12 @@
             "columnName": "height_mod",
             "affinity": "REAL",
             "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "bounds_type",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -304,7 +310,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"b6a49c30b5b327dc1a92e49083658a53\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"8c8a1e011fc2ed53d5d97c27fe13f36c\")"
     ]
   }
 }

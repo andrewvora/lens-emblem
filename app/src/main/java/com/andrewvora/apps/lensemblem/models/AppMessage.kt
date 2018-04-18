@@ -17,7 +17,7 @@ import java.util.*
 @Parcelize
 @Entity(tableName = TABLE_MESSAGES)
 data class AppMessage(
-        @PrimaryKey(autoGenerate = true) var id: Int,
+        @PrimaryKey(autoGenerate = true) var id: Int = 0,
         @ColumnInfo(name = COLUMN_MESSAGE_TITLE) var title: String = "",
         @ColumnInfo(name = COLUMN_MESSAGE_BODY) var message: String = "",
         @ColumnInfo(name = COLUMN_MESSAGE_TYPE) var type: String?,

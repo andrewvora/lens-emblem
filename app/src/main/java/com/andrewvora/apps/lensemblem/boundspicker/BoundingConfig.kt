@@ -1,4 +1,4 @@
-package com.andrewvora.apps.lensemblem.imageprocessing
+package com.andrewvora.apps.lensemblem.boundspicker
 
 import com.andrewvora.apps.lensemblem.models.Bounds
 
@@ -16,19 +16,19 @@ sealed class BoundingConfig {
 
     object Nexus5 : BoundingConfig() {
         override fun characterTitle(): Bounds {
-            return Bounds(0, 0.05, 0.43, 0.43, 0.05)
+            return Bounds(xMod = 0.05, yMod = 0.43, widthMod = 0.43, heightMod = 0.05)
         }
 
         override fun characterName(): Bounds {
-            return Bounds(0, 0.1, 0.5, 0.43, 0.04)
+            return Bounds(xMod = 0.1, yMod = 0.5, widthMod = 0.43, heightMod = 0.04)
         }
 
         override fun characterLevel(): Bounds {
-            return Bounds(0, 0.1, 0.57, 0.3, 0.05)
+            return Bounds(xMod = 0.1, yMod = 0.57, widthMod = 0.3, heightMod = 0.05)
         }
 
         override fun characterStats(): Bounds {
-            return Bounds(0, 0.1, 0.62, 0.35, 0.275)
+            return Bounds(xMod = 0.1, yMod = 0.62, widthMod = 0.35, heightMod = 0.275)
         }
     }
 }

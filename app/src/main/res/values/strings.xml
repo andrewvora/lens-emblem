@@ -15,6 +15,7 @@
     <string name="adjust_bounds_btn_text">Adjust OCR Bounds</string>
 
     <string name="content_description_back">Go back</string>
+    <string name="content_description_save">Save</string>
 
     <string name="bounds_picker_instructions">Let\'s take a screenshot! Head over to Heroes and tap the Lens Emblem notification!</string>
 </resources>
