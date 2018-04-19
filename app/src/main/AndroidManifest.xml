@@ -20,7 +20,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".boundspicker.BoundsPickerActivity"/>
+        <activity
+            android:name=".boundspicker.BoundsPickerActivity"
+            android:screenOrientation="nosensor"/>
 
         <service
             android:name=".LensEmblemService"

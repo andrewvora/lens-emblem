@@ -4,7 +4,7 @@ import android.app.Application
 import com.andrewvora.apps.lensemblem.LensEmblemApp
 import com.andrewvora.apps.lensemblem.LensEmblemService
 import com.andrewvora.apps.lensemblem.MainActivity
-import com.andrewvora.apps.lensemblem.boundspicker.BoundsPickerFragment
+import com.andrewvora.apps.lensemblem.boundspicker.BoundsPickerActivity
 import com.andrewvora.apps.lensemblem.dagger.viewmodel.ViewModelModule
 import com.andrewvora.apps.lensemblem.notifications.NotificationFragment
 import com.andrewvora.apps.lensemblem.permissions.PermissionsFragment
@@ -20,7 +20,7 @@ import javax.inject.Singleton
 interface AppComponent {
     fun inject(service: LensEmblemService)
     fun inject(fragment: PermissionsFragment)
-    fun inject(fragment: BoundsPickerFragment)
+    fun inject(activity: BoundsPickerActivity)
     fun inject(fragment: NotificationFragment)
     fun inject(activity: MainActivity)
 }

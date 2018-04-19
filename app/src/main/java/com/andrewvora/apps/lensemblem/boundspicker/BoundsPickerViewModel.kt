@@ -56,7 +56,7 @@ class BoundsPickerViewModel
     }
 
     fun loadExistingScreenshot() {
-        latestScreenshot.lastScreenshot?.let { screenshot.value = it }
+        screenshot.value = latestScreenshot.lastScreenshot
     }
 
     fun getBounds() {

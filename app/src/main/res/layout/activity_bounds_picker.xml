@@ -1,7 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<fragment
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/bounds_picker_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:name="com.andrewvora.apps.lensemblem.boundspicker.BoundsPickerFragment"/>
+    android:fitsSystemWindows="true">
+
+    <TextView
+        android:id="@+id/instructions_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:textSize="20sp"
+        android:text="@string/bounds_picker_instructions"/>
+
+    <com.andrewvora.apps.lensemblem.boundspicker.BoundsPickerView
+        android:id="@+id/bounds_picker_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:visibility="visible"/>
+
+    <ImageButton
+        style="@style/Base.TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+        android:id="@+id/back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/horizontal_margin"
+        android:layout_marginTop="@dimen/horizontal_margin"
+        android:layout_gravity="start|top"
+        android:padding="12dp"
+        android:elevation="4dp"
+        android:src="@drawable/ic_close_24dp"
+        android:contentDescription="@string/content_description_back"
+        android:fitsSystemWindows="true"/>
+
+    <ImageButton
+        style="@style/Base.TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+        android:id="@+id/save_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/horizontal_margin"
+        android:layout_marginTop="@dimen/vertical_margin"
+        android:layout_gravity="end|top"
+        android:padding="12dp"
+        android:elevation="4dp"
+        android:src="@drawable/ic_check_24dp"
+        android:backgroundTint="@color/green"
+        android:contentDescription="@string/content_description_save"/>
+
+</FrameLayout>

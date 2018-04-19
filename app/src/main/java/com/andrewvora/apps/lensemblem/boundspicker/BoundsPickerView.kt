@@ -6,6 +6,7 @@ import android.graphics.*
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.MotionEvent
+import android.view.View
 import android.widget.ImageView
 import com.andrewvora.apps.lensemblem.R
 
@@ -75,7 +76,6 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
         super.onLayout(changed, left, top, right, bottom)
 
         bitmapRect = getBitmapRect()
-        initSelectionWindow()
     }
 
     private fun getBitmapRect(): RectF {
@@ -103,16 +103,6 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
         val bottom = Math.min(top + drawableDisplayHeight, height.toFloat())
 
         return RectF(left, top, right, bottom)
-    }
-
-    private fun initSelectionWindow() {
-        val horizontalPadding = 0.1f * bitmapRect.width()
-        val verticalPadding = 0.1f * bitmapRect.height()
-
-        Edge.LEFT.coordinate = bitmapRect.left + horizontalPadding
-        Edge.TOP.coordinate = bitmapRect.top + verticalPadding
-        Edge.RIGHT.coordinate = bitmapRect.right - horizontalPadding
-        Edge.BOTTOM.coordinate = bitmapRect.bottom - verticalPadding
     }
 
     override fun onDraw(canvas: Canvas?) {
