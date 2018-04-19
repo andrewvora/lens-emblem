@@ -5,7 +5,6 @@ import android.arch.persistence.room.Room
 import com.andrewvora.apps.lensemblem.database.DB_NAME
 import com.andrewvora.apps.lensemblem.database.LensEmblemDatabase
 import com.andrewvora.apps.lensemblem.imageprocessing.ScreenshotHelper
-import com.andrewvora.apps.lensemblem.notifications.NotificationHelper
 import com.andrewvora.apps.lensemblem.ocr.OCRHelper
 import com.google.gson.Gson
 import dagger.Module
@@ -51,10 +50,5 @@ class AppModule(private val app: Application) {
     @Provides @Singleton
     fun providesOcrHelper(): OCRHelper {
         return OCRHelper(app)
-    }
-
-    @Provides @Singleton
-    fun providesNotificationHelper(): NotificationHelper {
-        return NotificationHelper(app)
     }
 }

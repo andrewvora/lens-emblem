@@ -6,7 +6,6 @@ import android.graphics.*
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.MotionEvent
-import android.view.View
 import android.widget.ImageView
 import com.andrewvora.apps.lensemblem.R
 

@@ -11,6 +11,7 @@ import android.widget.Toast
 import com.andrewvora.apps.lensemblem.capturehistory.LatestScreenshot
 import com.andrewvora.apps.lensemblem.dagger.component
 import com.andrewvora.apps.lensemblem.imageprocessing.ScreenshotHelper
+import com.andrewvora.apps.lensemblem.notifications.NotificationAction
 import com.andrewvora.apps.lensemblem.notifications.NotificationHelper
 import com.andrewvora.apps.lensemblem.ocr.OCRHeroProcessor
 import com.andrewvora.apps.lensemblem.repos.HeroesRepo
@@ -31,6 +32,7 @@ class LensEmblemService : Service() {
     }
 
     @Inject lateinit var screenshotHelper: ScreenshotHelper
+    @Inject lateinit var notificationHelper: NotificationHelper
     @Inject lateinit var heroProcessor: OCRHeroProcessor
     @Inject lateinit var ivProcessor: IVProcessor
     @Inject lateinit var heroesRepo: HeroesRepo
@@ -41,6 +43,7 @@ class LensEmblemService : Service() {
 
     private var currentState = ServiceState.START
     private var stepCounter = 1
+    private var command: String? = null
 
     override fun onCreate() {
         application.component().inject(this)
@@ -49,6 +52,7 @@ class LensEmblemService : Service() {
                 LensEmblemService::class.java.simpleName,
                 Process.THREAD_PRIORITY_BACKGROUND)
         handlerThread.start()
+
         serviceLooper = handlerThread.looper
         serviceHandler = object: Handler(serviceLooper) {
             @Synchronized override fun handleMessage(msg: Message?) {
@@ -62,18 +66,7 @@ class LensEmblemService : Service() {
                     }
                     ServiceState.READY -> {
                         currentState = ServiceState.PROCESSING
-                        makeToast("$stepCounter. Capture in 5 seconds...")
-                        pause(5000)
-
-                        screenshotHelper.takeScreenshot {
-                            try {
-                                screenshotTaken(it)
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-                            }
-                        }
-
-                        currentState = ServiceState.READY
+                        processAction()
                     }
                     else -> {
                         makeToast("$stepCounter. Processing")
@@ -85,9 +78,50 @@ class LensEmblemService : Service() {
         startForeground(SERVICE_ID, createNotification())
     }
 
+    private fun processAction() {
+        when(command) {
+            ACTION_SCREENSHOT -> { takeScreenshot() }
+            ACTION_STOP -> { stopSelf() }
+            else -> {
+                takeScreenshotAndProcessHero()
+            }
+        }
+
+
+        currentState = ServiceState.READY
+    }
+
+    private fun takeScreenshot() {
+        sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
+        pause(5000)
+        screenshotHelper.takeScreenshot {
+            try {
+                screenshotTaken(it)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun takeScreenshotAndProcessHero() {
+        makeToast("$stepCounter. Capture in 5 seconds...")
+        pause(5000)
+
+        screenshotHelper.takeScreenshot {
+            try {
+                screenshotTaken(it)
+                processHero(it)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
     private fun screenshotTaken(bitmap: Bitmap) {
         latestScreenshot.lastScreenshot = bitmap
+    }
 
+    private fun processHero(bitmap: Bitmap) {
         val hero = heroProcessor.processHeroProfile(bitmap)
         val heroFromDb = heroesRepo.getHero(hero.title, hero.name).blockingGet()
 
@@ -121,17 +155,22 @@ class LensEmblemService : Service() {
     }
 
     private fun createNotification(): Notification {
-        val notificationHelper = NotificationHelper(application)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notificationHelper.createChannelIfNecessary()
         }
-        return notificationHelper.createNotification("Yay", "I work")
+        return notificationHelper.createNotification(
+                getString(R.string.service_notification_title),
+                getString(R.string.service_notification_message),
+                NotificationAction.StopServiceAction(application),
+                NotificationAction.ScreenshotAction(application))
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val msg = serviceHandler.obtainMessage()
         msg.arg1 = startId
         msg.arg2 = currentState.ordinal
+
+        command = intent?.action
 
         serviceHandler.sendMessage(msg)
 
@@ -148,6 +187,9 @@ class LensEmblemService : Service() {
     }
 
     companion object {
+        const val ACTION_STOP = "STOP"
+        const val ACTION_SCREENSHOT = "SCREENSHOT"
+
         private const val SERVICE_ID = 1000
 
         fun start(context: Context): Intent {

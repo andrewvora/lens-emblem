@@ -1,9 +1,6 @@
 package com.andrewvora.apps.lensemblem.notifications
 
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -11,15 +8,20 @@ import android.support.annotation.RequiresApi
 import android.support.v4.app.NotificationCompat
 import com.andrewvora.apps.lensemblem.LensEmblemService
 import com.andrewvora.apps.lensemblem.R
+import javax.inject.Inject
+import javax.inject.Singleton
 
 
 /**
  * Created on 2/27/2018.
  * @author Andrew Vorakrajangthiti
  */
-class NotificationHelper(private val context: Context) {
+@Singleton
+class NotificationHelper
+@Inject
+constructor(private val app: Application) {
 
-    private val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    private val notificationManager = app.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
     fun showNotification(title: String, msg: String) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -30,17 +32,23 @@ class NotificationHelper(private val context: Context) {
         notificationManager.notify(PRIMARY_NOTIFICATION, notification)
     }
 
-    fun createNotification(title: String, msg: String): Notification {
-        val launchAppIntent = Intent(context, LensEmblemService::class.java)
-        val pendingIntent = PendingIntent.getService(context, 0, launchAppIntent, 0)
-        return NotificationCompat.Builder(context, SERVICE_CHANNEL_ID)
+    fun createNotification(title: String, msg: String, vararg action: NotificationAction): Notification {
+        val launchAppIntent = Intent(app, LensEmblemService::class.java)
+        val pendingIntent = PendingIntent.getService(app, 0, launchAppIntent, 0)
+        var builder = NotificationCompat.Builder(app, SERVICE_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle(title)
                 .setContentText(msg)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(false)
-                .build()
+
+        action.forEach {
+            val actionStr = app.getString(it.stringResId)
+            builder = builder.addAction(it.drawableResId, actionStr, it.getPendingIntent())
+        }
+
+        return builder.build()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -48,8 +56,8 @@ class NotificationHelper(private val context: Context) {
         val channelAlreadyCreated = notificationManager.getNotificationChannel(SERVICE_CHANNEL_ID) != null
 
         if (channelAlreadyCreated.not()) {
-            val channelName = context.getString(R.string.service_notification_channel_name)
-            val channelDescription = context.getString(R.string.service_notification_channel_description)
+            val channelName = app.getString(R.string.service_notification_channel_name)
+            val channelDescription = app.getString(R.string.service_notification_channel_description)
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel(SERVICE_CHANNEL_ID, channelName, importance).apply {
                 description = channelDescription
