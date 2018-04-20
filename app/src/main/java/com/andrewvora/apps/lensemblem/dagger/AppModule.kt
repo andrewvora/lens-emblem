@@ -2,10 +2,10 @@ package com.andrewvora.apps.lensemblem.dagger
 
 import android.app.Application
 import android.arch.persistence.room.Room
+import android.content.Context
+import android.content.SharedPreferences
 import com.andrewvora.apps.lensemblem.database.DB_NAME
 import com.andrewvora.apps.lensemblem.database.LensEmblemDatabase
-import com.andrewvora.apps.lensemblem.imageprocessing.ScreenshotHelper
-import com.andrewvora.apps.lensemblem.ocr.OCRHelper
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -19,7 +19,8 @@ import javax.inject.Singleton
 @Module
 class AppModule(private val app: Application) {
 
-    private val database = Room.databaseBuilder(app, LensEmblemDatabase::class.java, DB_NAME)
+    private val database = Room
+            .databaseBuilder(app, LensEmblemDatabase::class.java, DB_NAME)
             .build()
 
     @Provides @Singleton
@@ -42,13 +43,9 @@ class AppModule(private val app: Application) {
         return database
     }
 
-    @Provides @Singleton
-    fun providesScreenshotHelper(): ScreenshotHelper {
-        return ScreenshotHelper(app)
-    }
-
-    @Provides @Singleton
-    fun providesOcrHelper(): OCRHelper {
-        return OCRHelper(app)
+    @Provides
+    fun providesSharedPreferences(): SharedPreferences {
+        val appPreferencesFile = "lensEmblemPreferences"
+        return app.getSharedPreferences(appPreferencesFile, Context.MODE_PRIVATE)
     }
 }

@@ -22,4 +22,11 @@
     <string name="service_notification_message">Tap here to process your hero\'s stats</string>
     <string name="notification_stop_service">Stop</string>
     <string name="notification_screenshot">Take screenshot</string>
+
+    <string name="loading_heroes">Loading Hero Data</string>
+    <string name="fetching_heroes">Downloading Hero Data</string>
+
+    <string name="permissions_rationale">We can\'t process your screen without certain permissions. Don\'t worry, we only take screenshots when you choose to.</string>
+    <string name="service_rationale">Start the service to begin processing heroes. It shows up as a notification.</string>
+    <string name="bounds_picker_rationale">All phones are different! The bounds picker will help you adjust the regions the app reads when it processes screenshots.</string>
 </resources>

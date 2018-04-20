@@ -3,15 +3,22 @@ package com.andrewvora.apps.lensemblem.ocr
 import android.app.Application
 import android.graphics.Bitmap
 import com.googlecode.tesseract.android.TessBaseAPI
+import dagger.Reusable
 import java.io.File
 import java.io.FileOutputStream
+import javax.inject.Inject
+import javax.inject.Singleton
 
 
 /**
  * Created on 2/28/2018.
  * @author Andrew Vorakrajangthiti
  */
-class OCRHelper(private val app: Application) {
+@Reusable
+class OCRHelper
+@Inject
+constructor(private val app: Application) {
+
     private val tessBaseApi: TessBaseAPI
 
     init {

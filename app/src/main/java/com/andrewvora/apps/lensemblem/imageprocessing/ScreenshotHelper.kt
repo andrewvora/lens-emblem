@@ -11,12 +11,17 @@ import android.media.ImageReader
 import android.media.projection.MediaProjection
 import android.media.projection.MediaProjectionManager
 import com.andrewvora.apps.lensemblem.permissions.PermissionsFragment
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Created on 2/27/2018.
  * @author Andrew Vorakrajangthiti
  */
-class ScreenshotHelper(val app: Application) {
+@Singleton
+class ScreenshotHelper
+@Inject
+constructor(private val app: Application) {
 
     private val mediaProjectionManager = app.getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
     private val screenWidth = app.resources.displayMetrics.widthPixels
