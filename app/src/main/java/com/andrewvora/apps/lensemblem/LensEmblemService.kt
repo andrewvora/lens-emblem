@@ -42,8 +42,8 @@ class LensEmblemService : Service() {
     private lateinit var serviceLooper: Looper
 
     private var currentState = ServiceState.START
-    private var stepCounter = 1
     private var command: String? = null
+    private var toast: Toast? = null
 
     override fun onCreate() {
         application.component().inject(this)
@@ -56,12 +56,14 @@ class LensEmblemService : Service() {
         serviceLooper = handlerThread.looper
         serviceHandler = object: Handler(serviceLooper) {
             @Synchronized override fun handleMessage(msg: Message?) {
-                stepCounter++
-                stepCounter %= (ServiceState.values().size + 1)
+                if (command == ACTION_START && currentState != ServiceState.START) {
+                    return
+                }
+
                 val state = ServiceState.values()[msg?.arg2 ?: 0]
                 when (state) {
                     ServiceState.START -> {
-                        makeToast("$stepCounter. Service started!")
+                        makeToast(getString(R.string.service_started))
                         currentState = ServiceState.READY
                     }
                     ServiceState.READY -> {
@@ -69,7 +71,7 @@ class LensEmblemService : Service() {
                         processAction()
                     }
                     else -> {
-                        makeToast("$stepCounter. Processing")
+                        makeToast(getString(R.string.service_processing))
                     }
                 }
             }
@@ -87,13 +89,14 @@ class LensEmblemService : Service() {
             }
         }
 
-
         currentState = ServiceState.READY
     }
 
     private fun takeScreenshot() {
         sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
-        pause(5000)
+        makeToast(getString(R.string.service_taking_screenshot))
+        pause(TIME_BEFORE_SCREENSHOT_MILLIS)
+
         screenshotHelper.takeScreenshot {
             try {
                 screenshotTaken(it)
@@ -104,11 +107,12 @@ class LensEmblemService : Service() {
     }
 
     private fun takeScreenshotAndProcessHero() {
-        makeToast("$stepCounter. Capture in 5 seconds...")
-        pause(5000)
+        makeToast(getString(R.string.service_taking_screenshot))
+        pause(TIME_BEFORE_SCREENSHOT_MILLIS)
 
         screenshotHelper.takeScreenshot {
             try {
+                makeToast(getString(R.string.service_processing))
                 screenshotTaken(it)
                 processHero(it)
             } catch (e: Exception) {
@@ -133,8 +137,12 @@ class LensEmblemService : Service() {
 
         if (capturedStats != null && sourceStats != null) {
             val baneBoon = ivProcessor.calculateIVs(sourceStats, capturedStats)
-            makeToast("${heroFromDb.title} ${heroFromDb.name}: " +
-                    "+${baneBoon.first.name}, -${baneBoon.second.name}")
+
+            makeToast(getString(R.string.hero_boon_bane,
+                    heroFromDb.name,
+                    heroFromDb.title,
+                    baneBoon.first.name,
+                    baneBoon.second.name), Toast.LENGTH_LONG)
         } else {
             makeToast(getString(R.string.error_could_not_find_hero))
         }
@@ -148,9 +156,11 @@ class LensEmblemService : Service() {
         }
     }
 
-    private fun makeToast(msg: String) {
+    private fun makeToast(msg: String, duration: Int = Toast.LENGTH_SHORT) {
         Handler(Looper.getMainLooper()).post {
-            Toast.makeText(application, msg, Toast.LENGTH_SHORT).show()
+            toast?.cancel()
+            toast = Toast.makeText(applicationContext, msg, duration)
+            toast?.show()
         }
     }
 
@@ -189,11 +199,15 @@ class LensEmblemService : Service() {
     companion object {
         const val ACTION_STOP = "STOP"
         const val ACTION_SCREENSHOT = "SCREENSHOT"
+        const val ACTION_START = "START"
 
+        private const val TIME_BEFORE_SCREENSHOT_MILLIS = 3500L
         private const val SERVICE_ID = 1000
 
         fun start(context: Context): Intent {
-            return Intent(context, LensEmblemService::class.java)
+            return Intent(context, LensEmblemService::class.java).apply {
+                action = ACTION_START
+            }
         }
     }
 }

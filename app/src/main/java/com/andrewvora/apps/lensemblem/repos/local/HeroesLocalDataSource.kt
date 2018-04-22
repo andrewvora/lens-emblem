@@ -48,7 +48,8 @@ class HeroesLocalDataSource
     }
 
     fun getHeroFromDatabase(title: String, name: String): Single<Hero?> {
-        database.heroDao().getHeroes(title, name).firstOrNull()?.let { hero ->
+        val flexibleName = "%$name%"
+        database.heroDao().getHeroes(title, flexibleName).firstOrNull()?.let { hero ->
             val stats = database.statsDao().getStats(hero.id ?: 0)
             hero.stats = stats
 
