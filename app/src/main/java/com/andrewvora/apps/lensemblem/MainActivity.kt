@@ -11,6 +11,7 @@ import android.widget.Toast
 import com.andrewvora.apps.lensemblem.boundspicker.BoundsPickerActivity
 import com.andrewvora.apps.lensemblem.dagger.component
 import com.andrewvora.apps.lensemblem.main.MainViewModel
+import com.andrewvora.apps.lensemblem.notifications.NotificationsActivity
 import com.andrewvora.apps.lensemblem.permissions.PermissionListener
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
@@ -24,6 +25,7 @@ class MainActivity : AppCompatActivity(), PermissionListener {
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var mainViewModel: MainViewModel
+    private var notificationMenuItem: MenuItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +36,7 @@ class MainActivity : AppCompatActivity(), PermissionListener {
         initViews()
         initObservers()
         loadHeroesIfNecessary()
+        mainViewModel.loadNotifications()
     }
 
     private fun initViews() {
@@ -52,21 +55,31 @@ class MainActivity : AppCompatActivity(), PermissionListener {
     }
 
     private fun initObservers() {
-        mainViewModel.getHeroesLoaded().observe(this, Observer {
-            progress_indicator.animate().alpha(0f).setDuration(100).start()
+        mainViewModel.getShowProgress().observe(this, Observer {
+            if (it == true) {
+                progress_indicator.progress_indicator_message.text = getString(R.string.loading_heroes)
+                progress_indicator.animate().alpha(1.0f).setDuration(200).start()
+            } else {
+                progress_indicator.animate().alpha(0f).setDuration(100).start()
+            }
+        })
 
+        mainViewModel.getHeroesLoaded().observe(this, Observer {
             if (mainViewModel.currentState == MainViewModel.State.PERMISSION_GRANTED) {
                 start_service_button.isEnabled = true
             }
         })
 
         mainViewModel.getError().observe(this, Observer {
-            // TODO: figure out better error handling
-            Toast.makeText(baseContext, it.toString(), Toast.LENGTH_SHORT).show()
+            if (BuildConfig.DEBUG) {
+                Toast.makeText(baseContext, it.toString(), Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(baseContext, getString(R.string.network_error), Toast.LENGTH_SHORT).show()
+            }
         })
 
         mainViewModel.getNotifications().observe(this, Observer {
-
+            notificationMenuItem?.setIcon(R.drawable.ic_notifications_active_24dp)
         })
 
         mainViewModel.getState().observe(this, Observer {
@@ -97,14 +110,13 @@ class MainActivity : AppCompatActivity(), PermissionListener {
 
     private fun loadHeroesIfNecessary() {
         if (mainViewModel.heroesLoaded().not()) {
-            progress_indicator.progress_indicator_message.text = getString(R.string.loading_heroes)
-            progress_indicator.animate().alpha(1.0f).setDuration(200).start()
             mainViewModel.loadHeroes()
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
+        notificationMenuItem = menu?.findItem(R.id.menu_notifications)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -114,7 +126,8 @@ class MainActivity : AppCompatActivity(), PermissionListener {
 
             }
             R.id.menu_notifications -> {
-
+                notificationMenuItem?.setIcon(R.drawable.ic_notifications_24dp)
+                startActivity(NotificationsActivity.start(this))
             }
             R.id.menu_sync_data -> {
                 mainViewModel.syncHeroData()

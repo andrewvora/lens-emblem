@@ -7,8 +7,10 @@ import android.content.SharedPreferences
 import com.andrewvora.apps.lensemblem.database.DB_NAME
 import com.andrewvora.apps.lensemblem.database.LensEmblemDatabase
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
+import dagger.Reusable
 import okhttp3.OkHttpClient
 import javax.inject.Singleton
 
@@ -33,9 +35,11 @@ class AppModule(private val app: Application) {
         return OkHttpClient()
     }
 
-    @Provides @Singleton
+    @Provides @Reusable
     fun providesGson(): Gson {
-        return Gson()
+        return GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS")
+                .create()
     }
 
     @Provides @Singleton

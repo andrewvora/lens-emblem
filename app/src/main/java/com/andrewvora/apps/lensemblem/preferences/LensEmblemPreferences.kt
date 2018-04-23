@@ -21,7 +21,16 @@ constructor(private val sharedPreferences: SharedPreferences) {
         sharedPreferences.edit().putBoolean(HAS_LOADED_DEFAULT_DATA, value).apply()
     }
 
+    fun lastCheckedNotificationTime(): Long {
+        return sharedPreferences.getLong(LAST_CHECKED_NOTIFICATION_TIME, 0)
+    }
+
+    fun setLastCheckedNotificationTime(value: Long) {
+        sharedPreferences.edit().putLong(LAST_CHECKED_NOTIFICATION_TIME, value).apply()
+    }
+
     companion object {
         const val HAS_LOADED_DEFAULT_DATA = "loadedDefaultData"
+        const val LAST_CHECKED_NOTIFICATION_TIME = "lastCheckedNotificationTime"
     }
 }

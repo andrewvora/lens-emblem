@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.andrewvora.apps.lensemblem.boundspicker.BoundsPickerViewModel
 import com.andrewvora.apps.lensemblem.main.MainViewModel
+import com.andrewvora.apps.lensemblem.notifications.NotificationsViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -20,6 +21,9 @@ abstract class ViewModelModule {
 
     @Binds @IntoMap @ViewModelKey(MainViewModel::class)
     internal abstract fun bindMainViewModel(viewModel: MainViewModel): ViewModel
+
+    @Binds @IntoMap @ViewModelKey(NotificationsViewModel::class)
+    internal abstract fun bindNotificationsViewModel(viewModel: NotificationsViewModel): ViewModel
 
     // view model factories
     @Binds

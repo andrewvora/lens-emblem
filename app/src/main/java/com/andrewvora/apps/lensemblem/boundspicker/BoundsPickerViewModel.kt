@@ -8,9 +8,8 @@ import com.andrewvora.apps.lensemblem.capturehistory.LatestScreenshot
 import com.andrewvora.apps.lensemblem.models.Bounds
 import com.andrewvora.apps.lensemblem.models.BoundsType
 import com.andrewvora.apps.lensemblem.repos.BoundsRepo
-import io.reactivex.android.schedulers.AndroidSchedulers
+import com.andrewvora.apps.lensemblem.rxjava.useStandardObserveSubscribe
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 /**
@@ -62,8 +61,7 @@ class BoundsPickerViewModel
     fun getBounds() {
         disposables.add(boundsRepo
                 .getBounds()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .useStandardObserveSubscribe()
                 .doOnSuccess { map ->
                     boundsMap.value = if (map.isEmpty()) {
                         getDefaultBounds()
@@ -96,8 +94,7 @@ class BoundsPickerViewModel
     fun saveBounds() {
         boundsMap.value?.let { map ->
             boundsRepo.saveBounds(*map.values.toTypedArray())
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
+                    .useStandardObserveSubscribe()
                     .doOnError {
                         error.value = it
                     }

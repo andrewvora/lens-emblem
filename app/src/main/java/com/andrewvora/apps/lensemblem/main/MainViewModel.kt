@@ -6,9 +6,12 @@ import android.arch.lifecycle.ViewModel
 import com.andrewvora.apps.lensemblem.models.AppMessage
 import com.andrewvora.apps.lensemblem.preferences.LensEmblemPreferences
 import com.andrewvora.apps.lensemblem.repos.HeroesRepo
+import com.andrewvora.apps.lensemblem.repos.NotificationsRepo
+import com.andrewvora.apps.lensemblem.rxjava.useStandardObserveSubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
@@ -18,6 +21,7 @@ import javax.inject.Inject
 class MainViewModel
 @Inject
 constructor(private val heroesRepo: HeroesRepo,
+            private val notificationsRepo: NotificationsRepo,
             private val lensEmblemPrefs: LensEmblemPreferences) : ViewModel() {
 
     var currentState: State = State.DEFAULT
@@ -28,6 +32,7 @@ constructor(private val heroesRepo: HeroesRepo,
 
     private val state = MutableLiveData<State>()
     private val heroesLoaded = MutableLiveData<Boolean>()
+    private val showProgress = MutableLiveData<Boolean>()
     private val notifications = MutableLiveData<List<AppMessage>>()
     private val error = MutableLiveData<Throwable>()
     private val disposables = CompositeDisposable()
@@ -49,6 +54,10 @@ constructor(private val heroesRepo: HeroesRepo,
         return state
     }
 
+    fun getShowProgress(): LiveData<Boolean> {
+        return showProgress
+    }
+
     fun heroesLoaded(): Boolean {
         return lensEmblemPrefs.hasLoadedDefaultData()
     }
@@ -56,15 +65,18 @@ constructor(private val heroesRepo: HeroesRepo,
     fun loadHeroes() {
         if (isLoadingHeroes.not()) {
             isLoadingHeroes = true
+            showProgress.value = true
+
             disposables.add(heroesRepo.loadDefaultData()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
+                    .useStandardObserveSubscribe()
                     .doOnError {
                         error.value = it
                         isLoadingHeroes = false
+                        showProgress.value = false
                     }
                     .doOnComplete {
                         lensEmblemPrefs.setLoadedDefaultData(true)
+                        showProgress.value = false
                         heroesLoaded.value = true
                     }
                     .subscribe())
@@ -72,7 +84,56 @@ constructor(private val heroesRepo: HeroesRepo,
     }
 
     fun syncHeroData() {
+        if (isLoadingHeroes.not()) {
+            isLoadingHeroes = true
+            showProgress.value = true
 
+            disposables.add(heroesRepo.fetchHeroes()
+                    .useStandardObserveSubscribe()
+                    .doOnError {
+                        error.value = it
+                        isLoadingHeroes = false
+                        showProgress.value = false
+                    }
+                    .doOnComplete {
+                        isLoadingHeroes = false
+                        showProgress.value = false
+                        heroesLoaded.value = true
+                    }
+                    .subscribe())
+        }
+    }
+
+    fun loadNotifications() {
+        if (shouldLoadNotificationsFromNetwork()) {
+            val networkNotificationStream = notificationsRepo.fetchNotifications()
+            val latestNotificationStream = notificationsRepo.getLatestNotification()
+            disposables.add(networkNotificationStream
+                    .map { messages ->
+                        val latestNotification = latestNotificationStream.blockingGet()
+                        val hasNewNotifications =
+                                messages.isNotEmpty() &&
+                                messages.first().posted?.after(latestNotification.posted) ?: false
+
+                        if (hasNewNotifications) {
+                            messages
+                        } else {
+                            emptyList()
+                        }
+                    }
+                    .useStandardObserveSubscribe()
+                    .doOnSuccess {
+                        if (it.isNotEmpty()) {
+                            notifications.value = it
+                        }
+                    }
+                    .subscribe())
+        }
+    }
+
+    private fun shouldLoadNotificationsFromNetwork(): Boolean {
+        val lastCheckedTime = lensEmblemPrefs.lastCheckedNotificationTime()
+        return System.currentTimeMillis() - lastCheckedTime > NOTIFICATION_STALENESS_THRESHOLD
     }
 
     override fun onCleared() {
@@ -83,5 +144,9 @@ constructor(private val heroesRepo: HeroesRepo,
 
     enum class State {
         DEFAULT, HEROES_LOADED, PERMISSION_GRANTED, SERVICE_STARTED
+    }
+
+    companion object {
+        private val NOTIFICATION_STALENESS_THRESHOLD = TimeUnit.MINUTES.toMillis(5L)
     }
 }

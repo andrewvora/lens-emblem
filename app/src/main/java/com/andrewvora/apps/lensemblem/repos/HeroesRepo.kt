@@ -33,19 +33,28 @@ class HeroesRepo
     private fun loadDefaultHeroes(): Completable {
         return Completable.defer {
             val heroes = localSource.getHeroDataFromResources().blockingGet()
-            val heroesMap = heroes.associateBy { it.title + it.name }
-
-            localSource.saveHeroesToDatabase(heroes)
-            localSource.getHeroDataFromDatabase().blockingGet()
-                    .forEach { hero ->
-                        val stats = heroesMap[hero.title + hero.name]?.stats
-                        if (stats != null) {
-                            localSource.saveStatsToDatabase(hero, stats)
-                        }
-                    }
+            saveHeroesLocally(heroes)
 
             return@defer Completable.complete()
         }
+    }
+
+    private fun saveHeroesLocally(heroes: List<Hero>) {
+        if (heroes.isEmpty()) {
+            return
+        }
+
+        val heroesMap = heroes.associateBy { it.title + it.name }
+
+        localSource.deleteAllHeroesFromDatabase().blockingAwait()
+        localSource.saveHeroesToDatabase(heroes)
+        localSource.getHeroDataFromDatabase().blockingGet()
+                .forEach { hero ->
+                    val stats = heroesMap[hero.title + hero.name]?.stats
+                    if (stats != null) {
+                        localSource.saveStatsToDatabase(hero, stats)
+                    }
+                }
     }
 
     /**
@@ -57,11 +66,15 @@ class HeroesRepo
             val nameAliases = aliases.first
             val titleAliases = aliases.second
 
-            localSource.saveNameAliasesToDatabase(nameAliases)
-            localSource.saveTitleAliasesToDatabase(titleAliases)
+            saveAliasesLocally(nameAliases, titleAliases)
 
             return@defer Completable.complete()
         }
+    }
+
+    private fun saveAliasesLocally(nameAliases: List<NameAlias>, titleAliases: List<TitleAlias>) {
+        localSource.saveNameAliasesToDatabase(nameAliases)
+        localSource.saveTitleAliasesToDatabase(titleAliases)
     }
 
     /**
@@ -69,7 +82,9 @@ class HeroesRepo
      */
     fun fetchHeroes(): Completable {
        return Completable.defer {
-           TODO()
+           val heroes = remoteSource.getHeroData().blockingGet()
+           saveHeroesLocally(heroes)
+
            return@defer Completable.complete()
        }
     }
@@ -79,8 +94,7 @@ class HeroesRepo
      */
     fun fetchHeroAliases(): Completable {
         return Completable.defer {
-            TODO()
-            return@defer Completable.complete()
+            TODO("Remote download logic for this has not been added")
         }
     }
 

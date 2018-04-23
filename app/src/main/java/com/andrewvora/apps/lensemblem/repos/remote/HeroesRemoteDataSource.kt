@@ -31,9 +31,9 @@ class HeroesRemoteDataSource
                         response.body()?.charStream(),
                         object: TypeToken<List<Hero>>() {}.type)
 
-                return@defer Single.just<List<Hero>>(heroes)
+                return@defer Single.just(heroes)
             } else {
-                throw Exception("Request failed")
+                throw Exception("Heroes request failed")
             }
         }
     }

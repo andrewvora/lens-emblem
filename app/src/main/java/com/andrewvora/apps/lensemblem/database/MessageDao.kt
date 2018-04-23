@@ -5,6 +5,7 @@ import android.arch.persistence.room.Delete
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.Query
 import com.andrewvora.apps.lensemblem.models.AppMessage
+import com.andrewvora.apps.lensemblem.models.COLUMN_POSTED
 import com.andrewvora.apps.lensemblem.models.TABLE_MESSAGES
 
 /**
@@ -16,6 +17,9 @@ interface MessageDao {
 
     @Query("SELECT * FROM $TABLE_MESSAGES")
     fun getMessages(): List<AppMessage>
+
+    @Query("SELECT * FROM $TABLE_MESSAGES ORDER BY $COLUMN_POSTED DESC LIMIT 1")
+    fun getLatestMessage(): AppMessage?
 
     @Insert
     fun insert(vararg message: AppMessage)

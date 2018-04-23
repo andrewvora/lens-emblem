@@ -31,7 +31,7 @@ class HeroesLocalDataSource
     fun saveStatsToDatabase(hero: Hero, stats: List<Stats>) {
         // associate each stats object with the hero
         stats.toList().forEach { heroStats ->
-            hero.id?.let {
+            hero.id.let {
                 heroStats.heroId = it
             }
         }
@@ -50,7 +50,7 @@ class HeroesLocalDataSource
     fun getHeroFromDatabase(title: String, name: String): Single<Hero?> {
         val flexibleName = "%$name%"
         database.heroDao().getHeroes(title, flexibleName).firstOrNull()?.let { hero ->
-            val stats = database.statsDao().getStats(hero.id ?: 0)
+            val stats = database.statsDao().getStats(hero.id)
             hero.stats = stats
 
             return Single.just(hero)

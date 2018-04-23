@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "8c8a1e011fc2ed53d5d97c27fe13f36c",
+    "identityHash": "cc5a5e2e57e04d34846aad109f4c4457",
     "entities": [
       {
         "tableName": "heroes",
@@ -209,7 +209,7 @@
       },
       {
         "tableName": "app_messages",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT NOT NULL, `message` TEXT NOT NULL, `type` TEXT, `posted_at` INTEGER, `created_at` INTEGER)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT NOT NULL, `message` TEXT NOT NULL, `type` TEXT, `posted_at` INTEGER, `created_at` INTEGER, `read` INTEGER)",
         "fields": [
           {
             "fieldPath": "id",
@@ -244,6 +244,12 @@
           {
             "fieldPath": "created",
             "columnName": "created_at",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "read",
+            "columnName": "read",
             "affinity": "INTEGER",
             "notNull": false
           }
@@ -310,7 +316,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"8c8a1e011fc2ed53d5d97c27fe13f36c\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"cc5a5e2e57e04d34846aad109f4c4457\")"
     ]
   }
 }

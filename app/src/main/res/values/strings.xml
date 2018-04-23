@@ -25,6 +25,7 @@
 
     <string name="loading_heroes">Loading Hero Data</string>
     <string name="fetching_heroes">Downloading Hero Data</string>
+    <string name="network_error">Something went wrong. Please try again.</string>
 
     <string name="permissions_rationale">We can\'t process your screen without certain permissions. Don\'t worry, we only take screenshots when you choose to.</string>
     <string name="service_rationale">Start the service to begin processing heroes. It shows up as a notification.</string>
@@ -35,4 +36,7 @@
     <string name="service_processing">Processing…</string>
 
     <string name="hero_boon_bane">%1$s (%2$s)\n+%3$s, -%4$s</string>
+
+    <string name="notifications">Notifications</string>
+    <string name="no_notifications">No notifications</string>
 </resources>
