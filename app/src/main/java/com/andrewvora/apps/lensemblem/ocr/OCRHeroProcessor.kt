@@ -5,6 +5,7 @@ import com.andrewvora.apps.lensemblem.imageprocessing.BitmapHelper
 import com.andrewvora.apps.lensemblem.boundspicker.BoundingConfig
 import com.andrewvora.apps.lensemblem.models.Hero
 import com.andrewvora.apps.lensemblem.models.Stats
+import com.andrewvora.apps.lensemblem.repos.BoundsRepo
 import com.andrewvora.apps.lensemblem.repos.HeroesRepo
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -19,8 +20,8 @@ class OCRHeroProcessor
                     private val bitmapHelper: BitmapHelper,
                     private val heroRepo: HeroesRepo) {
 
-    init {
-        bitmapHelper.setBoundingConfig(BoundingConfig.Nexus5)
+    fun setBounds(boundingConfig: BoundingConfig) {
+        bitmapHelper.setBoundingConfig(boundingConfig)
     }
 
     fun processHeroProfile(profileBitmap: Bitmap): Hero {

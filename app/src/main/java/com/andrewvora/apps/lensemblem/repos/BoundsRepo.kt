@@ -1,6 +1,5 @@
 package com.andrewvora.apps.lensemblem.repos
 
-import android.app.Application
 import com.andrewvora.apps.lensemblem.boundspicker.BoundingConfig
 import com.andrewvora.apps.lensemblem.database.LensEmblemDatabase
 import com.andrewvora.apps.lensemblem.models.Bounds
@@ -17,7 +16,6 @@ import javax.inject.Singleton
 @Singleton
 class BoundsRepo
 @Inject constructor(
-        private val app: Application,
         private val lensEmblemDatabase: LensEmblemDatabase) {
 
     fun getBounds(): Single<Map<BoundsType, Bounds>> {

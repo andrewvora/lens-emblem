@@ -14,7 +14,8 @@ import javax.inject.Inject
  * @author Andrew Vorakrajangthiti
  */
 class NotificationsViewModel
-@Inject constructor(private val notificationsRepo: NotificationsRepo) : ViewModel() {
+@Inject
+constructor(private val notificationsRepo: NotificationsRepo) : ViewModel() {
 
     private val notifications = MutableLiveData<List<AppMessage>>()
     private val disposables = CompositeDisposable()

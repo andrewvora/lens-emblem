@@ -10,6 +10,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import com.andrewvora.apps.lensemblem.boundspicker.BoundsPickerActivity
 import com.andrewvora.apps.lensemblem.dagger.component
+import com.andrewvora.apps.lensemblem.heroeslist.HeroesListActivity
 import com.andrewvora.apps.lensemblem.main.MainViewModel
 import com.andrewvora.apps.lensemblem.notifications.NotificationsActivity
 import com.andrewvora.apps.lensemblem.permissions.PermissionListener
@@ -131,6 +132,9 @@ class MainActivity : AppCompatActivity(), PermissionListener {
             }
             R.id.menu_sync_data -> {
                 mainViewModel.syncHeroData()
+            }
+            R.id.menu_view_heroes -> {
+                startActivity(HeroesListActivity.start(this))
             }
         }
 

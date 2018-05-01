@@ -3,6 +3,7 @@ package com.andrewvora.apps.lensemblem.dagger.viewmodel
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.andrewvora.apps.lensemblem.boundspicker.BoundsPickerViewModel
+import com.andrewvora.apps.lensemblem.heroeslist.HeroesListViewModel
 import com.andrewvora.apps.lensemblem.main.MainViewModel
 import com.andrewvora.apps.lensemblem.notifications.NotificationsViewModel
 import dagger.Binds
@@ -24,6 +25,9 @@ abstract class ViewModelModule {
 
     @Binds @IntoMap @ViewModelKey(NotificationsViewModel::class)
     internal abstract fun bindNotificationsViewModel(viewModel: NotificationsViewModel): ViewModel
+
+    @Binds @IntoMap @ViewModelKey(HeroesListViewModel::class)
+    internal abstract fun bindHeroesListViewModel(viewModel: HeroesListViewModel): ViewModel
 
     // view model factories
     @Binds

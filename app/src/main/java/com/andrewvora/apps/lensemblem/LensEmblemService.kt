@@ -8,12 +8,14 @@ import android.graphics.Bitmap
 import android.os.*
 import android.util.Log
 import android.widget.Toast
+import com.andrewvora.apps.lensemblem.boundspicker.BoundingConfig
 import com.andrewvora.apps.lensemblem.capturehistory.LatestScreenshot
 import com.andrewvora.apps.lensemblem.dagger.component
 import com.andrewvora.apps.lensemblem.imageprocessing.ScreenshotHelper
 import com.andrewvora.apps.lensemblem.notifications.NotificationAction
 import com.andrewvora.apps.lensemblem.notifications.NotificationHelper
 import com.andrewvora.apps.lensemblem.ocr.OCRHeroProcessor
+import com.andrewvora.apps.lensemblem.repos.BoundsRepo
 import com.andrewvora.apps.lensemblem.repos.HeroesRepo
 import com.andrewvora.apps.lensemblem.statprocessing.IVProcessor
 import javax.inject.Inject
@@ -34,6 +36,7 @@ class LensEmblemService : Service() {
     @Inject lateinit var screenshotHelper: ScreenshotHelper
     @Inject lateinit var notificationHelper: NotificationHelper
     @Inject lateinit var heroProcessor: OCRHeroProcessor
+    @Inject lateinit var boundsRepo: BoundsRepo
     @Inject lateinit var ivProcessor: IVProcessor
     @Inject lateinit var heroesRepo: HeroesRepo
     @Inject lateinit var latestScreenshot: LatestScreenshot
@@ -63,6 +66,7 @@ class LensEmblemService : Service() {
                 val state = ServiceState.values()[msg?.arg2 ?: 0]
                 when (state) {
                     ServiceState.START -> {
+                        setBoundingConfig()
                         makeToast(getString(R.string.service_started))
                         currentState = ServiceState.READY
                     }
@@ -78,6 +82,11 @@ class LensEmblemService : Service() {
         }
 
         startForeground(SERVICE_ID, createNotification())
+    }
+
+    private fun setBoundingConfig() {
+        val boundsToUse = BoundingConfig.CustomBoundingConfig(boundsRepo.getBounds().blockingGet())
+        heroProcessor.setBounds(boundsToUse)
     }
 
     private fun processAction() {
@@ -112,10 +121,10 @@ class LensEmblemService : Service() {
 
         screenshotHelper.takeScreenshot {
             try {
-                makeToast(getString(R.string.service_processing))
                 screenshotTaken(it)
                 processHero(it)
             } catch (e: Exception) {
+                makeToast(getString(R.string.could_not_parse))
                 e.printStackTrace()
             }
         }

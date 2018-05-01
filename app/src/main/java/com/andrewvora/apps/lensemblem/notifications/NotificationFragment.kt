@@ -30,6 +30,7 @@ class NotificationFragment: Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
 
         activity?.application?.component()?.inject(this)
         notificationViewModel = ViewModelProviders.of(this,

@@ -16,6 +16,11 @@
         app:showAsAction="never"/>
 
     <item
+        android:id="@+id/menu_view_heroes"
+        android:title="@string/view_heroes"
+        app:showAsAction="never"/>
+
+    <item
         android:id="@+id/menu_acknowledgements"
         android:title="@string/menu_acknowledgements"
         app:showAsAction="never"/>

@@ -1,6 +1,7 @@
 package com.andrewvora.apps.lensemblem.boundspicker
 
 import com.andrewvora.apps.lensemblem.models.Bounds
+import com.andrewvora.apps.lensemblem.models.BoundsType
 
 
 /**
@@ -29,6 +30,44 @@ sealed class BoundingConfig {
 
         override fun characterStats(): Bounds {
             return Bounds(xMod = 0.1, yMod = 0.62, widthMod = 0.35, heightMod = 0.275)
+        }
+    }
+
+    class CustomBoundingConfig(private val boundsMap: Map<BoundsType, Bounds>) : BoundingConfig() {
+        override fun characterTitle(): Bounds {
+            val bounds = boundsMap[BoundsType.PROFILE_TITLE] ?: Nexus5.characterTitle()
+            return Bounds(
+                    xMod = bounds.xMod,
+                    yMod = bounds.yMod,
+                    widthMod = bounds.widthMod,
+                    heightMod = bounds.heightMod)
+        }
+
+        override fun characterName(): Bounds {
+            val bounds = boundsMap[BoundsType.PROFILE_NAME] ?: Nexus5.characterName()
+            return Bounds(
+                    xMod = bounds.xMod,
+                    yMod = bounds.yMod,
+                    widthMod = bounds.widthMod,
+                    heightMod = bounds.heightMod)
+        }
+
+        override fun characterLevel(): Bounds {
+            val bounds = boundsMap[BoundsType.PROFILE_LEVEL] ?: Nexus5.characterLevel()
+            return Bounds(
+                    xMod = bounds.xMod,
+                    yMod = bounds.yMod,
+                    widthMod = bounds.widthMod,
+                    heightMod = bounds.heightMod)
+        }
+
+        override fun characterStats(): Bounds {
+            val bounds = boundsMap[BoundsType.PROFILE_STATS] ?: Nexus5.characterStats()
+            return Bounds(
+                    xMod = bounds.xMod,
+                    yMod = bounds.yMod,
+                    widthMod = bounds.widthMod,
+                    heightMod = bounds.heightMod)
         }
     }
 }
