@@ -1,0 +1,56 @@
+
+module.exports.apply = function(weapon, stats) {
+    const weaponName = weapon.name.toLowerCase()
+
+    if (weaponName.indexOf('brave') >= 0) {
+        stats['spd'] = stats['spd'] - 5
+    } else if (weaponName.indexOf('amiti') >= 0) {
+        stats['spd'] = stats['spd'] - 2
+    } else if (weaponName.indexOf('ayra') >= 0) {
+        stats['spd'] = stats['spd'] + 3
+    } else if (weaponName.indexOf('beloved zofia') >= 0) {
+        stats['def'] = stats['def'] + 3
+    } else if (weaponName.indexOf('blazing durandal') >= 0) {
+        stats['atk'] = stats['atk'] + 3
+    } else if (weaponName.indexOf('divine tyrfing') >= 0) {
+        stats['res'] = stats['res'] + 3
+    } else if (weaponName.indexOf('light brand') >= 0) {
+        stats['def'] = stats['def'] + 3
+    } else if (weaponName.indexOf('meisterschwert') >= 0) {
+        stats['spd'] = stats['spd'] - 5
+    } else if (weaponName.indexOf('resolute blade') >= 0) {
+        stats['atk'] = stats['atk'] + 3
+    } else if (weaponName.indexOf('gleipnir') >= 0) {
+        stats['res'] = stats['res'] + 3
+    } else if (weaponName.indexOf('grima') >= 0) {
+        stats['def'] = stats['def'] + 3
+    } else if (weaponName.indexOf('loptous') >= 0) {
+        stats['res'] = stats['res'] + 3
+    } else if (weaponName.indexOf('flame siegmund') >= 0) {
+        stats['atk'] = stats['atk'] + 3
+    } else if (weaponName.indexOf('geirsk') >= 0) {
+        stats['def'] = stats['def'] + 3
+    } else if (weaponName.indexOf('dire thunder') >= 0) {
+        stats['spd'] = stats['spd'] - 5
+    } else if (weaponName.indexOf('huginn') >= 0) {
+        stats['res'] = stats['res'] + 3
+    } else if (weaponName.indexOf('ivaldi') >= 0) {
+        stats['def'] = stats['def'] + 3
+    } else if (weaponName.indexOf('thani') >= 0) {
+        stats['res'] = stats['res'] + 3
+    } else if (weaponName.indexOf('weirding tome') >= 0) {
+        stats['def'] = stats['def'] + 3
+    } else if (weaponName.indexOf('blizzard') >= 0) {
+        stats['res'] = stats['res'] + 3
+    } else if (weaponName.indexOf('muninn') >= 0) {
+        stats['res'] = stats['res'] + 3
+    } else if (weaponName.indexOf('great flame') >= 0) {
+        stats['atk'] = stats['atk'] + 3
+    } else if (weaponName.indexOf('skadi') >= 0) {
+        stats['spd'] = stats['spd'] + 3
+    } else if (weaponName.indexOf('swift mulagir') >= 0) {
+        stats['res'] = stats['res'] + 3
+    } else if (weaponName.indexOf('warrior princess') >= 0) {
+        stats['spd'] = stats['spd'] + 3
+    }
+}

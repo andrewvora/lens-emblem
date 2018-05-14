@@ -3,6 +3,7 @@
 const request = require('request')
 const cheerio = require('cheerio')
 const fs = require('fs')
+const weaponModifiers = require('./weapon-modifiers')
 const gamepediaUrl = 'https://feheroes.gamepedia.com'
 const heroListUrl = `${gamepediaUrl}/Hero_List`
 const outputDir = '../app/src/main/res/raw/'
@@ -23,6 +24,14 @@ function getHtml(url) {
             }
         })
     })
+}
+
+/**
+ * Modifies hero object with stat modifiers from
+ * a weapon effect.
+ */
+async function applyEffectModifiers(weapon, stats) {
+    weaponModifiers.apply(weapon, stats)
 }
 
 /**
@@ -89,7 +98,7 @@ async function getHeroStatsWithWeapon(html, heroStats) {
                 clonedStats['atk'] = atk + atkMod
 
                 // apply weapon effects
-                // TODO
+                applyEffectModifiers(weapon, clonedStats)
 
                 // finish processing for this stat set
                 heroWithWeaponStats.push(clonedStats)
@@ -109,7 +118,7 @@ async function getHeroBaseStats(html, name, title) {
     const stats = []
 
     // get base stats
-    const baseStatsTable = $('#Base_Stats').parent()
+    const baseStatsTable = $('#Level_1_stats').parent()
         .next('table.wikitable.default')
         .find('tbody')
         .first()
@@ -163,7 +172,7 @@ async function getHeroMaxStats(html, name, title) {
     const $ = cheerio.load(html)
     const stats = []
 
-    const maxStatsTable = $('#Max_Stats').parent()
+    const maxStatsTable = $('#Level_40_stats').parent()
         .next('table.wikitable.default')
         .find('tbody')
         .first()
@@ -253,11 +262,11 @@ async function getHeroInfo(html) {
     var heroes = []
 
     for (var i = 0; i < rowItems.length; i++) {
-    // for (var i = 0; i < 1; i++) {
+    // for (var i = 0; i < 3; i++) {
         const item = $(rowItems[i])
         const heroNameItem = item.find('td:nth-child(2) > a')
         const heroUrl = `${gamepediaUrl}${heroNameItem.attr('href')}`
-        const name = heroNameItem.attr('title')
+        const name = heroNameItem.text()
         const title = item.find('td:nth-child(3)').text()
 
         const stats = await getHeroStats(heroUrl, name, title)
@@ -272,6 +281,7 @@ function writeHeroInfoToFile(heroes) {
     return new Promise((resolve, reject) => {
         fs.writeFile(
             '../app/src/main/res/raw/hero_stats_v1.json',
+            //'./hero_stats_v1.json',
             JSON.stringify(heroes),
             'utf8',
             (err, data) => {
