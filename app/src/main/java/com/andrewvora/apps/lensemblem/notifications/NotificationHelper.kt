@@ -36,7 +36,7 @@ constructor(private val app: Application) {
         val launchAppIntent = Intent(app, LensEmblemService::class.java)
         val pendingIntent = PendingIntent.getService(app, 0, launchAppIntent, 0)
         var builder = NotificationCompat.Builder(app, SERVICE_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setSmallIcon(R.mipmap.ic_launcher_round)
                 .setContentTitle(title)
                 .setContentText(msg)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
