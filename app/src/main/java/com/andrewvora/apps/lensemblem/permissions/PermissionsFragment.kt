@@ -61,8 +61,8 @@ class PermissionsFragment : Fragment() {
     }
 
     private fun alertPermissionGranted(granted: Boolean) {
-        if (activity is PermissionListener) {
-            val listener = activity as PermissionListener
+        if (parentFragment is PermissionListener) {
+            val listener = parentFragment as PermissionListener
             if (granted) {
                 listener.onScreenCapturePermissionGranted()
             } else {
@@ -70,4 +70,6 @@ class PermissionsFragment : Fragment() {
             }
         }
     }
+
+
 }

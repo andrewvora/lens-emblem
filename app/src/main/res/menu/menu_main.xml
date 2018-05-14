@@ -10,14 +10,15 @@
         app:showAsAction="ifRoom"/>
 
     <item
+        android:id="@+id/menu_view_heroes"
+        android:title="@string/view_heroes"
+        android:icon="@drawable/ic_storage_24dp"
+        app:showAsAction="ifRoom"/>
+
+    <item
         android:id="@+id/menu_sync_data"
         android:title="@string/menu_sync"
         android:icon="@drawable/ic_sync_24dp"
-        app:showAsAction="never"/>
-
-    <item
-        android:id="@+id/menu_view_heroes"
-        android:title="@string/view_heroes"
         app:showAsAction="never"/>
 
     <item

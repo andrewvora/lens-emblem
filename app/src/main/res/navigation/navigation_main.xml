@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            app:startDestination="@id/main_fragment">
+
+    <activity
+        android:id="@+id/bounds_picker"
+        android:name="com.andrewvora.apps.lensemblem.boundspicker.BoundsPickerActivity"
+        android:label="BoundsPickerActivity"/>
+    <fragment
+        android:id="@+id/notifications_fragment"
+        android:name="com.andrewvora.apps.lensemblem.notifications.NotificationFragment"
+        android:label="NotificationFragment"/>
+    <fragment
+        android:id="@+id/heroes_list_fragment"
+        android:name="com.andrewvora.apps.lensemblem.heroeslist.HeroesListFragment"
+        android:label="HeroesListFragment"/>
+    <fragment
+        android:id="@+id/main_fragment"
+        android:name="com.andrewvora.apps.lensemblem.main.MainFragment"
+        android:label="MainFragment">
+        <action
+            android:id="@+id/open_bounds_picker"
+            app:destination="@+id/bounds_picker"/>
+        <action
+            android:id="@+id/open_notifications"
+            app:destination="@id/notifications_fragment"/>
+        <action
+            android:id="@+id/open_heroes_list"
+            app:destination="@id/heroes_list_fragment"/>
+    </fragment>
+</navigation>

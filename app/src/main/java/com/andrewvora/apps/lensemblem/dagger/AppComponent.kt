@@ -3,10 +3,11 @@ package com.andrewvora.apps.lensemblem.dagger
 import android.app.Application
 import com.andrewvora.apps.lensemblem.LensEmblemApp
 import com.andrewvora.apps.lensemblem.LensEmblemService
-import com.andrewvora.apps.lensemblem.MainActivity
+import com.andrewvora.apps.lensemblem.main.MainActivity
 import com.andrewvora.apps.lensemblem.boundspicker.BoundsPickerActivity
 import com.andrewvora.apps.lensemblem.dagger.viewmodel.ViewModelModule
 import com.andrewvora.apps.lensemblem.heroeslist.HeroesListFragment
+import com.andrewvora.apps.lensemblem.main.MainFragment
 import com.andrewvora.apps.lensemblem.notifications.NotificationFragment
 import com.andrewvora.apps.lensemblem.permissions.PermissionsFragment
 import dagger.Component
@@ -25,6 +26,7 @@ interface AppComponent {
     fun inject(fragment: NotificationFragment)
     fun inject(fragment: HeroesListFragment)
     fun inject(activity: MainActivity)
+    fun inject(fragment: MainFragment)
 }
 
 fun Application.component(): AppComponent {

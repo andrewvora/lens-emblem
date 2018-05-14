@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.getkeepsafe.dexcount'
+apply plugin: 'androidx.navigation.safeargs'
 
 android {
     compileSdkVersion 27
@@ -71,6 +72,10 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     implementation "com.rmtheis:tess-two:8.0.0"
+
+    def navigation_version = "1.0.0-alpha01"
+    implementation "android.arch.navigation:navigation-fragment:$navigation_version"
+    implementation "android.arch.navigation:navigation-ui:$navigation_version"
 
     // unit tests
     testImplementation "junit:junit:4.12"

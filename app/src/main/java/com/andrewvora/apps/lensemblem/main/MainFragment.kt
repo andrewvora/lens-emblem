@@ -1,39 +1,46 @@
-package com.andrewvora.apps.lensemblem
+package com.andrewvora.apps.lensemblem.main
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
-import android.view.Menu
-import android.view.MenuItem
+import android.view.*
 import android.widget.Toast
-import com.andrewvora.apps.lensemblem.boundspicker.BoundsPickerActivity
+import androidx.navigation.Navigation.findNavController
+import com.andrewvora.apps.lensemblem.BuildConfig
+import com.andrewvora.apps.lensemblem.LensEmblemService
+import com.andrewvora.apps.lensemblem.R
 import com.andrewvora.apps.lensemblem.dagger.component
-import com.andrewvora.apps.lensemblem.heroeslist.HeroesListActivity
-import com.andrewvora.apps.lensemblem.main.MainViewModel
-import com.andrewvora.apps.lensemblem.notifications.NotificationsActivity
 import com.andrewvora.apps.lensemblem.permissions.PermissionListener
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main.view.*
+import kotlinx.android.synthetic.main.fragment_main.*
+import kotlinx.android.synthetic.main.fragment_main.view.*
 import javax.inject.Inject
 
 /**
- * Created on 4/2/2018.
+ * Created on 5/13/2018.
  * @author Andrew Vorakrajangthiti
  */
-class MainActivity : AppCompatActivity(), PermissionListener {
+class MainFragment : Fragment(), PermissionListener {
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var mainViewModel: MainViewModel
     private var notificationMenuItem: MenuItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        application.component().inject(this)
+        setHasOptionsMenu(true)
+        activity?.application?.component()?.inject(this)
         mainViewModel = ViewModelProviders.of(this, viewModelFactory)[MainViewModel::class.java]
+    }
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_main, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initViews()
         initObservers()
         loadHeroesIfNecessary()
@@ -43,15 +50,21 @@ class MainActivity : AppCompatActivity(), PermissionListener {
     private fun initViews() {
         applyViewState(mainViewModel.currentState)
 
-        setSupportActionBar(toolbar)
-        title = null
+        (activity as? AppCompatActivity)?.apply {
+            setSupportActionBar(toolbar)
+            title = null
+        }
 
         start_service_button.setOnClickListener {
-            application.startService(LensEmblemService.start(baseContext))
-            mainViewModel.currentState = MainViewModel.State.SERVICE_STARTED
+            activity?.let {
+                it.startService(LensEmblemService.start(it.applicationContext))
+                mainViewModel.currentState = MainViewModel.State.SERVICE_STARTED
+            }
         }
-        bound_picker_button.setOnClickListener {
-            startActivity(BoundsPickerActivity.start(baseContext))
+        bound_picker_button.setOnClickListener { v ->
+            activity?.let {
+                findNavController(v).navigate(R.id.open_bounds_picker)
+            }
         }
     }
 
@@ -71,11 +84,13 @@ class MainActivity : AppCompatActivity(), PermissionListener {
             }
         })
 
-        mainViewModel.getError().observe(this, Observer {
-            if (BuildConfig.DEBUG) {
-                Toast.makeText(baseContext, it.toString(), Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(baseContext, getString(R.string.network_error), Toast.LENGTH_SHORT).show()
+        mainViewModel.getError().observe(this, Observer { throwable ->
+            activity?.let { context ->
+                if (BuildConfig.DEBUG) {
+                    Toast.makeText(context, throwable.toString(), Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(context, getString(R.string.network_error), Toast.LENGTH_SHORT).show()
+                }
             }
         })
 
@@ -115,10 +130,10 @@ class MainActivity : AppCompatActivity(), PermissionListener {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.menu_main, menu)
         notificationMenuItem = menu?.findItem(R.id.menu_notifications)
-        return super.onCreateOptionsMenu(menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -127,18 +142,24 @@ class MainActivity : AppCompatActivity(), PermissionListener {
 
             }
             R.id.menu_notifications -> {
-                notificationMenuItem?.setIcon(R.drawable.ic_notifications_24dp)
-                startActivity(NotificationsActivity.start(this))
+                activity?.let {
+                    // use normal icon after click to show "read" status
+                    notificationMenuItem?.setIcon(R.drawable.ic_notifications_24dp)
+
+                    findNavController(toolbar).navigate(R.id.open_notifications)
+                }
             }
             R.id.menu_sync_data -> {
                 mainViewModel.syncHeroData()
             }
             R.id.menu_view_heroes -> {
-                startActivity(HeroesListActivity.start(this))
+                activity?.let {
+                    findNavController(toolbar).navigate(R.id.open_heroes_list)
+                }
             }
         }
 
-        return true
+        return false
     }
 
     override fun onScreenCapturePermissionGranted() {
@@ -147,12 +168,5 @@ class MainActivity : AppCompatActivity(), PermissionListener {
 
     override fun onScreenCapturePermissionDenied() {
         mainViewModel.currentState = MainViewModel.State.DEFAULT
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        if (isFinishing) {
-            stopService(LensEmblemService.start(application))
-        }
     }
 }
