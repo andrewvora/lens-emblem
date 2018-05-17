@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.DividerItemDecoration.VERTICAL
@@ -46,7 +47,6 @@ class NotificationFragment: Fragment() {
         }
 
         notificationAdapter = NotificationsAdapter(emptyList())
-        notifications_recycler_view.addItemDecoration(DividerItemDecoration(activity, VERTICAL))
         notifications_recycler_view.adapter = notificationAdapter
         notifications_recycler_view.layoutManager = LinearLayoutManager(activity)
 
@@ -58,6 +58,8 @@ class NotificationFragment: Fragment() {
 
     private fun initObservers() {
         notificationViewModel.getNotifications().observe(this, Observer {
+            empty_state.visibility = View.GONE
+            notifications_recycler_view.animate().alpha(1.0f).setDuration(100).start()
             notification_swipe_refresh.isRefreshing = false
             notificationAdapter.updateNotifications(it ?: emptyList())
         })

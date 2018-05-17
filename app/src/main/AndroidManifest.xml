@@ -23,12 +23,6 @@
         </activity>
 
         <activity
-            android:name=".notifications.NotificationsActivity"/>
-
-        <activity
-            android:name=".heroeslist.HeroesListActivity"/>
-
-        <activity
             android:name=".boundspicker.BoundsPickerActivity"
             android:screenOrientation="nosensor"/>
 

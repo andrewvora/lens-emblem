@@ -1,24 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@color/white">
+    android:padding="@dimen/horizontal_margin"
+    android:background="@drawable/light_background_selector"
+    android:clickable="true"
+    android:focusable="true"
+    tools:background="@color/white">
 
     <TextView
         android:id="@+id/hero_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimaryDark"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/subtext"
+        android:textSize="@dimen/small_text_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hero_name"
         tools:text="The Hatchet"/>
 
     <TextView
         android:id="@+id/hero_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimaryDark"
-        tools:text="Bart"/>
+        android:layout_marginEnd="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/dark_text"
+        android:textSize="@dimen/large_text_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="Bartre"/>
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/view_more_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription=""
+        android:tint="@color/dark_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_chevron_right_24dp"/>
+
+</android.support.constraint.ConstraintLayout>

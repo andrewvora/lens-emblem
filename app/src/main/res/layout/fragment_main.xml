@@ -55,6 +55,14 @@
                         style="@style/CardViewTextStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/large_text_size"
+                        android:text="@string/permissions_title"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:textSize="@dimen/small_text_size"
                         android:text="@string/permissions_rationale"/>
 
                     <fragment
@@ -86,13 +94,23 @@
                         style="@style/CardViewTextStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/large_text_size"
+                        android:text="@string/service_title"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:textSize="@dimen/small_text_size"
                         android:text="@string/service_rationale"/>
 
                     <Button
+                        style="@style/Base.Widget.AppCompat.Button.Colored"
                         android:id="@+id/start_service_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:enabled="false"
+                        android:textColor="@color/white"
                         android:text="@string/start_service_btn_text"/>
 
                 </LinearLayout>
@@ -117,13 +135,23 @@
                         style="@style/CardViewTextStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textSize="@dimen/large_text_size"
+                        android:text="@string/bounds_picker_title"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:textSize="@dimen/small_text_size"
                         android:text="@string/bounds_picker_rationale"/>
 
                     <Button
+                        style="@style/Base.Widget.AppCompat.Button.Colored"
                         android:id="@+id/bound_picker_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:enabled="false"
+                        android:textColor="@color/white"
                         android:text="@string/adjust_bounds_btn_text"/>
 
                 </LinearLayout>

@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import com.andrewvora.apps.lensemblem.R
 import com.andrewvora.apps.lensemblem.models.AppMessage
 import kotlinx.android.synthetic.main.row_item_notification.view.*
+import java.text.DateFormat
+import java.time.format.DateTimeFormatter
 
 /**
  * Created on 4/22/2018.
@@ -38,7 +40,7 @@ class NotificationsAdapter(private var notifications: List<AppMessage>) :
             itemView.notification_title.text = message.title
             itemView.notification_message.text = message.message
             message.posted?.let {
-                itemView.notification_timestamp.text = it.toString()
+                itemView.notification_timestamp.text = DateFormat.getDateInstance(DateFormat.SHORT).format(it)
             }
         }
     }

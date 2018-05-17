@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
@@ -59,7 +60,9 @@ class HeroesListFragment : Fragment() {
         parent.title = getString(R.string.heroes)
 
         hero_list_recycler_view.layoutManager = LinearLayoutManager(activity)
-        hero_list_recycler_view.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
+        hero_list_recycler_view.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL).apply {
+            setDrawable(ContextCompat.getDrawable(activity!!, R.drawable.divider)!!)
+        })
         hero_list_recycler_view.adapter = heroListAdapter
     }
 

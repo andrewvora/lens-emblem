@@ -9,4 +9,9 @@
     <dimen name="bounds_picker_view_touch_radius">24dp</dimen>
     <dimen name="bounds_picker_view_boundary_radius">3dp</dimen>
     <dimen name="bounds_picker_view_corner_line_length">20dp</dimen>
+
+    <dimen name="small_text_size">14sp</dimen>
+    <dimen name="medium_text_size">16sp</dimen>
+    <dimen name="large_text_size">20sp</dimen>
+    <dimen name="extra_large_text_size">24sp</dimen>
 </resources>

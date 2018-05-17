@@ -27,8 +27,11 @@
     <string name="fetching_heroes">Downloading Hero Data</string>
     <string name="network_error">Something went wrong. Please try again.</string>
 
+    <string name="permissions_title">Start Here</string>
     <string name="permissions_rationale">We can\'t process your screen without certain permissions. Don\'t worry, we only take screenshots when you prompt us to.</string>
+    <string name="service_title">Begin Capturing</string>
     <string name="service_rationale">Start the service to begin processing heroes. It shows up as a notification.</string>
+    <string name="bounds_picker_title">Fine-Tune (optional)</string>
     <string name="bounds_picker_rationale">All phones are different! The bounds picker will help you adjust the regions the app reads when it processes screenshots.</string>
 
     <string name="service_started">Service is running! Check your notifications.</string>

@@ -2,9 +2,13 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">@color/colorPrimaryDark</color>
+
+    <color name="dark_text">#212121</color>
+    <color name="subtext">#616161</color>
 
     <color name="white">#FFFFFF</color>
+    <color name="light_gray">#EEEEEE</color>
     <color name="translucent_black">#B0000000</color>
     <color name="green">#00C853</color>
 </resources>
