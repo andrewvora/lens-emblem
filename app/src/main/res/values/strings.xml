@@ -47,4 +47,6 @@
     <string name="view_heroes">View Heroes</string>
 
     <string name="could_not_parse">Whoops! Something went wrong. Try checking your bounds.</string>
+
+    <string name="heroes_last_updated">Heroes last synced on %1$s</string>
 </resources>

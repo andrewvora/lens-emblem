@@ -45,6 +45,7 @@ class MainFragment : Fragment(), PermissionListener {
         initObservers()
         loadHeroesIfNecessary()
         mainViewModel.loadNotifications()
+        mainViewModel.loadHeroSyncTimestamp()
     }
 
     private fun initViews() {
@@ -102,6 +103,10 @@ class MainFragment : Fragment(), PermissionListener {
             if (it != null) {
                 applyViewState(it)
             }
+        })
+
+        mainViewModel.getLastHeroSyncTimestamp().observe(this, Observer {
+            last_hero_sync_timestamp.text = getString(R.string.heroes_last_updated, it)
         })
     }
 

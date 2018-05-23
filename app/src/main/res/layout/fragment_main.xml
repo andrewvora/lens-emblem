@@ -44,7 +44,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/toolbar"
                 android:layout_marginTop="@dimen/vertical_margin"
-                android:layout_marginBottom="@dimen/vertical_spacer_margin">
+                android:layout_marginBottom="@dimen/vertical_spacer_margin"
+                app:cardBackgroundColor="@color/colorPrimaryDark">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -83,7 +84,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/permissions_card"
                 android:layout_marginTop="@dimen/vertical_spacer_margin"
-                android:layout_marginBottom="@dimen/vertical_spacer_margin">
+                android:layout_marginBottom="@dimen/vertical_spacer_margin"
+                app:cardBackgroundColor="@color/colorPrimaryDark">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -110,7 +112,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:enabled="false"
-                        android:textColor="@color/white"
+                        android:textColor="@color/dark_button_color_selector"
                         android:text="@string/start_service_btn_text"/>
 
                 </LinearLayout>
@@ -124,7 +126,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/start_service_card"
                 android:layout_marginTop="@dimen/vertical_spacer_margin"
-                android:layout_marginBottom="@dimen/vertical_spacer_margin">
+                android:layout_marginBottom="@dimen/vertical_spacer_margin"
+                app:cardBackgroundColor="@color/colorPrimaryDark">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -151,7 +154,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:enabled="false"
-                        android:textColor="@color/white"
+                        android:textColor="@color/dark_button_color_selector"
                         android:text="@string/adjust_bounds_btn_text"/>
 
                 </LinearLayout>
@@ -195,6 +198,19 @@
                         tools:text="@string/loading_heroes"/>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
+
+            <TextView
+                android:id="@+id/last_hero_sync_timestamp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/bounds_card"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="@dimen/vertical_margin"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:textSize="14sp"
+                android:textColor="@color/subtext"
+                tools:text="Last updated June 16, 2018"/>
 
         </RelativeLayout>
     </ScrollView>

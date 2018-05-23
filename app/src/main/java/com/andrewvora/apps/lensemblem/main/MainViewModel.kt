@@ -1,16 +1,18 @@
 package com.andrewvora.apps.lensemblem.main
 
+import android.app.Application
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import com.andrewvora.apps.lensemblem.data.SystemConfig
+import com.andrewvora.apps.lensemblem.data.TimestampFormatter
 import com.andrewvora.apps.lensemblem.models.AppMessage
 import com.andrewvora.apps.lensemblem.preferences.LensEmblemPreferences
 import com.andrewvora.apps.lensemblem.repos.HeroesRepo
 import com.andrewvora.apps.lensemblem.repos.NotificationsRepo
 import com.andrewvora.apps.lensemblem.rxjava.useStandardObserveSubscribe
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
+import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -22,7 +24,9 @@ class MainViewModel
 @Inject
 constructor(private val heroesRepo: HeroesRepo,
             private val notificationsRepo: NotificationsRepo,
-            private val lensEmblemPrefs: LensEmblemPreferences) : ViewModel() {
+            private val lensEmblemPrefs: LensEmblemPreferences,
+            private val timestampFormatter: TimestampFormatter,
+            private val systemConfig: SystemConfig) : ViewModel() {
 
     var currentState: State = State.DEFAULT
         set(value) {
@@ -36,6 +40,7 @@ constructor(private val heroesRepo: HeroesRepo,
     private val notifications = MutableLiveData<List<AppMessage>>()
     private val error = MutableLiveData<Throwable>()
     private val disposables = CompositeDisposable()
+    private val lastHeroSyncTimestamp = MutableLiveData<String>()
     private var isLoadingHeroes = false
 
     fun getHeroesLoaded(): LiveData<Boolean> {
@@ -56,6 +61,10 @@ constructor(private val heroesRepo: HeroesRepo,
 
     fun getShowProgress(): LiveData<Boolean> {
         return showProgress
+    }
+
+    fun getLastHeroSyncTimestamp(): LiveData<String> {
+        return lastHeroSyncTimestamp
     }
 
     fun heroesLoaded(): Boolean {
@@ -83,6 +92,13 @@ constructor(private val heroesRepo: HeroesRepo,
         }
     }
 
+    fun loadHeroSyncTimestamp() {
+        val lastSyncMillis = lensEmblemPrefs.lastHeroSync()
+        if (lastSyncMillis > 0) {
+            updateLastHeroSyncTimestamp(Date(lastSyncMillis))
+        }
+    }
+
     fun syncHeroData() {
         if (isLoadingHeroes.not()) {
             isLoadingHeroes = true
@@ -99,9 +115,18 @@ constructor(private val heroesRepo: HeroesRepo,
                         isLoadingHeroes = false
                         showProgress.value = false
                         heroesLoaded.value = true
+
+                        updateLastHeroSyncTimestamp()
                     }
                     .subscribe())
         }
+    }
+
+    private fun updateLastHeroSyncTimestamp(timestamp: Date = Calendar.getInstance().time) {
+        val use12H = systemConfig.use24HourTime().not()
+        lastHeroSyncTimestamp.value = timestampFormatter.format(timestamp, use12H)
+
+        lensEmblemPrefs.setLastHeroSync(timestamp.time)
     }
 
     fun loadNotifications() {

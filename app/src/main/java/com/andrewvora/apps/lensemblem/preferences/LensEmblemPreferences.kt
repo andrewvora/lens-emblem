@@ -29,8 +29,17 @@ constructor(private val sharedPreferences: SharedPreferences) {
         sharedPreferences.edit().putLong(LAST_CHECKED_NOTIFICATION_TIME, value).apply()
     }
 
+    fun lastHeroSync(): Long {
+        return sharedPreferences.getLong(LAST_HERO_SYNC, 0)
+    }
+
+    fun setLastHeroSync(time: Long) {
+        sharedPreferences.edit().putLong(LAST_HERO_SYNC, time).apply()
+    }
+
     companion object {
         const val HAS_LOADED_DEFAULT_DATA = "loadedDefaultData"
         const val LAST_CHECKED_NOTIFICATION_TIME = "lastCheckedNotificationTime"
+        const val LAST_HERO_SYNC = "lastTimeHeroesWereSynced"
     }
 }
