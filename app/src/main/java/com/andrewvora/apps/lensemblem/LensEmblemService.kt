@@ -124,7 +124,7 @@ class LensEmblemService : Service() {
                 screenshotTaken(it)
                 processHero(it)
             } catch (e: Exception) {
-                makeToast(getString(R.string.could_not_parse))
+                makeToast("${getString(R.string.could_not_parse)}")
                 e.printStackTrace()
             }
         }
@@ -153,7 +153,7 @@ class LensEmblemService : Service() {
                     baneBoon.first.name,
                     baneBoon.second.name), Toast.LENGTH_LONG)
         } else {
-            makeToast(getString(R.string.error_could_not_find_hero))
+            makeToast(getString(R.string.error_could_not_find_hero, hero.title, hero.name))
         }
     }
 

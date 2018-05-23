@@ -3,7 +3,7 @@
 
     <string name="service_notification_channel_name">Lens Emblem Service</string>
     <string name="service_notification_channel_description">The primary notifications delivered by Lens Emblem</string>
-    <string name="error_could_not_find_hero">Could not find matching hero.</string>
+    <string name="error_could_not_find_hero">Could not find matching hero for \[%1$s - %2$s\]</string>
 
     <string name="screen_capture_permission_btn_text">Enable Screen Capture</string>
 

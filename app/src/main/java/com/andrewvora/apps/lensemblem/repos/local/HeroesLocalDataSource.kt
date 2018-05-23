@@ -2,6 +2,7 @@ package com.andrewvora.apps.lensemblem.repos.local
 
 import android.app.Application
 import com.andrewvora.apps.lensemblem.R
+import com.andrewvora.apps.lensemblem.data.StringCleaner
 import com.andrewvora.apps.lensemblem.database.LensEmblemDatabase
 import com.andrewvora.apps.lensemblem.models.Hero
 import com.andrewvora.apps.lensemblem.models.NameAlias
@@ -20,9 +21,11 @@ import javax.inject.Singleton
  */
 @Singleton
 class HeroesLocalDataSource
-@Inject constructor(private val app: Application,
-                    private val database: LensEmblemDatabase,
-                    private val gson: Gson) {
+@Inject
+constructor(private val app: Application,
+            private val database: LensEmblemDatabase,
+            private val gson: Gson,
+            private val stringCleaner: StringCleaner) {
 
     fun saveHeroesToDatabase(heroes: List<Hero>) {
         database.heroDao().insert(*heroes.toTypedArray())
@@ -48,8 +51,9 @@ class HeroesLocalDataSource
     }
 
     fun getHeroFromDatabase(title: String, name: String): Single<Hero?> {
-        val flexibleName = "%$name%"
-        database.heroDao().getHeroes(title, flexibleName).firstOrNull()?.let { hero ->
+        val flexibleTitle = "%${stringCleaner.clean(title)}%"
+        val flexibleName = "%${stringCleaner.clean(name)}%"
+        database.heroDao().getHeroes(flexibleTitle, flexibleName).firstOrNull()?.let { hero ->
             val stats = database.statsDao().getStats(hero.id)
             hero.stats = stats
 
