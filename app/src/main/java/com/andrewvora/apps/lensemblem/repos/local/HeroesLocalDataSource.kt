@@ -51,8 +51,10 @@ constructor(private val app: Application,
     }
 
     fun getHeroFromDatabase(title: String, name: String): Single<Hero?> {
-        val flexibleTitle = "%${stringCleaner.clean(title)}%"
-        val flexibleName = "%${stringCleaner.clean(name)}%"
+        val cleanedTitle = stringCleaner.clean(title)
+        val cleanedName = stringCleaner.clean(name)
+        val flexibleTitle = "%$cleanedTitle%"
+        val flexibleName = "%$cleanedName%"
         database.heroDao().getHeroes(flexibleTitle, flexibleName).firstOrNull()?.let { hero ->
             val stats = database.statsDao().getStats(hero.id)
             hero.stats = stats
@@ -60,7 +62,31 @@ constructor(private val app: Application,
             return Single.just(hero)
         }
 
+        val foundHero = getHeroFromDatabaseWithFirstLastStrategy(cleanedTitle, cleanedName)
+        if (foundHero != null) {
+            return Single.just(foundHero)
+        }
+
         return Single.error(RuntimeException("Could not find $title - $name"))
+    }
+
+    fun getHeroFromDatabaseWithFirstLastStrategy(title: String, name: String): Hero? {
+        val firstLastTitle = "%${title.first()}%${title.last()}%"
+        val firstLastName = "%${name.first()}%${name.last()}%"
+
+        val result1 = database.heroDao().getHeroes(title, firstLastName)
+        val result2 = database.heroDao().getHeroes(firstLastTitle, name)
+        val result3 = database.heroDao().getHeroes(firstLastTitle, firstLastName)
+
+        // return the first hero in a list with least number of matches
+        // excludes empty lists
+        return listOf(result1, result2, result3)
+                .filter { it.isNotEmpty() }
+                .minBy { it.size }
+                ?.firstOrNull()
+                ?.apply {
+                    stats = database.statsDao().getStats(id)
+                }
     }
 
     fun getHeroDataFromDatabase(): Single<List<Hero>> {

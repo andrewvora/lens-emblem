@@ -16,5 +16,8 @@ constructor() {
         return dirtyString
                 .replace(Regex("\u2018"), "'")
                 .replace(Regex("\u2019"), "'")
+                .replace(Regex("\\."), "")
+                .replace(Regex("\\s+"), " ")
+                .trim()
     }
 }

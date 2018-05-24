@@ -52,5 +52,7 @@ module.exports.apply = function(weapon, stats) {
         stats['res'] = stats['res'] + 3
     } else if (weaponName.indexOf('warrior princess') >= 0) {
         stats['spd'] = stats['spd'] + 3
+    } else if (weaponName.indexOf('fireposy') >= 0) {
+        stats['spd'] = stats['spd'] + 3
     }
 }

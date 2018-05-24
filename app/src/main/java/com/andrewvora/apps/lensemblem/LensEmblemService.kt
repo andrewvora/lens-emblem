@@ -45,6 +45,7 @@ class LensEmblemService : Service() {
     private lateinit var serviceLooper: Looper
 
     private var currentState = ServiceState.START
+    private var running = false
     private var command: String? = null
     private var toast: Toast? = null
 
@@ -59,10 +60,11 @@ class LensEmblemService : Service() {
         serviceLooper = handlerThread.looper
         serviceHandler = object: Handler(serviceLooper) {
             @Synchronized override fun handleMessage(msg: Message?) {
-                if (command == ACTION_START && currentState != ServiceState.START) {
+                if (running) {
                     return
                 }
 
+                running = true
                 val state = ServiceState.values()[msg?.arg2 ?: 0]
                 when (state) {
                     ServiceState.START -> {
@@ -78,6 +80,8 @@ class LensEmblemService : Service() {
                         makeToast(getString(R.string.service_processing))
                     }
                 }
+
+                running = false
             }
         }
 
@@ -124,7 +128,7 @@ class LensEmblemService : Service() {
                 screenshotTaken(it)
                 processHero(it)
             } catch (e: Exception) {
-                makeToast("${getString(R.string.could_not_parse)}")
+                makeToast(getString(R.string.could_not_parse))
                 e.printStackTrace()
             }
         }
@@ -208,7 +212,7 @@ class LensEmblemService : Service() {
     companion object {
         const val ACTION_STOP = "STOP"
         const val ACTION_SCREENSHOT = "SCREENSHOT"
-        const val ACTION_START = "START"
+        private const val ACTION_START = "START"
 
         private const val TIME_BEFORE_SCREENSHOT_MILLIS = 3500L
         private const val SERVICE_ID = 1000

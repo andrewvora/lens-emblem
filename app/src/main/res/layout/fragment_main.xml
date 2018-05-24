@@ -206,6 +206,7 @@
                 android:layout_below="@+id/bounds_card"
                 android:layout_alignParentBottom="true"
                 android:layout_marginTop="@dimen/vertical_margin"
+                android:layout_marginBottom="4dp"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
                 android:textSize="14sp"
