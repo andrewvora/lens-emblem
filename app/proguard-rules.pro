@@ -31,6 +31,12 @@
 -dontnote android.net.http.*
 -keepattributes Signature
 -keepattributes Exceptions
+# This rule is required for the AndroidX navigation lib
+# not including it causes the fragments to not be included in the dex paths
+-keep class * extends android.support.v4.app.Fragment{}
+# This rule is required to prevent the shrinker from removing Dagger libraries
+# Not sure why it's happening, but seems related to the gradle version
+-keep class com.andrewvora.apps.lensemblem.**
 
 ## Android architecture components: Lifecycle
 # LifecycleObserver's empty constructor is considered to be unused by proguard
