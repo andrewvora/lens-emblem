@@ -35,6 +35,7 @@
     <string name="bounds_picker_rationale">All phones are different! The bounds picker will help you adjust the regions the app reads when it processes screenshots.</string>
 
     <string name="service_started">Service is running! Check your notifications.</string>
+    <string name="service_already_running">Service is already running</string>
     <string name="service_taking_screenshot">Taking screenshot…</string>
     <string name="service_processing">Processing…</string>
 

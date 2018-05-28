@@ -21,7 +21,7 @@ sealed class NotificationAction(@DrawableRes val drawableResId: Int,
     class StopServiceAction(val app: Application) : NotificationAction(0, R.string.notification_stop_service) {
         override fun getPendingIntent(): PendingIntent {
             val intent = Intent(app, LensEmblemService::class.java).apply {
-                action = LensEmblemService.ACTION_STOP
+                action = LensEmblemService.ServiceAction.STOP.action
             }
             return PendingIntent.getService(app, 0, intent, 0)
         }
@@ -31,7 +31,7 @@ sealed class NotificationAction(@DrawableRes val drawableResId: Int,
     class ScreenshotAction(val app: Application) : NotificationAction(0, R.string.notification_screenshot) {
         override fun getPendingIntent(): PendingIntent {
             val intent = Intent(app, LensEmblemService::class.java).apply {
-                action = LensEmblemService.ACTION_SCREENSHOT
+                action = LensEmblemService.ServiceAction.SCREENSHOT_ONLY.action
             }
             return PendingIntent.getService(app, 0, intent, 0)
         }

@@ -27,10 +27,19 @@ import javax.inject.Inject
  */
 class LensEmblemService : Service() {
 
-    enum class ServiceState {
-        START,
-        READY,
-        PROCESSING
+    enum class ServiceAction(val action: String) {
+        START("START"),
+        STOP("STOP"),
+        PROCESS("PROCESS HERO"),
+        SCREENSHOT_ONLY("SCREENSHOT");
+
+        companion object {
+            fun fromAction(str: String?): ServiceAction? {
+                return ServiceAction.values().find {
+                    it.action == str
+                }
+            }
+        }
     }
 
     @Inject lateinit var screenshotHelper: ScreenshotHelper
@@ -44,7 +53,6 @@ class LensEmblemService : Service() {
     private lateinit var serviceHandler: Handler
     private lateinit var serviceLooper: Looper
 
-    private var currentState = ServiceState.START
     private var running = false
     private var command: String? = null
     private var toast: Toast? = null
@@ -59,28 +67,39 @@ class LensEmblemService : Service() {
 
         serviceLooper = handlerThread.looper
         serviceHandler = object: Handler(serviceLooper) {
-            @Synchronized override fun handleMessage(msg: Message?) {
-                if (running) {
-                    return
+            @Synchronized
+            override fun handleMessage(msg: Message?) {
+                // do not process if:
+                // - processing
+                // - trying to start when already started
+                val requestedAction = ServiceAction.fromAction(command)
+                when {
+                    running -> {
+                        return
+                    }
                 }
 
+                // update flag to start processing
                 running = true
-                val state = ServiceState.values()[msg?.arg2 ?: 0]
-                when (state) {
-                    ServiceState.START -> {
+
+                // determine what to do
+                when (requestedAction) {
+                    LensEmblemService.ServiceAction.START -> {
                         setBoundingConfig()
                         makeToast(getString(R.string.service_started))
-                        currentState = ServiceState.READY
                     }
-                    ServiceState.READY -> {
-                        currentState = ServiceState.PROCESSING
-                        processAction()
+                    LensEmblemService.ServiceAction.STOP -> {
+                        stopSelf()
                     }
-                    else -> {
-                        makeToast(getString(R.string.service_processing))
+                    LensEmblemService.ServiceAction.PROCESS -> {
+                        takeScreenshotAndProcessHero()
+                    }
+                    LensEmblemService.ServiceAction.SCREENSHOT_ONLY -> {
+                        takeScreenshot()
                     }
                 }
 
+                // allow other messages to come through
                 running = false
             }
         }
@@ -91,18 +110,6 @@ class LensEmblemService : Service() {
     private fun setBoundingConfig() {
         val boundsToUse = BoundingConfig.CustomBoundingConfig(boundsRepo.getBounds().blockingGet())
         heroProcessor.setBounds(boundsToUse)
-    }
-
-    private fun processAction() {
-        when(command) {
-            ACTION_SCREENSHOT -> { takeScreenshot() }
-            ACTION_STOP -> { stopSelf() }
-            else -> {
-                takeScreenshotAndProcessHero()
-            }
-        }
-
-        currentState = ServiceState.READY
     }
 
     private fun takeScreenshot() {
@@ -191,11 +198,13 @@ class LensEmblemService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val msg = serviceHandler.obtainMessage()
         msg.arg1 = startId
-        msg.arg2 = currentState.ordinal
 
         command = intent?.action
 
-        serviceHandler.sendMessage(msg)
+        if (!running) {
+            serviceHandler.removeMessages(msg.what)
+            serviceHandler.sendMessage(msg)
+        }
 
         return START_STICKY
     }
@@ -210,16 +219,12 @@ class LensEmblemService : Service() {
     }
 
     companion object {
-        const val ACTION_STOP = "STOP"
-        const val ACTION_SCREENSHOT = "SCREENSHOT"
-        private const val ACTION_START = "START"
-
         private const val TIME_BEFORE_SCREENSHOT_MILLIS = 3500L
         private const val SERVICE_ID = 1000
 
         fun start(context: Context): Intent {
             return Intent(context, LensEmblemService::class.java).apply {
-                action = ACTION_START
+                action = ServiceAction.START.action
             }
         }
     }
