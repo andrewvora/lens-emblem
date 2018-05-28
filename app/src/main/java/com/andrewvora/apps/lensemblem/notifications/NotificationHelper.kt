@@ -23,27 +23,26 @@ constructor(private val app: Application) {
 
     private val notificationManager = app.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-    fun showNotification(title: String, msg: String) {
+    fun createProcessHeroNotification(vararg actions: NotificationAction): Notification {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createChannelIfNecessary()
         }
 
-        val notification = createNotification(title, msg)
-        notificationManager.notify(PRIMARY_NOTIFICATION, notification)
-    }
-
-    fun createNotification(title: String, msg: String, vararg action: NotificationAction): Notification {
-        val launchAppIntent = Intent(app, LensEmblemService::class.java)
+        val title = app.getString(R.string.service_notification_title)
+        val message = app.getString(R.string.service_notification_message)
+        val launchAppIntent = Intent(app, LensEmblemService::class.java).apply {
+            this.action = LensEmblemService.ServiceAction.PROCESS.action
+        }
         val pendingIntent = PendingIntent.getService(app, 0, launchAppIntent, 0)
         var builder = NotificationCompat.Builder(app, SERVICE_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(title)
-                .setContentText(msg)
+                .setContentText(message)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(false)
 
-        action.forEach {
+        actions.forEach {
             val actionStr = app.getString(it.stringResId)
             builder = builder.addAction(it.drawableResId, actionStr, it.getPendingIntent())
         }
@@ -52,7 +51,7 @@ constructor(private val app: Application) {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun createChannelIfNecessary() {
+    private fun createChannelIfNecessary() {
         val channelAlreadyCreated = notificationManager.getNotificationChannel(SERVICE_CHANNEL_ID) != null
 
         if (channelAlreadyCreated.not()) {
@@ -69,6 +68,5 @@ constructor(private val app: Application) {
 
     companion object {
         private const val SERVICE_CHANNEL_ID = "Lens Emblem Service"
-        private const val PRIMARY_NOTIFICATION = 100
     }
 }

@@ -185,14 +185,10 @@ class LensEmblemService : Service() {
     }
 
     private fun createNotification(): Notification {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            notificationHelper.createChannelIfNecessary()
-        }
-        return notificationHelper.createNotification(
-                getString(R.string.service_notification_title),
-                getString(R.string.service_notification_message),
+        return notificationHelper.createProcessHeroNotification(
                 NotificationAction.StopServiceAction(application),
-                NotificationAction.ScreenshotAction(application))
+                NotificationAction.ScreenshotAction(application)
+        )
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {

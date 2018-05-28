@@ -42,7 +42,7 @@ android {
 
 dependencies {
     def app_compat_version = "27.1.1"
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "com.android.support:appcompat-v7:$app_compat_version"
     implementation "com.android.support:support-v4:$app_compat_version"
     implementation "com.android.support:support-v13:$app_compat_version"
