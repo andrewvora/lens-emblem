@@ -20,7 +20,7 @@ import javax.inject.Singleton
  * @author Andrew Vorakrajangthiti
  */
 @Singleton
-class HeroesLocalDataSource
+open class HeroesLocalDataSource
 @Inject
 constructor(private val app: Application,
             private val database: LensEmblemDatabase,
@@ -33,6 +33,7 @@ constructor(private val app: Application,
 
     fun saveStatsToDatabase(hero: Hero, stats: List<Stats>) {
         // associate each stats object with the hero
+        // toList to dereference original list
         stats.toList().forEach { heroStats ->
             hero.id.let {
                 heroStats.heroId = it
@@ -62,9 +63,14 @@ constructor(private val app: Application,
             return Single.just(hero)
         }
 
-        val foundHero = getHeroFromDatabaseWithFirstLastStrategy(cleanedTitle, cleanedName)
-        if (foundHero != null) {
-            return Single.just(foundHero)
+        val heroFromFirstLastMatch = getHeroFromDatabaseWithFirstLastStrategy(cleanedTitle, cleanedName)
+        if (heroFromFirstLastMatch != null) {
+            return Single.just(heroFromFirstLastMatch)
+        }
+
+        val heroFromMiddleTokenMatch = getHeroFromDatabaseWithMiddleTokenStrategy(cleanedTitle, cleanedName)
+        if (heroFromMiddleTokenMatch != null) {
+            return Single.just(heroFromMiddleTokenMatch)
         }
 
         return Single.error(RuntimeException("Could not find $title - $name"))
@@ -84,6 +90,23 @@ constructor(private val app: Application,
                 .filter { it.isNotEmpty() }
                 .minBy { it.size }
                 ?.firstOrNull()
+                ?.apply {
+                    stats = database.statsDao().getStats(id)
+                }
+    }
+
+    fun getHeroFromDatabaseWithMiddleTokenStrategy(title: String, name: String): Hero? {
+        val nameTokens = name.split(Regex("\\s+"))
+        val titleTokens = title.split(Regex("\\s+"))
+
+        val middleTitleToken = titleTokens.getOrNull(titleTokens.size / 2)
+        val middleNameToken = nameTokens.getOrNull(nameTokens.size / 2)
+        return database.heroDao()
+                .getHeroes(
+                        "%${middleTitleToken ?: title}%",
+                        "%${middleNameToken ?: name}%"
+                )
+                .firstOrNull()
                 ?.apply {
                     stats = database.statsDao().getStats(id)
                 }

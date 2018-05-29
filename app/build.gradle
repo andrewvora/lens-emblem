@@ -88,8 +88,13 @@ dependencies {
     testImplementation "com.nhaarman:mockito-kotlin:1.5.0"
 
     // espresso tests
-    androidTestImplementation "com.android.support.test:runner:1.0.2"
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:3.0.2"
+    def android_testing_version = "1.0.2"
+    androidTestImplementation "com.android.support.test:runner:$android_testing_version"
+    androidTestImplementation "com.android.support.test:rules:$android_testing_version"
+
+    def espresso_version = "3.0.2"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$espresso_version"
+    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$espresso_version"
 }
 
 repositories {

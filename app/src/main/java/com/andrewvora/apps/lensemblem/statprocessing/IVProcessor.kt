@@ -55,16 +55,16 @@ class IVProcessor
         val mismatches = arrayOf(hpMatched, atkMatched, spdMatched, defMatched, resMatched)
                 .count { !it }
 
-        if (mismatches == 0 || mismatches == 2) {
+        return if (mismatches == 0 || mismatches == 2) {
             val ivs = calculateIVs(sourceStats, stats)
 
             val baneBoonMatch = ivs.first == ivs.second
             val doesNotViolateNoneConstraint = ivs.first != ivs.second &&
                     ivs.first != Stat.NONE &&
                     ivs.second != Stat.NONE
-            return baneBoonMatch || doesNotViolateNoneConstraint
+            baneBoonMatch || doesNotViolateNoneConstraint
         } else {
-            return false
+            false
         }
     }
 }
