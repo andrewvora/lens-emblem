@@ -9,10 +9,8 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.support.v7.widget.RecyclerView
+import android.view.*
 import android.widget.Toast
 import com.andrewvora.apps.lensemblem.R
 import com.andrewvora.apps.lensemblem.dagger.component
@@ -64,6 +62,17 @@ class HeroesListFragment : Fragment() {
             setDrawable(ContextCompat.getDrawable(activity!!, R.drawable.divider)!!)
         })
         hero_list_recycler_view.adapter = heroListAdapter
+        hero_list_recycler_view.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
+                when(newState) {
+                    RecyclerView.SCROLL_STATE_IDLE, RecyclerView.SCROLL_STATE_SETTLING -> filter_fab.show()
+                    else -> filter_fab.hide()
+                }
+            }
+        })
+        filter_fab.setOnClickListener {
+            HeroFiltersBottomSheet.getInstance().show(childFragmentManager, "filters-fragment")
+        }
     }
 
     private fun initObservers() {
@@ -76,9 +85,18 @@ class HeroesListFragment : Fragment() {
         })
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.menu_hero_list, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item?.itemId) {
             android.R.id.home -> activity?.onBackPressed()
+            R.id.menu_search -> {}
+            R.id.menu_acknowledgements -> {}
+            R.id.menu_reset_hero_data -> {}
+            R.id.menu_sync_data -> {}
         }
         return super.onOptionsItemSelected(item)
     }
