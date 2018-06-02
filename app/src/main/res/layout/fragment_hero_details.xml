@@ -32,9 +32,10 @@
 
                     <ImageView
                         android:id="@+id/hero_image_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="@dimen/hero_details_photo_size"
+                        android:layout_height="@dimen/hero_details_photo_size"
                         android:layout_marginTop="8dp"
+                        android:background="@drawable/shape_rounded_square_with_padding_light"
                         android:contentDescription="@string/content_description_hero_photo"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

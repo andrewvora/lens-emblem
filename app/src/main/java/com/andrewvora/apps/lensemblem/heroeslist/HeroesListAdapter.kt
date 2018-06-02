@@ -6,6 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.andrewvora.apps.lensemblem.R
 import com.andrewvora.apps.lensemblem.models.Hero
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.row_item_hero.view.*
 
 /**
@@ -37,6 +40,14 @@ class HeroesListAdapter(var heroes: List<Hero>, val listener: ActionListener) : 
         fun bind(hero: Hero) {
             view.hero_title.text = hero.title
             view.hero_name.text = hero.name
+
+            hero.imageUrl?.let {
+                val cornerRadius = view.context.resources.getDimensionPixelSize(R.dimen.hero_details_photo_rounded_corner_size)
+                Glide.with(view)
+                        .load(it)
+                        .apply(RequestOptions().transforms(RoundedCorners(cornerRadius)))
+                        .into(view.hero_image_view)
+            }
         }
     }
 

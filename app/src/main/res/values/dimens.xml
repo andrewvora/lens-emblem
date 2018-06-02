@@ -14,4 +14,8 @@
     <dimen name="medium_text_size">16sp</dimen>
     <dimen name="large_text_size">20sp</dimen>
     <dimen name="extra_large_text_size">24sp</dimen>
+
+    <dimen name="hero_list_photo_size">75dp</dimen>
+    <dimen name="hero_details_photo_size">100dp</dimen>
+    <dimen name="hero_details_photo_rounded_corner_size">4dp</dimen>
 </resources>
