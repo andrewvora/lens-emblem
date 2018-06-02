@@ -12,6 +12,7 @@ import kotlinx.android.parcel.Parcelize
 internal const val TABLE_HERO = "heroes"
 internal const val COLUMN_TITLE = "title"
 internal const val COLUMN_NAME = "name"
+internal const val COLUMN_IMAGE_URL = "imageUrl"
 
 /**
  * Created on 3/3/2018.
@@ -23,6 +24,10 @@ internal const val COLUMN_NAME = "name"
 data class Hero(
         @PrimaryKey(autoGenerate = true)
         var id: Int = 0,
+
+        @ColumnInfo(name = COLUMN_IMAGE_URL)
+        @SerializedName("imageUrl")
+        var imageUrl: String? = null,
 
         @ColumnInfo(name = COLUMN_TITLE)
         @SerializedName("title")

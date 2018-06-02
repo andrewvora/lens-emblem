@@ -25,7 +25,7 @@
 ## Kotlin Reflect
 -dontwarn kotlin.reflect.jvm.internal.**
 
-# Project
+## Project
 -dontwarn com.google.errorprone.annotations.**
 -dontnote org.apache.http.**
 -dontnote android.net.http.*
@@ -66,3 +66,14 @@
 -keepclassmembers class android.arch.** { *; }
 -keep class android.arch.** { *; }
 -dontwarn android.arch.**
+
+## Glide
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public class * extends com.bumptech.glide.module.AppGlideModule
+-keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}
+
+# for DexGuard only
+-keepresourcexmlelements manifest/application/meta-data@value=GlideModule

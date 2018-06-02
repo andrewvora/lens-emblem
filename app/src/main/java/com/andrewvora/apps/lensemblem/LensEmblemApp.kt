@@ -4,8 +4,6 @@ import android.app.Application
 import com.andrewvora.apps.lensemblem.dagger.AppComponent
 import com.andrewvora.apps.lensemblem.dagger.AppModule
 import com.andrewvora.apps.lensemblem.dagger.DaggerAppComponent
-import com.andrewvora.apps.lensemblem.ocr.OCRHelper
-import com.andrewvora.apps.lensemblem.imageprocessing.ScreenshotHelper
 
 /**
  * Created on 2/27/2018.

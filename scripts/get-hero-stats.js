@@ -270,6 +270,9 @@ async function getHeroInfo(html) {
         const title = item.find('td:nth-child(3)').text()
 
         const stats = await getHeroStats(heroUrl, name, title)
+        const heroImgUrl = item.find('td:nth-child(1) img').attr('src')
+        stats['imageUrl'] = heroImgUrl
+
         heroes = heroes.concat(stats)
     }
 

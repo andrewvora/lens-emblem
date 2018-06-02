@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.andrewvora.apps.lensemblem.database.DB_NAME
 import com.andrewvora.apps.lensemblem.database.LensEmblemDatabase
+import com.andrewvora.apps.lensemblem.database.migrations.MigrationV1ToV2
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -23,6 +24,7 @@ class AppModule(private val app: Application) {
 
     private val database = Room
             .databaseBuilder(app, LensEmblemDatabase::class.java, DB_NAME)
+            .addMigrations(MigrationV1ToV2())
             .build()
 
     @Provides @Singleton

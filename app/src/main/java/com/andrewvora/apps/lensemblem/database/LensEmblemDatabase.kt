@@ -14,7 +14,7 @@ internal const val DB_NAME = "lens_emblem"
  * Created on 3/3/2018.
  * @author Andrew Vorakrajangthiti
  */
-@Database(version = 1, entities = [
+@Database(version = 2, entities = [
     Hero::class,
     NameAlias::class,
     TitleAlias::class,

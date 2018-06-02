@@ -63,6 +63,7 @@ class HeroesListFragment : Fragment(), HeroesListAdapter.ActionListener {
             setDrawable(ContextCompat.getDrawable(activity!!, R.drawable.divider)!!)
         })
         hero_list_recycler_view.adapter = heroListAdapter
+        /* // hide for now until the feature is more fleshed out
         hero_list_recycler_view.addOnScrollListener(object: RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
                 when(newState) {
@@ -71,6 +72,7 @@ class HeroesListFragment : Fragment(), HeroesListAdapter.ActionListener {
                 }
             }
         })
+        */
         filter_fab.setOnClickListener {
             HeroFiltersBottomSheet.getInstance().show(childFragmentManager, "filters-fragment")
         }
