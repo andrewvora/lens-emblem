@@ -46,6 +46,10 @@
 
     <string name="heroes">Heroes</string>
     <string name="view_heroes">View Heroes</string>
+    <string name="reset_heroes">Reset to Default</string>
+
+    <string name="filter_sort_by">Sort By</string>
+    <string name="filter_rarity">Rarity</string>
 
     <string name="could_not_parse">Whoops! Something went wrong. Try checking your bounds.</string>
 
