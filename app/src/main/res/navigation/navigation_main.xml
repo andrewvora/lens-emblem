@@ -1,25 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     app:startDestination="@id/main_fragment">
 
     <activity
         android:id="@+id/bounds_picker"
         android:name="com.andrewvora.apps.lensemblem.boundspicker.BoundsPickerActivity"
-        android:label="BoundsPickerActivity"/>
+        android:label="BoundsPickerActivity"
+        tools:layout="@layout/activity_bounds_picker"/>
     <fragment
         android:id="@+id/notifications_fragment"
         android:name="com.andrewvora.apps.lensemblem.notifications.NotificationFragment"
-        android:label="NotificationFragment"/>
+        android:label="NotificationFragment"
+        tools:layout="@layout/fragment_notifications"/>
     <fragment
         android:id="@+id/heroes_list_fragment"
         android:name="com.andrewvora.apps.lensemblem.heroeslist.HeroesListFragment"
-        android:label="HeroesListFragment"/>
+        android:label="HeroesListFragment"
+        tools:layout="@layout/fragment_hero_list">
+        <action
+            android:id="@+id/actionToHeroDetails"
+            app:destination="@id/hero_details_fragment"/>
+    </fragment>
     <fragment
         android:id="@+id/main_fragment"
         android:name="com.andrewvora.apps.lensemblem.main.MainFragment"
-        android:label="MainFragment">
+        android:label="MainFragment"
+        tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/open_bounds_picker"
             app:destination="@+id/bounds_picker"/>
@@ -29,5 +38,15 @@
         <action
             android:id="@+id/open_heroes_list"
             app:destination="@id/heroes_list_fragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/hero_details_fragment"
+        android:name="com.andrewvora.apps.lensemblem.herodetails.HeroDetailsFragment"
+        android:label="HeroDetailsFragment"
+        tools:layout="@layout/fragment_hero_details">
+        <argument
+            android:name="heroId"
+            android:defaultValue="0"
+            app:type="integer"/>
     </fragment>
 </navigation>

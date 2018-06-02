@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?actionBarSize"
+        android:scrollbars="none">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.CardView
+                style="@style/CardViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/horizontal_margin"
+                android:layout_marginBottom="@dimen/vertical_margin"
+                app:cardCornerRadius="4dp"
+                app:cardBackgroundColor="@color/colorPrimaryDark">
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/vertical_margin">
+
+                    <ImageView
+                        android:id="@+id/hero_image_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:contentDescription="@string/content_description_hero_photo"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:srcCompat="@tools:sample/avatars"/>
+
+                    <TextView
+                        android:id="@+id/hero_title_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:textSize="@dimen/large_text_size"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/hero_image_view"
+                        tools:text="Obsessive Bride"/>
+
+                    <TextView
+                        android:id="@+id/hero_name_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:textSize="@dimen/extra_large_text_size"
+                        android:textColor="@color/white"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/hero_title_text_view"
+                        tools:text="Tharja"/>
+
+                    <Switch
+                        android:id="@+id/hero_equipped_switch"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="22dp"
+                        android:text="@string/equipped"
+                        android:textSize="@dimen/large_text_size"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/hero_rarity"/>
+
+                    <TextView
+                        android:id="@+id/hero_atk_lvl1_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/stat_placeholder"
+                        android:textSize="@dimen/medium_text_size"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline"
+                        app:layout_constraintStart_toEndOf="@+id/hero_atk_label"
+                        app:layout_constraintTop_toBottomOf="@+id/hero_hp_lvl1_text_view"
+                        tools:text="45"/>
+
+                    <TextView
+                        android:id="@+id/hero_spd_lvl1_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/stat_placeholder"
+                        android:textSize="@dimen/medium_text_size"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline"
+                        app:layout_constraintStart_toEndOf="@+id/hero_spd_label"
+                        app:layout_constraintTop_toBottomOf="@+id/hero_atk_lvl1_text_view"
+                        tools:text="32"/>
+
+                    <TextView
+                        android:id="@+id/hero_def_lvl1_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/stat_placeholder"
+                        android:textSize="@dimen/medium_text_size"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline"
+                        app:layout_constraintStart_toEndOf="@+id/hero_def_label"
+                        app:layout_constraintTop_toBottomOf="@+id/hero_spd_lvl1_text_view"
+                        tools:text="23"/>
+
+                    <TextView
+                        android:id="@+id/hero_res_lvl1_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/stat_placeholder"
+                        android:textSize="@dimen/medium_text_size"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline"
+                        app:layout_constraintStart_toEndOf="@+id/hero_res_label"
+                        app:layout_constraintTop_toBottomOf="@+id/hero_def_lvl1_text_view"
+                        tools:text="22"/>
+
+                    <TextView
+                        android:id="@+id/hero_hp_lvl1_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/stat_placeholder"
+                        android:textSize="@dimen/medium_text_size"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline"
+                        app:layout_constraintStart_toEndOf="@+id/hero_hp_label"
+                        app:layout_constraintTop_toBottomOf="@+id/hero_stats_lvl1_label"
+                        tools:text="50"/>
+
+                    <TextView
+                        android:id="@+id/hero_hp_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/hp"
+                        android:textSize="@dimen/medium_text_size"
+                        app:layout_constraintEnd_toStartOf="@+id/hero_hp_lvl1_text_view"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintHorizontal_chainStyle="spread_inside"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/hero_stats_label"/>
+
+                    <TextView
+                        android:id="@+id/hero_atk_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/atk"
+                        android:textSize="@dimen/medium_text_size"
+                        app:layout_constraintEnd_toStartOf="@+id/hero_atk_lvl1_text_view"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/hero_hp_label"/>
+
+                    <TextView
+                        android:id="@+id/hero_spd_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/spd"
+                        android:textSize="@dimen/medium_text_size"
+                        app:layout_constraintEnd_toStartOf="@+id/hero_spd_lvl1_text_view"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/hero_atk_label"/>
+
+                    <TextView
+                        android:id="@+id/hero_def_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/def"
+                        android:textSize="@dimen/medium_text_size"
+                        app:layout_constraintEnd_toStartOf="@+id/hero_def_lvl1_text_view"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/hero_spd_label"/>
+
+                    <TextView
+                        android:id="@+id/hero_res_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/res"
+                        android:textSize="@dimen/medium_text_size"
+                        app:layout_constraintEnd_toStartOf="@+id/hero_res_lvl1_text_view"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/hero_def_label"/>
+
+                    <RatingBar
+                        android:id="@+id/hero_rarity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:numStars="5"
+                        android:stepSize="1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/hero_name_text_view"/>
+
+                    <TextView
+                        android:id="@+id/hero_hp_lvl40_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/stat_placeholder"
+                        android:textSize="@dimen/medium_text_size"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="@+id/guideline"
+                        app:layout_constraintTop_toBottomOf="@+id/hero_stats_lvl40_label"
+                        tools:text="100"/>
+
+                    <TextView
+                        android:id="@+id/hero_stats_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/stats"
+                        android:textSize="@dimen/large_text_size"
+                        android:textColor="@color/white"
+                        app:layout_constraintEnd_toStartOf="@+id/hero_stats_lvl1_label"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintHorizontal_chainStyle="spread_inside"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/hero_equipped_switch"/>
+
+                    <TextView
+                        android:id="@+id/hero_stats_lvl1_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/stats_lvl1_label"
+                        android:textSize="@dimen/large_text_size"
+                        android:textColor="@color/white"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline"
+                        app:layout_constraintStart_toEndOf="@+id/hero_stats_label"
+                        app:layout_constraintTop_toBottomOf="@+id/hero_equipped_switch"/>
+
+                    <TextView
+                        android:id="@+id/hero_stats_lvl40_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/stats_lvl40_label"
+                        android:textSize="@dimen/large_text_size"
+                        android:textColor="@color/white"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="@+id/guideline"
+                        app:layout_constraintTop_toBottomOf="@+id/hero_equipped_switch"/>
+
+                    <TextView
+                        android:id="@+id/hero_atk_lvl40_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/stat_placeholder"
+                        android:textSize="@dimen/medium_text_size"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="@+id/guideline"
+                        app:layout_constraintTop_toBottomOf="@+id/hero_hp_lvl40_text_view"
+                        tools:text="100"/>
+
+                    <TextView
+                        android:id="@+id/hero_spd_lvl40_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/stat_placeholder"
+                        android:textSize="@dimen/medium_text_size"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="@+id/guideline"
+                        app:layout_constraintTop_toBottomOf="@+id/hero_atk_lvl40_text_view"
+                        tools:text="100"/>
+
+                    <TextView
+                        android:id="@+id/hero_def_lvl40_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/stat_placeholder"
+                        android:textSize="@dimen/medium_text_size"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="@+id/guideline"
+                        app:layout_constraintTop_toBottomOf="@+id/hero_spd_lvl40_text_view"
+                        tools:text="100"/>
+
+                    <TextView
+                        android:id="@+id/hero_res_lvl40_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/stat_placeholder"
+                        android:textSize="@dimen/medium_text_size"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="@+id/guideline"
+                        app:layout_constraintTop_toBottomOf="@+id/hero_def_lvl40_text_view"
+                        tools:text="100"/>
+
+                    <android.support.constraint.Guideline
+                        android:id="@+id/guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.72"/>
+
+                </android.support.constraint.ConstraintLayout>
+
+            </android.support.v7.widget.CardView>
+        </FrameLayout>
+    </ScrollView>
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="4dp">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:background="@color/colorPrimaryDark"
+            android:elevation="4dp"/>
+
+    </android.support.design.widget.AppBarLayout>
+
+</android.support.design.widget.CoordinatorLayout>

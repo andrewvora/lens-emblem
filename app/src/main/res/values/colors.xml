@@ -11,4 +11,10 @@
     <color name="light_gray">#EEEEEE</color>
     <color name="translucent_black">#B0000000</color>
     <color name="green">#00C853</color>
+
+    <color name="rarity_1">#009688</color>
+    <color name="rarity_2">#607D8B</color>
+    <color name="rarity_3">#795548</color>
+    <color name="rarity_4">#9E9E9E</color>
+    <color name="rarity_5">#FDD835</color>
 </resources>

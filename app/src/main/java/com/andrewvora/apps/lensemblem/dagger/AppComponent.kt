@@ -6,6 +6,7 @@ import com.andrewvora.apps.lensemblem.LensEmblemService
 import com.andrewvora.apps.lensemblem.main.MainActivity
 import com.andrewvora.apps.lensemblem.boundspicker.BoundsPickerActivity
 import com.andrewvora.apps.lensemblem.dagger.viewmodel.ViewModelModule
+import com.andrewvora.apps.lensemblem.herodetails.HeroDetailsFragment
 import com.andrewvora.apps.lensemblem.heroeslist.HeroesListFragment
 import com.andrewvora.apps.lensemblem.main.MainFragment
 import com.andrewvora.apps.lensemblem.notifications.NotificationFragment
@@ -27,6 +28,7 @@ interface AppComponent {
     fun inject(fragment: HeroesListFragment)
     fun inject(activity: MainActivity)
     fun inject(fragment: MainFragment)
+    fun inject(fragment: HeroDetailsFragment)
 }
 
 fun Application.component(): AppComponent {

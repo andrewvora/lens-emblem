@@ -108,6 +108,12 @@ class HeroesRepo
         }
     }
 
+    fun getHero(id: Long): Single<Hero> {
+        return Single.defer {
+            localSource.getHeroDataFromDatabase(id)
+        }
+    }
+
     /**
      * Gets the most readily available hero name alias data
      * Normally, the cache or database

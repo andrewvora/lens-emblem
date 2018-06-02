@@ -50,8 +50,22 @@
 
     <string name="filter_sort_by">Sort By</string>
     <string name="filter_rarity">Rarity</string>
+    <string name="hero_stats">Hero Stats</string>
 
     <string name="could_not_parse">Whoops! Something went wrong. Try checking your bounds.</string>
 
     <string name="heroes_last_updated">Heroes last synced on %1$s</string>
+
+    <string name="content_description_hero_photo">Hero profile photo</string>
+    <string name="stats">Stats</string>
+    <string name="stats_lvl1_label">Lvl. 1</string>
+    <string name="stats_lvl40_label">Lvl. 40</string>
+    <string name="equipped">Equipped?</string>
+    <string name="rarity">Rarity</string>
+    <string name="atk">ATK</string>
+    <string name="spd">SPD</string>
+    <string name="hp">HP</string>
+    <string name="def">DEF</string>
+    <string name="res">RES</string>
+    <string name="stat_placeholder">-</string>
 </resources>

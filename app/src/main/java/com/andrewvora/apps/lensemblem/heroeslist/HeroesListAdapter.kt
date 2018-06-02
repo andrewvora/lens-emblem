@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.row_item_hero.view.*
  * Created on 4/24/2018.
  * @author Andrew Vorakrajangthiti
  */
-class HeroesListAdapter(var heroes: List<Hero>) : RecyclerView.Adapter<HeroesListAdapter.HeroViewHolder>() {
+class HeroesListAdapter(var heroes: List<Hero>, val listener: ActionListener) : RecyclerView.Adapter<HeroesListAdapter.HeroViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HeroViewHolder {
         return HeroViewHolder(LayoutInflater.from(parent.context)
@@ -25,6 +25,7 @@ class HeroesListAdapter(var heroes: List<Hero>) : RecyclerView.Adapter<HeroesLis
 
     override fun onBindViewHolder(holder: HeroViewHolder, position: Int) {
         holder.bind(heroes[position])
+        holder.itemView.setOnClickListener { listener.onClicked(holder.adapterPosition) }
     }
 
     fun updateHeroes(heroes: List<Hero>) {
@@ -37,5 +38,9 @@ class HeroesListAdapter(var heroes: List<Hero>) : RecyclerView.Adapter<HeroesLis
             view.hero_title.text = hero.title
             view.hero_name.text = hero.name
         }
+    }
+
+    interface ActionListener {
+        fun onClicked(position: Int)
     }
 }

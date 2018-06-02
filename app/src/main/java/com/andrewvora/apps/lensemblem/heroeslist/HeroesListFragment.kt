@@ -12,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.*
 import android.widget.Toast
+import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.andrewvora.apps.lensemblem.R
 import com.andrewvora.apps.lensemblem.dagger.component
 import kotlinx.android.synthetic.main.fragment_hero_list.*
@@ -21,7 +22,7 @@ import javax.inject.Inject
  * Created on 4/22/2018.
  * @author Andrew Vorakrajangthiti
  */
-class HeroesListFragment : Fragment() {
+class HeroesListFragment : Fragment(), HeroesListAdapter.ActionListener {
 
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var heroListViewModel: HeroesListViewModel
@@ -31,7 +32,7 @@ class HeroesListFragment : Fragment() {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
-        heroListAdapter = HeroesListAdapter(emptyList())
+        heroListAdapter = HeroesListAdapter(emptyList(), this)
 
         activity?.application?.component()?.inject(this)
         heroListViewModel = ViewModelProviders.of(this,
@@ -92,12 +93,22 @@ class HeroesListFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item?.itemId) {
-            android.R.id.home -> activity?.onBackPressed()
+            android.R.id.home -> {
+                activity?.onBackPressed()
+                return true
+            }
             R.id.menu_search -> {}
             R.id.menu_acknowledgements -> {}
             R.id.menu_reset_hero_data -> {}
             R.id.menu_sync_data -> {}
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onClicked(position: Int) {
+        val toHeroDetailsDirection = HeroesListFragmentDirections.actionToHeroDetails()
+        toHeroDetailsDirection.setHeroId(heroListAdapter.heroes[position].id)
+
+        findNavController(this).navigate(toHeroDetailsDirection)
     }
 }
