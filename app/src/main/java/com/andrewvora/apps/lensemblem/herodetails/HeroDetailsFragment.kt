@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.andrewvora.apps.lensemblem.R
 import com.andrewvora.apps.lensemblem.dagger.component
 import com.bumptech.glide.Glide
@@ -110,6 +111,9 @@ class HeroDetailsFragment : Fragment() {
                 hero_def_lvl40_text_view.text = it.def.toString()
                 hero_res_lvl40_text_view.text = it.res.toString()
             }
+        })
+        heroDetailsViewModel.getErrorMessageLiveData().observe(this, Observer {
+            Toast.makeText(activity!!, it, Toast.LENGTH_SHORT).show()
         })
     }
 

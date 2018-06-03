@@ -1,12 +1,11 @@
 package com.andrewvora.apps.lensemblem.main
 
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.andrewvora.apps.lensemblem.LensEmblemService
 import com.andrewvora.apps.lensemblem.R
 import com.andrewvora.apps.lensemblem.dagger.component
-import com.andrewvora.apps.lensemblem.settings.LensEmblemSettings
+import com.andrewvora.apps.lensemblem.preferences.LensEmblemPreferences
 import javax.inject.Inject
 
 /**
@@ -15,11 +14,11 @@ import javax.inject.Inject
  */
 class MainActivity : AppCompatActivity() {
 
-    @Inject lateinit var lensEmblemSettings: LensEmblemSettings
+    @Inject lateinit var lensEmblemPreferences: LensEmblemPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         application.component().inject(this)
-        setTheme(if (lensEmblemSettings.useDarkTheme()) {
+        setTheme(if (lensEmblemPreferences.useDarkTheme()) {
             R.style.AppTheme_Embla
         } else {
             R.style.AppTheme_Askr

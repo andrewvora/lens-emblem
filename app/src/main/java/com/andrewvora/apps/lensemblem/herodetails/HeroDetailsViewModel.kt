@@ -1,8 +1,10 @@
 package com.andrewvora.apps.lensemblem.herodetails
 
+import android.app.Application
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import com.andrewvora.apps.lensemblem.R
 import com.andrewvora.apps.lensemblem.models.Hero
 import com.andrewvora.apps.lensemblem.models.Stats
 import com.andrewvora.apps.lensemblem.repos.HeroesRepo
@@ -16,10 +18,12 @@ import javax.inject.Inject
  */
 class HeroDetailsViewModel
 @Inject
-constructor(private val heroesRepo: HeroesRepo): ViewModel() {
+constructor(private val app: Application,
+            private val heroesRepo: HeroesRepo): ViewModel() {
 
     private val hero = MutableLiveData<Hero>()
     private val statsToDisplay = MutableLiveData<Pair<Stats?, Stats?>>()
+    private val errorMessage = MutableLiveData<String>()
     private val disposables = CompositeDisposable()
 
     fun getHeroLiveData(): LiveData<Hero> {
@@ -28,6 +32,10 @@ constructor(private val heroesRepo: HeroesRepo): ViewModel() {
 
     fun getStatsToDisplayLiveData(): LiveData<Pair<Stats?, Stats?>> {
         return statsToDisplay
+    }
+
+    fun getErrorMessageLiveData(): LiveData<String> {
+        return errorMessage
     }
 
     fun loadStats(rarity: Int, equipped: Boolean) {
@@ -44,11 +52,11 @@ constructor(private val heroesRepo: HeroesRepo): ViewModel() {
     fun loadHero(id: Long) {
         disposables.add(heroesRepo.getHero(id)
                 .useStandardObserveSubscribe()
-                .doOnError {  }
-                .doOnSuccess {
+                .subscribe({
                     hero.value = it
-                }
-                .subscribe())
+                }, {
+                    errorMessage.value = app.getString(R.string.network_error)
+                }))
     }
 
     fun getHeroMinRarity(): Int {

@@ -37,9 +37,20 @@ constructor(private val sharedPreferences: SharedPreferences) {
         sharedPreferences.edit().putLong(LAST_HERO_SYNC, time).apply()
     }
 
+    fun useDarkTheme(): Boolean {
+        return sharedPreferences.getBoolean(PREF_USE_DARK_THEME, false)
+    }
+
+    fun setDarkThemePreference(use: Boolean) {
+        sharedPreferences.edit()
+                .putBoolean(PREF_USE_DARK_THEME, use)
+                .apply()
+    }
+
     companion object {
         const val HAS_LOADED_DEFAULT_DATA = "loadedDefaultData"
         const val LAST_CHECKED_NOTIFICATION_TIME = "lastCheckedNotificationTime"
         const val LAST_HERO_SYNC = "lastTimeHeroesWereSynced"
+        private const val PREF_USE_DARK_THEME = "useDarkTheme"
     }
 }

@@ -62,17 +62,15 @@ class BoundsPickerViewModel
         disposables.add(boundsRepo
                 .getBounds()
                 .useStandardObserveSubscribe()
-                .doOnSuccess { map ->
+                .subscribe({ map ->
                     boundsMap.value = if (map.isEmpty()) {
                         getDefaultBounds()
                     } else {
                         map.toMutableMap()
                     }
-                }
-                .doOnError {
+                }, {
                     error.value = it
-                }
-                .subscribe())
+                }))
     }
 
     private fun getDefaultBounds(): MutableMap<BoundsType, Bounds> {

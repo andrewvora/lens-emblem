@@ -3,6 +3,7 @@ package com.andrewvora.apps.lensemblem.main
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
@@ -14,13 +15,10 @@ import com.andrewvora.apps.lensemblem.LensEmblemService
 import com.andrewvora.apps.lensemblem.R
 import com.andrewvora.apps.lensemblem.dagger.component
 import com.andrewvora.apps.lensemblem.permissions.PermissionListener
-import com.andrewvora.apps.lensemblem.settings.LensEmblemSettings
+import com.andrewvora.apps.lensemblem.preferences.LensEmblemPreferences
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.fragment_main.view.*
 import javax.inject.Inject
-import android.content.Intent
-import android.content.Intent.getIntent
-
 
 
 /**
@@ -29,7 +27,7 @@ import android.content.Intent.getIntent
  */
 class MainFragment : Fragment(), PermissionListener {
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-    @Inject lateinit var lensEmblemSettings: LensEmblemSettings
+    @Inject lateinit var lensEmblemPreferences: LensEmblemPreferences
 
     private lateinit var mainViewModel: MainViewModel
     private var notificationMenuItem: MenuItem? = null
@@ -143,7 +141,7 @@ class MainFragment : Fragment(), PermissionListener {
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater?.inflate(R.menu.menu_main, menu)
         notificationMenuItem = menu?.findItem(R.id.menu_notifications)
-        menu?.findItem(R.id.menu_use_light_theme)?.isChecked = lensEmblemSettings.useDarkTheme()
+        menu?.findItem(R.id.menu_use_light_theme)?.isChecked = lensEmblemPreferences.useDarkTheme()
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -170,10 +168,9 @@ class MainFragment : Fragment(), PermissionListener {
             }
             R.id.menu_use_light_theme -> {
                 item.isChecked = item.isChecked.not()
-                lensEmblemSettings.setDarkThemePreference(item.isChecked)
+                lensEmblemPreferences.setDarkThemePreference(item.isChecked)
 
-                val intent = Intent(activity, MainActivity::class.java)
-                startActivity(intent)
+                activity?.recreate()
             }
         }
 

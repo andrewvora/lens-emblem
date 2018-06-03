@@ -79,7 +79,7 @@ dependencies {
 
     def glide_version = "4.7.1"
     implementation "com.github.bumptech.glide:glide:$glide_version"
-    annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
+    kapt "com.github.bumptech.glide:compiler:$glide_version"
 
     implementation "com.rmtheis:tess-two:8.0.0"
 

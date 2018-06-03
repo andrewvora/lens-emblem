@@ -140,9 +140,15 @@ constructor(private val app: Application,
     }
 
     fun getHeroDataFromDatabase(id: Long): Single<Hero?> {
-        return Single.just(database.heroDao().getHero(id)?.apply {
+        val hero = database.heroDao().getHero(id)?.apply {
             stats = database.statsDao().getStats(this.id)
-        })
+        }
+
+        return if (hero == null) {
+            Single.error(Exception("No hero found for id=$id"))
+        } else {
+            Single.just(hero)
+        }
     }
 
     fun getHeroTitleAliasesFromDatabase(): Single<List<TitleAlias>> {

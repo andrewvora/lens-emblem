@@ -27,25 +27,21 @@ constructor(private val notificationsRepo: NotificationsRepo) : ViewModel() {
     fun refreshNotifications() {
         disposables.add(notificationsRepo.fetchNotifications()
                 .useStandardObserveSubscribe()
-                .doOnError {
-                    TODO("Implement error handling")
-                }
-                .doOnSuccess {
+                .subscribe({
                     notifications.value = it
-                }
-                .subscribe())
+                }, {
+                    TODO("Implement error handling")
+                }))
     }
 
     fun loadNotifications() {
         disposables.add(notificationsRepo.getNotifications()
                 .useStandardObserveSubscribe()
-                .doOnError {
-                    TODO("Implement error handling")
-                }
-                .doOnSuccess {
+                .subscribe({
                     notifications.value = it
-                }
-                .subscribe())
+                }, {
+                    TODO("Implement error handling")
+                }))
     }
 
     override fun onCleared() {

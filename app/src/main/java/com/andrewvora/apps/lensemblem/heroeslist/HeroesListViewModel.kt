@@ -32,25 +32,21 @@ constructor(private val heroesRepo: HeroesRepo): ViewModel() {
     fun loadHeroes() {
         disposables.add(heroesRepo.getHeroes()
                 .useStandardObserveSubscribe()
-                .doOnError {
-                    error.value = it
-                }
-                .doOnSuccess {
+                .subscribe({
                     heroes.value = it
-                }
-                .subscribe())
+                }, {
+                    error.value = it
+                }))
     }
 
     fun refreshHeroes() {
         disposables.add(heroesRepo.fetchHeroes()
                 .useStandardObserveSubscribe()
-                .doOnError {
-                    error.value = it
-                }
-                .doOnComplete {
+                .subscribe({
                     loadHeroes()
-                }
-                .subscribe())
+                }, {
+                    error.value = it
+                }))
     }
 
     override fun onCleared() {
