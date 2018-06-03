@@ -16,7 +16,6 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import java.io.ByteArrayInputStream
-import kotlin.math.exp
 
 /**
  * [HeroesLocalDataSource]
@@ -108,13 +107,17 @@ class HeroesLocalDataSourceTest {
         val name = "Tharja"
         whenever(stringCleaner.clean(title)).thenReturn(title)
         whenever(stringCleaner.clean(name)).thenReturn(name)
-        whenever(heroDao.getHeroes("%$title%", "%$name%")).thenReturn(emptyList())
-        whenever(heroDao.getHeroes("%T%c%", name)).thenReturn(emptyList())
+        whenever(heroDao.getHeroes(any(), any())).thenReturn(emptyList())
 
         // when
         val result = localDataSource.getHeroFromDatabase(title, name)
 
         // then
+        verify(heroDao, times(2)).getHeroes("%$title%", "%$name%")
+        verify(heroDao).getHeroes("%T%c%", "%T%a%")
+        verify(heroDao).getHeroes("%Th%", "%Tha%")
+        verify(heroDao).getHeroes("%icc%", "%rja%")
+
         try {
             result.blockingGet()
             assertTrue("An exception should have been thrown", false)
@@ -195,6 +198,32 @@ class HeroesLocalDataSourceTest {
         localDataSource.getHeroFromDatabaseWithMiddleTokenStrategy(title, name)
 
         verify(statsDao, times(3)).getStats(any())
+    }
+
+    @Test
+    fun `getting a hero from the database using the halves strategy`() {
+        // given
+        val title = "Chad"
+        val name = "Xander"
+        val expectedFirstHalfTitle = "%Ch%"
+        val expectedFirstHalfName = "%Xan%"
+        val expectedLastHalfTitle = "%ad%"
+        val expectedLastHalfName = "%der%"
+        val hero = Hero(id = 1)
+        val hero2 = Hero(id = 2)
+        val stats = Stats(hp = 0, atk= 0, def = 0, spd = 0, res = 0, heroId = hero.id)
+        whenever(statsDao.getStats(any())).thenReturn(listOf(stats))
+        whenever(heroDao.getHeroes(expectedFirstHalfTitle, expectedFirstHalfName)).thenReturn(listOf(hero, hero))
+        whenever(heroDao.getHeroes(expectedLastHalfTitle, expectedLastHalfName)).thenReturn(listOf(hero2))
+
+        // when
+        localDataSource.getHeroFromDatabaseWithHalvesStrategy(title, name)
+
+        // then
+        verify(heroDao).getHeroes(expectedFirstHalfTitle, expectedFirstHalfName)
+        verify(heroDao).getHeroes(expectedLastHalfTitle, expectedLastHalfName)
+
+        verify(statsDao).getStats(hero2.id)
     }
 
     @Test

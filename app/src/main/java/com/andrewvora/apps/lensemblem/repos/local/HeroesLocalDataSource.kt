@@ -73,6 +73,11 @@ constructor(private val app: Application,
             return Single.just(heroFromMiddleTokenMatch)
         }
 
+        val heroFromHalfMatch = getHeroFromDatabaseWithHalvesStrategy(cleanedTitle, cleanedName)
+        if (heroFromHalfMatch != null) {
+            return Single.just(heroFromHalfMatch)
+        }
+
         return Single.error(RuntimeException("Could not find $title - $name"))
     }
 
@@ -109,6 +114,24 @@ constructor(private val app: Application,
                 .firstOrNull()
                 ?.apply {
                     stats = database.statsDao().getStats(id)
+                }
+    }
+
+    fun getHeroFromDatabaseWithHalvesStrategy(title: String, name: String): Hero? {
+        val firstHalfTitle = "%${title.substring(0, title.length / 2)}%"
+        val lastHalfTitle = "%${title.substring(title.length / 2)}%"
+        val firstHalfName = "%${name.substring(0, name.length / 2)}%"
+        val lastHalfName = "%${name.substring(name.length / 2)}%"
+
+        val firstResult = database.heroDao().getHeroes(firstHalfTitle, firstHalfName)
+        val secondResult = database.heroDao().getHeroes(lastHalfTitle, lastHalfName)
+
+        return listOf(firstResult, secondResult)
+                .filter { it.isNotEmpty() }
+                .minBy { it.size }
+                ?.firstOrNull()
+                ?.apply {
+                    stats = database.statsDao().getStats(this.id)
                 }
     }
 

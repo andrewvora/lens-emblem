@@ -14,6 +14,7 @@ import com.andrewvora.apps.lensemblem.R
 import com.andrewvora.apps.lensemblem.dagger.component
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.fragment_hero_details.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -87,6 +88,7 @@ class HeroDetailsFragment : Fragment() {
                     val roundedCornerSize = resources.getDimensionPixelSize(R.dimen.hero_details_photo_rounded_corner_size)
                     Glide.with(this@HeroDetailsFragment)
                             .load(it)
+                            .transition(DrawableTransitionOptions.withCrossFade(100))
                             .apply(RequestOptions().transforms(RoundedCorners(roundedCornerSize)))
                             .into(hero_image_view)
                 }

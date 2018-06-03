@@ -96,6 +96,16 @@ class StringCleanerTest {
 
         val case5 = "An Unusual Title"
         assertEquals(case5, stringCleaner.clean(case5))
+    }
 
+    @Test
+    fun `repeat hyphens are replaced with single hyphens`() {
+        val case1 = "Masked--Maniac"
+        var result = stringCleaner.clean(case1)
+        assertEquals("Masked-Maniac", result)
+
+        val case2 = "-- Hard---boiled ----"
+        result = stringCleaner.clean(case2)
+        assertEquals("-Hard-boiled-", result)
     }
 }

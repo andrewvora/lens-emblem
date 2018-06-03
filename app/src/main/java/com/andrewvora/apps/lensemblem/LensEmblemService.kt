@@ -152,7 +152,7 @@ class LensEmblemService : Service() {
         val capturedStats = hero.stats?.first()
         val level = capturedStats?.level
         val sourceStats = heroFromDb?.stats?.find {
-            it.equipped && it.level == level && ivProcessor.statsAdequatelyMatch(it, capturedStats)
+            it.level == level && ivProcessor.statsAdequatelyMatch(it, capturedStats)
         }
 
         if (capturedStats != null && sourceStats != null) {

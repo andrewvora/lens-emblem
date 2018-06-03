@@ -18,6 +18,8 @@ constructor() {
                 .replace(Regex("\u2018"), "'")
                 // replace right single quote
                 .replace(Regex("\u2019"), "'")
+                // replace multiple hyphens
+                .replace(Regex("\\s*-{2,}\\s*"), "-")
                 // replace periods
                 .replace(Regex("\\."), "")
                 // replace single-letter words
