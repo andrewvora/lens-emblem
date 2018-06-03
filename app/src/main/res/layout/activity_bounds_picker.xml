@@ -49,7 +49,7 @@
         android:padding="12dp"
         android:elevation="8dp"
         android:src="@drawable/ic_check_24dp"
-        android:backgroundTint="@color/green"
+        android:backgroundTint="@color/md_green_400"
         android:contentDescription="@string/content_description_save"/>
 
 </FrameLayout>

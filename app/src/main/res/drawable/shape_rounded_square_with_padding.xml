@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="@color/colorPrimaryDark" />
-    <stroke android:width="2dp" android:color="@color/colorPrimary" />
+    <solid android:color="?android:textColorPrimary" />
+    <stroke android:width="2dp" android:color="?android:textColorPrimary" />
     <corners android:radius="@dimen/hero_details_photo_rounded_corner_size"/>
     <padding android:left="2dp"
              android:top="2dp"

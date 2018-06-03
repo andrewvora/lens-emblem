@@ -45,12 +45,12 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
         selectionBorderPaint = Paint().apply {
             style = Paint.Style.STROKE
             strokeWidth = borderLineSize
-            color = ContextCompat.getColor(context, R.color.white)
+            color = ContextCompat.getColor(context, R.color.md_white_1000)
         }
         cornerPaint = Paint().apply {
             style = Paint.Style.STROKE
             strokeWidth = cornerLineSize
-            color = ContextCompat.getColor(context, R.color.white)
+            color = ContextCompat.getColor(context, R.color.md_white_1000)
         }
         darkOverlayPaint = Paint().apply {
             style = Paint.Style.FILL

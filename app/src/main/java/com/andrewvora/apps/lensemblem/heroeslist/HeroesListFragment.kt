@@ -9,13 +9,13 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.*
 import android.widget.Toast
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.andrewvora.apps.lensemblem.R
 import com.andrewvora.apps.lensemblem.dagger.component
 import kotlinx.android.synthetic.main.fragment_hero_list.*
+import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
 
 /**
@@ -102,7 +102,6 @@ class HeroesListFragment : Fragment(), HeroesListAdapter.ActionListener {
             R.id.menu_search -> {}
             R.id.menu_acknowledgements -> {}
             R.id.menu_reset_hero_data -> {}
-            R.id.menu_sync_data -> {}
         }
         return super.onOptionsItemSelected(item)
     }

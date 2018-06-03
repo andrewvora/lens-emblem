@@ -9,7 +9,7 @@
     android:layout_marginTop="8dp"
     android:clickable="true"
     android:focusable="true"
-    app:cardBackgroundColor="@color/colorPrimaryDark">
+    app:cardBackgroundColor="?colorPrimary">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
             android:layout_marginBottom="8dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textColor="@color/white"
+            android:textColor="?android:textColorPrimary"
             android:textSize="@dimen/large_text_size"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"

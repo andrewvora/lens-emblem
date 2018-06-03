@@ -1,14 +1,5 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="coordinatorLayoutStyle">@style/Widget.Design.CoordinatorLayout</item>
-        <item name="cardViewStyle">@style/CardView</item>
-    </style>
-
     <style name="CardViewStyle">
         <item name="contentPadding">16dp</item>
         <item name="cardCornerRadius">4dp</item>
@@ -18,9 +9,21 @@
     </style>
 
     <style name="CardViewTextStyle">
-        <item name="android:textColor">@color/white</item>
         <item name="android:lineSpacingMultiplier">1.15</item>
         <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:textColor">?android:textColorPrimary</item>
     </style>
 
+    <style name="TextStyle" parent="android:Widget.TextView"/>
+
+    <style name="PopupMenuStyle" parent="Base.Widget.AppCompat.Light.PopupMenu">
+        <item name="colorAccent">?colorAccent</item>
+        <item name="android:textColorSecondary">?android:textColorPrimary</item>
+    </style>
+
+    <!-- This will set the fade in animation on all your activities by default -->
+    <style name="WindowAnimationTransition">
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
 </resources>

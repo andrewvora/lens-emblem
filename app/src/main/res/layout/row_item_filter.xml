@@ -4,8 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:background="@color/white">
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/filter_text"
@@ -14,7 +13,7 @@
         android:paddingTop="@dimen/vertical_margin"
         android:paddingBottom="@dimen/vertical_margin"
         android:textSize="@dimen/medium_text_size"
-        android:textColor="@color/dark_text"
+        android:textColor="?android:textColorPrimary"
         android:drawablePadding="8dp"
         android:background="?selectableItemBackground"
         android:clickable="true"

@@ -5,10 +5,7 @@ import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.DividerItemDecoration.VERTICAL
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -17,6 +14,7 @@ import android.view.ViewGroup
 import com.andrewvora.apps.lensemblem.R
 import com.andrewvora.apps.lensemblem.dagger.component
 import kotlinx.android.synthetic.main.fragment_notifications.*
+import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
 
 /**

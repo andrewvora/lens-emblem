@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme.Embla" parent="Theme.AppCompat.NoActionBar">
+        <item name="coordinatorLayoutStyle">@style/Widget.Design.CoordinatorLayout</item>
+        <item name="cardViewStyle">@style/CardView</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
+
+        <!-- General theme colors -->
+        <item name="android:colorPrimary">@color/emblaColorPrimary</item>
+        <item name="colorPrimary">@color/emblaColorPrimary</item>
+        <item name="android:colorPrimaryDark">@color/emblaColorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/emblaColorPrimaryDark</item>
+        <item name="android:colorAccent">@color/emblaColorAccent</item>
+        <item name="colorAccent">@color/emblaColorAccent</item>
+        <item name="android:colorBackground">@color/emblaBackground</item>
+        <item name="android:colorForeground">@color/emblaForeground</item>
+        <!-- Text Appearance styles -->
+        <item name="android:textViewStyle">@style/TextStyle</item>
+        <item name="android:textColorPrimary">@color/emblaTextColorPrimary</item>
+        <item name="android:textColorSecondary">@color/emblaTextColorSecondary</item>
+        <item name="android:textColorTertiary">@color/emblaTextColorTertiary</item>
+        <item name="android:textColorLink">@color/emblaTextColorLink</item>
+        <item name="android:textColorHint">@color/emblaTextColorTertiary</item>
+        <item name="android:textColorPrimaryInverse">@color/emblaTextColorPrimaryInverse</item>
+        <item name="android:textColorSecondaryInverse">@color/emblaTextColorSecondaryInverse</item>
+        <item name="android:textColorTertiaryInverse">@color/emblaTextColorTertiaryInverse</item>
+        <item name="android:textColorLinkInverse">@color/emblaTextColorLinkInverse</item>
+        <item name="android:textColorHintInverse">@color/emblaTextColorTertiaryInverse</item>
+        <!-- Custom attributes defined in attrs.xml -->
+    </style>
+
+    <style name="AppTheme.Askr" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="coordinatorLayoutStyle">@style/Widget.Design.CoordinatorLayout</item>
+        <item name="cardViewStyle">@style/CardView</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
+
+        <!-- General theme colors -->
+        <item name="android:colorPrimary">@color/askrColorPrimary</item>
+        <item name="colorPrimary">@color/askrColorPrimary</item>
+        <item name="android:colorPrimaryDark">@color/askrColorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/askrColorPrimaryDark</item>
+        <item name="android:colorAccent">@color/askrColorAccent</item>
+        <item name="colorAccent">@color/askrColorAccent</item>
+        <item name="android:colorBackground">@color/askrBackground</item>
+        <item name="android:colorForeground">@color/askrForeground</item>
+        <!-- Text Appearance styles -->
+        <item name="android:textViewStyle">@style/TextStyle</item>
+        <item name="android:textColorPrimary">@color/askrTextColorPrimary</item>
+        <item name="android:textColorSecondary">@color/askrTextColorSecondary</item>
+        <item name="android:textColorTertiary">@color/askrTextColorTertiary</item>
+        <item name="android:textColorLink">@color/askrTextColorLink</item>
+        <item name="android:textColorHint">@color/askrTextColorTertiary</item>
+        <item name="android:textColorPrimaryInverse">@color/askrTextColorPrimaryInverse</item>
+        <item name="android:textColorSecondaryInverse">@color/askrTextColorSecondaryInverse</item>
+        <item name="android:textColorTertiaryInverse">@color/askrTextColorTertiaryInverse</item>
+        <item name="android:textColorLinkInverse">@color/askrTextColorLinkInverse</item>
+        <item name="android:textColorHintInverse">@color/askrTextColorTertiaryInverse</item>
+        <!-- Custom attributes defined in attrs.xml -->
+    </style>
+</resources>

@@ -23,7 +23,7 @@
                 android:layout_marginTop="@dimen/horizontal_margin"
                 android:layout_marginBottom="@dimen/vertical_margin"
                 app:cardCornerRadius="4dp"
-                app:cardBackgroundColor="@color/colorPrimaryDark">
+                app:cardBackgroundColor="?colorPrimary">
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
@@ -35,7 +35,7 @@
                         android:layout_width="@dimen/hero_details_photo_size"
                         android:layout_height="@dimen/hero_details_photo_size"
                         android:layout_marginTop="8dp"
-                        android:background="@drawable/shape_rounded_square_with_padding_light"
+                        android:background="@drawable/shape_rounded_square_with_padding"
                         android:contentDescription="@string/content_description_hero_photo"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -59,13 +59,14 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:textSize="@dimen/extra_large_text_size"
-                        android:textColor="@color/white"
+                        android:textColor="?android:textColorPrimary"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/hero_title_text_view"
                         tools:text="Tharja"/>
 
-                    <Switch
+                    <android.support.v7.widget.SwitchCompat
+                        style="@style/Widget.AppCompat.CompoundButton.Switch"
                         android:id="@+id/hero_equipped_switch"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -197,7 +198,8 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/hero_def_label"/>
 
-                    <RatingBar
+                    <android.support.v7.widget.AppCompatRatingBar
+                        style="@style/Widget.AppCompat.RatingBar"
                         android:id="@+id/hero_rarity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -228,7 +230,7 @@
                         android:layout_marginTop="16dp"
                         android:text="@string/stats"
                         android:textSize="@dimen/large_text_size"
-                        android:textColor="@color/white"
+                        android:textColor="?android:textColorPrimary"
                         app:layout_constraintEnd_toStartOf="@+id/hero_stats_lvl1_label"
                         app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -242,7 +244,7 @@
                         android:layout_marginTop="16dp"
                         android:text="@string/stats_lvl1_label"
                         android:textSize="@dimen/large_text_size"
-                        android:textColor="@color/white"
+                        android:textColor="?android:textColorPrimary"
                         app:layout_constraintEnd_toStartOf="@+id/guideline"
                         app:layout_constraintStart_toEndOf="@+id/hero_stats_label"
                         app:layout_constraintTop_toBottomOf="@+id/hero_equipped_switch"/>
@@ -254,7 +256,7 @@
                         android:layout_marginTop="16dp"
                         android:text="@string/stats_lvl40_label"
                         android:textSize="@dimen/large_text_size"
-                        android:textColor="@color/white"
+                        android:textColor="?android:textColorPrimary"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toStartOf="@+id/guideline"
@@ -331,12 +333,7 @@
         android:layout_height="wrap_content"
         android:elevation="4dp">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:background="@color/colorPrimaryDark"
-            android:elevation="4dp"/>
+        <include layout="@layout/toolbar"/>
 
     </android.support.design.widget.AppBarLayout>
 

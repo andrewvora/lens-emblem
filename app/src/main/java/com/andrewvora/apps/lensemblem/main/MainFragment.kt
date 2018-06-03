@@ -14,17 +14,22 @@ import com.andrewvora.apps.lensemblem.LensEmblemService
 import com.andrewvora.apps.lensemblem.R
 import com.andrewvora.apps.lensemblem.dagger.component
 import com.andrewvora.apps.lensemblem.permissions.PermissionListener
+import com.andrewvora.apps.lensemblem.settings.LensEmblemSettings
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.fragment_main.view.*
 import javax.inject.Inject
+import android.content.Intent
+import android.content.Intent.getIntent
+
+
 
 /**
  * Created on 5/13/2018.
  * @author Andrew Vorakrajangthiti
  */
 class MainFragment : Fragment(), PermissionListener {
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
+    @Inject lateinit var lensEmblemSettings: LensEmblemSettings
 
     private lateinit var mainViewModel: MainViewModel
     private var notificationMenuItem: MenuItem? = null
@@ -138,6 +143,7 @@ class MainFragment : Fragment(), PermissionListener {
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater?.inflate(R.menu.menu_main, menu)
         notificationMenuItem = menu?.findItem(R.id.menu_notifications)
+        menu?.findItem(R.id.menu_use_light_theme)?.isChecked = lensEmblemSettings.useDarkTheme()
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -161,6 +167,13 @@ class MainFragment : Fragment(), PermissionListener {
                 activity?.let {
                     findNavController(toolbar).navigate(R.id.open_heroes_list)
                 }
+            }
+            R.id.menu_use_light_theme -> {
+                item.isChecked = item.isChecked.not()
+                lensEmblemSettings.setDarkThemePreference(item.isChecked)
+
+                val intent = Intent(activity, MainActivity::class.java)
+                startActivity(intent)
             }
         }
 

@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.fragment_hero_details.*
+import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
 import kotlin.math.roundToInt
 

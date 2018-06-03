@@ -16,6 +16,12 @@
         app:showAsAction="ifRoom"/>
 
     <item
+        android:id="@+id/menu_use_light_theme"
+        android:title="@string/menu_use_embla_theme"
+        android:checkable="true"
+        app:showAsAction="never"/>
+
+    <item
         android:id="@+id/menu_sync_data"
         android:title="@string/menu_sync"
         android:icon="@drawable/ic_sync_24dp"

@@ -5,24 +5,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
+    android:fitsSystemWindows="true">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:fitsSystemWindows="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:fitsSystemWindows="true">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/vertical_margin"
-                android:background="@android:color/transparent">
+                android:background="@android:color/transparent"
+                android:fitsSystemWindows="true">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -32,8 +35,9 @@
                     android:focusable="true"
                     android:textAlignment="center"
                     android:text="@string/app_name"
-                    android:textColor="@color/white"
-                    android:fontFamily="@font/heroes_legend"/>
+                    android:textColor="?android:textColorPrimary"
+                    android:fontFamily="@font/heroes_legend"
+                    android:fitsSystemWindows="true"/>
 
             </android.support.v7.widget.Toolbar>
 
@@ -45,7 +49,7 @@
                 android:layout_below="@id/toolbar"
                 android:layout_marginTop="@dimen/vertical_margin"
                 android:layout_marginBottom="@dimen/vertical_spacer_margin"
-                app:cardBackgroundColor="@color/colorPrimaryDark">
+                app:cardBackgroundColor="?colorPrimary">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -86,7 +90,7 @@
                 android:layout_below="@+id/permissions_card"
                 android:layout_marginTop="@dimen/vertical_spacer_margin"
                 android:layout_marginBottom="@dimen/vertical_spacer_margin"
-                app:cardBackgroundColor="@color/colorPrimaryDark">
+                app:cardBackgroundColor="?colorPrimary">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -114,7 +118,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:enabled="false"
-                        android:textColor="@color/dark_button_color_selector"
+                        android:textColor="@color/md_white_1000"
                         android:text="@string/start_service_btn_text"/>
 
                 </LinearLayout>
@@ -129,7 +133,7 @@
                 android:layout_below="@+id/start_service_card"
                 android:layout_marginTop="@dimen/vertical_spacer_margin"
                 android:layout_marginBottom="@dimen/vertical_spacer_margin"
-                app:cardBackgroundColor="@color/colorPrimaryDark">
+                app:cardBackgroundColor="?colorPrimary">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -157,7 +161,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:enabled="false"
-                        android:textColor="@color/dark_button_color_selector"
+                        android:textColor="@color/md_white_1000"
                         android:text="@string/adjust_bounds_btn_text"/>
 
                 </LinearLayout>
@@ -173,7 +177,6 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:alpha="0"
-                app:cardBackgroundColor="@color/colorPrimaryDark"
                 app:cardElevation="4dp"
                 app:cardCornerRadius="4dp"
                 app:contentPadding="12dp"
@@ -209,11 +212,11 @@
                 android:layout_below="@+id/bounds_card"
                 android:layout_alignParentBottom="true"
                 android:layout_marginTop="@dimen/vertical_margin"
-                android:layout_marginBottom="4dp"
+                android:paddingBottom="8dp"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
                 android:textSize="14sp"
-                android:textColor="@color/subtext"
+                android:textColor="?android:textColorTertiary"
                 tools:text="Last updated June 16, 2018"/>
 
         </RelativeLayout>

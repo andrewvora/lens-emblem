@@ -9,7 +9,7 @@
         android:id="@+id/screen_capture_permission_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/dark_button_color_selector"
+        android:textColor="@color/md_white_1000"
         android:text="@string/screen_capture_permission_btn_text"/>
 
 </FrameLayout>

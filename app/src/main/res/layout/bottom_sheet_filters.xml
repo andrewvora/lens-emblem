@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@color/white"
     android:padding="?dialogPreferredPadding"
     app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
 
@@ -14,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:textColor="@color/dark_text"
+        android:textColor="?android:textColorPrimary"
         android:textSize="@dimen/large_text_size"
         android:text="@string/filter_sort_by"/>
 
