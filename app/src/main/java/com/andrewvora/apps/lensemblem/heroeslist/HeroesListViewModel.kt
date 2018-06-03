@@ -41,10 +41,21 @@ constructor(private val heroesRepo: HeroesRepo): ViewModel() {
                 .subscribe())
     }
 
+    fun refreshHeroes() {
+        disposables.add(heroesRepo.fetchHeroes()
+                .useStandardObserveSubscribe()
+                .doOnError {
+                    error.value = it
+                }
+                .doOnComplete {
+                    loadHeroes()
+                }
+                .subscribe())
+    }
+
     override fun onCleared() {
         if (disposables.isDisposed.not()) {
             disposables.dispose()
         }
-
     }
 }

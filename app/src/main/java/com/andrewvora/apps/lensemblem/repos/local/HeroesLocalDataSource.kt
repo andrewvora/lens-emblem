@@ -116,8 +116,8 @@ constructor(private val app: Application,
         return Single.just(database.heroDao().getHeroes())
     }
 
-    fun getHeroDataFromDatabase(id: Long): Single<Hero> {
-        return Single.just(database.heroDao().getHero(id).apply {
+    fun getHeroDataFromDatabase(id: Long): Single<Hero?> {
+        return Single.just(database.heroDao().getHero(id)?.apply {
             stats = database.statsDao().getStats(this.id)
         })
     }

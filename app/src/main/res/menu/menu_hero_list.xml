@@ -13,9 +13,4 @@
         android:title="@string/menu_acknowledgements"
         app:showAsAction="never"/>
 
-    <item
-        android:id="@+id/menu_reset_hero_data"
-        android:title="@string/reset_heroes"
-        app:showAsAction="never"/>
-
 </menu>

@@ -23,7 +23,7 @@ interface HeroDao {
     fun getHeroes(title: String, name: String): List<Hero>
 
     @Query("SELECT * FROM $TABLE_HERO WHERE $COLUMN_ID = :id LIMIT 1")
-    fun getHero(id: Long): Hero
+    fun getHero(id: Long): Hero?
 
     @Insert
     fun insert(vararg hero: Hero)

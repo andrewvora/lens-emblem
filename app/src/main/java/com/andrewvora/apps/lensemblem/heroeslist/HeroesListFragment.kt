@@ -15,6 +15,7 @@ import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.andrewvora.apps.lensemblem.R
 import com.andrewvora.apps.lensemblem.dagger.component
 import kotlinx.android.synthetic.main.fragment_hero_list.*
+import kotlinx.android.synthetic.main.fragment_notifications.*
 import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
 
@@ -58,6 +59,9 @@ class HeroesListFragment : Fragment(), HeroesListAdapter.ActionListener {
         parent.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         parent.title = getString(R.string.heroes)
 
+        hero_list_refresh_layout.setOnRefreshListener {
+            heroListViewModel.refreshHeroes()
+        }
         hero_list_recycler_view.layoutManager = LinearLayoutManager(activity)
         hero_list_recycler_view.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL).apply {
             setDrawable(ContextCompat.getDrawable(activity!!, R.drawable.divider)!!)
@@ -81,9 +85,11 @@ class HeroesListFragment : Fragment(), HeroesListAdapter.ActionListener {
     private fun initObservers() {
         heroListViewModel.getHeroes().observe(this, Observer {
             heroListAdapter.updateHeroes(it ?: emptyList())
+            hero_list_refresh_layout.isRefreshing = false
         })
 
         heroListViewModel.getError().observe(this, Observer {
+            hero_list_refresh_layout.isRefreshing = false
             Toast.makeText(activity, it.toString(), Toast.LENGTH_SHORT).show()
         })
     }
@@ -101,7 +107,6 @@ class HeroesListFragment : Fragment(), HeroesListAdapter.ActionListener {
             }
             R.id.menu_search -> {}
             R.id.menu_acknowledgements -> {}
-            R.id.menu_reset_hero_data -> {}
         }
         return super.onOptionsItemSelected(item)
     }

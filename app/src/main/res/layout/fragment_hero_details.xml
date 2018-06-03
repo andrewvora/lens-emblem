@@ -73,6 +73,7 @@
                         android:layout_marginTop="22dp"
                         android:text="@string/equipped"
                         android:textSize="@dimen/large_text_size"
+                        android:checked="true"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/hero_rarity"/>
