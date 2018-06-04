@@ -40,7 +40,12 @@ constructor(private val app: Application,
             }
         }
 
-        database.statsDao().insert(*stats.toTypedArray())
+        // ignore failed results
+        try {
+            database.statsDao().insert(*stats.toTypedArray())
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     fun saveNameAliasesToDatabase(nameAliases: List<NameAlias>) {
