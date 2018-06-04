@@ -6,8 +6,10 @@ import android.content.Intent
 import android.os.Build
 import android.support.annotation.RequiresApi
 import android.support.v4.app.NotificationCompat
+import android.support.v4.app.NotificationManagerCompat
 import com.andrewvora.apps.lensemblem.LensEmblemService
 import com.andrewvora.apps.lensemblem.R
+import com.andrewvora.apps.lensemblem.main.MainActivity
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -38,7 +40,12 @@ constructor(private val app: Application) {
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(title)
                 .setContentText(message)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setPriority(if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ) {
+                    NotificationManagerCompat.IMPORTANCE_HIGH
+                } else {
+                    NotificationCompat.PRIORITY_HIGH
+                })
+                .setDefaults(Notification.DEFAULT_ALL)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(false)
 
@@ -50,15 +57,46 @@ constructor(private val app: Application) {
         return builder.build()
     }
 
+    fun showAppNotification(notification: Notification) {
+        val notificationManager = NotificationManagerCompat.from(app)
+        notificationManager.notify(DEFAULT_NOTIFICATION_ID, notification)
+    }
+
+    fun createFoundHeroNotification(heroId: Long, heroTitle: String, heroName: String): Notification {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ) {
+            createChannelIfNecessary(DEFAULT_NOTIFICATION_CHANNEL_ID)
+        }
+
+        val title = app.getString(R.string.found_hero_notification_title)
+        val message = app.getString(R.string.found_hero_notification_message, "\'$heroTitle - $heroName\'")
+
+        val launchAppIntent = MainActivity.goToHeroDetailsActivity(app, heroId)
+        val pendingIntent = PendingIntent.getActivity(app, 0, launchAppIntent, 0)
+        return NotificationCompat.Builder(app, DEFAULT_NOTIFICATION_CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setPriority(if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ) {
+                    NotificationManagerCompat.IMPORTANCE_MAX
+                } else {
+                    NotificationCompat.PRIORITY_MAX
+                })
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+                .setStyle(NotificationCompat.BigTextStyle().bigText(message))
+                .build()
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun createChannelIfNecessary() {
-        val channelAlreadyCreated = notificationManager.getNotificationChannel(SERVICE_CHANNEL_ID) != null
+    private fun createChannelIfNecessary(channelId: String = SERVICE_CHANNEL_ID) {
+        val channelAlreadyCreated = notificationManager.getNotificationChannel(channelId) != null
 
         if (channelAlreadyCreated.not()) {
             val channelName = app.getString(R.string.service_notification_channel_name)
             val channelDescription = app.getString(R.string.service_notification_channel_description)
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel(SERVICE_CHANNEL_ID, channelName, importance).apply {
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val channel = NotificationChannel(channelId, channelName, importance).apply {
                 description = channelDescription
             }
 
@@ -68,5 +106,8 @@ constructor(private val app: Application) {
 
     companion object {
         private const val SERVICE_CHANNEL_ID = "Lens Emblem Service"
+        private const val DEFAULT_NOTIFICATION_CHANNEL_ID = "Lens Emblem App"
+
+        private const val DEFAULT_NOTIFICATION_ID = 100
     }
 }

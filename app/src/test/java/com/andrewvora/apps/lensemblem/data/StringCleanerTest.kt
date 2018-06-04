@@ -104,8 +104,23 @@ class StringCleanerTest {
         var result = stringCleaner.clean(case1)
         assertEquals("Masked-Maniac", result)
 
-        val case2 = "-- Hard---boiled ----"
+        val case2 = "I--love--Hard---boiled"
         result = stringCleaner.clean(case2)
-        assertEquals("-Hard-boiled-", result)
+        assertEquals("I-love-Hard-boiled", result)
+    }
+
+    @Test
+    fun `removes trailing periods and dashes`() {
+        val case1 = "..-Five-Dogs-.."
+        var result = stringCleaner.clean(case1)
+        assertEquals("Five-Dogs", result)
+
+        val case2 = ".Puppies-"
+        result = stringCleaner.clean(case2)
+        assertEquals("Puppies", result)
+
+        val case3 = ".-"
+        result = stringCleaner.clean(case3)
+        assertEquals("", result)
     }
 }

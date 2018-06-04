@@ -164,6 +164,15 @@ class LensEmblemService : Service() {
                     baneBoon.first.name,
                     baneBoon.second.name), Toast.LENGTH_LONG)
         } else {
+            if (heroFromDb != null) {
+                val notification = notificationHelper.createFoundHeroNotification(
+                        heroId = heroFromDb.id.toLong(),
+                        heroTitle = heroFromDb.title,
+                        heroName = heroFromDb.name
+                )
+                notificationHelper.showAppNotification(notification)
+
+            }
             makeToast(getString(R.string.error_could_not_find_hero, hero.title, hero.name))
         }
     }

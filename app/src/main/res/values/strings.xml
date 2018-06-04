@@ -21,6 +21,8 @@
     <string name="bounds_picker_instructions">Let\'s take a screenshot! Head over to Heroes and tap "Take screenshot" on the Lens Emblem notification!</string>
     <string name="service_notification_title">Screen Capture Running</string>
     <string name="service_notification_message">Tap here to process your hero\'s stats</string>
+    <string name="found_hero_notification_title">View Hero Stats</string>
+    <string name="found_hero_notification_message">Processing failed, but we found %1$s. Tap to view their stats.</string>
     <string name="notification_stop_service">Stop</string>
     <string name="notification_screenshot">Take screenshot</string>
 

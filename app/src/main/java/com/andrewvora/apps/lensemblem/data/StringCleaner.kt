@@ -13,7 +13,7 @@ constructor() {
      * Removes special characters and replaces them with basic equivalents
      */
     open fun clean(dirtyString: String): String {
-        return dirtyString
+        var cleanedString = dirtyString
                 // replace left single quote
                 .replace(Regex("\u2018"), "'")
                 // replace right single quote
@@ -27,5 +27,15 @@ constructor() {
                 // replace extra whitespace w/ single whitespace
                 .replace(Regex("\\s+"), " ")
                 .trim()
+
+        // remove trailing hyphens
+        if (cleanedString.startsWith("-")) {
+            cleanedString = cleanedString.substring(1)
+        }
+        if (cleanedString.endsWith("-")) {
+            cleanedString = cleanedString.substring(0, cleanedString.length - 1)
+        }
+
+        return cleanedString
     }
 }
