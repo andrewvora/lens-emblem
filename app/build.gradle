@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.getkeepsafe.dexcount'
 apply plugin: 'androidx.navigation.safeargs'
+apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 27
@@ -87,6 +88,9 @@ dependencies {
     implementation "android.arch.navigation:navigation-fragment:$navigation_version"
     implementation "android.arch.navigation:navigation-ui:$navigation_version"
 
+    implementation 'com.google.firebase:firebase-core:16.0.0'
+    implementation "com.crashlytics.sdk.android:crashlytics:2.9.3"
+
     // unit tests
     testImplementation "junit:junit:4.12"
     testImplementation "android.arch.core:core-testing:$arch_lifecycle_version"
@@ -107,3 +111,5 @@ dependencies {
 repositories {
     mavenCentral()
 }
+
+apply plugin: 'com.google.gms.google-services'
