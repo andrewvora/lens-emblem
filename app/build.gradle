@@ -54,7 +54,7 @@ dependencies {
     implementation "com.android.support:cardview-v7:$app_compat_version"
     implementation "com.android.support:recyclerview-v7:$app_compat_version"
 
-    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
 
     def arch_lifecycle_version = "1.1.1"
     def arch_persistence_version = "1.0.0"

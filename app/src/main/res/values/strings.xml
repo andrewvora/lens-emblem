@@ -71,4 +71,6 @@
     <string name="def">DEF</string>
     <string name="res">RES</string>
     <string name="stat_placeholder">-</string>
+
+    <string name="acknowledgements">Acknowledgements</string>
 </resources>

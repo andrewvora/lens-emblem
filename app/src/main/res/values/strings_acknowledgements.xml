@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="acknowledgements_body">
+<![CDATA[<a href="https://raw.githubusercontent.com/ReactiveX/RxJava/2.x/LICENSE">RxJava</a><p/><p/>]]>
+<![CDATA[<a href="https://raw.githubusercontent.com/ReactiveX/RxAndroid/2.x/LICENSE">RxAndroid</a><p/><p/>]]>
+<![CDATA[<a href="https://raw.githubusercontent.com/google/dagger/master/LICENSE.txt">Dagger</a><p/><p/>]]>
+<![CDATA[<a href="https://raw.githubusercontent.com/square/okhttp/master/LICENSE.txt">OkHttp</a><p/><p/>]]>
+<![CDATA[<a href="https://raw.githubusercontent.com/bumptech/glide/master/LICENSE">Glide</a><p/><p/>]]>
+<![CDATA[<a href="https://raw.githubusercontent.com/rmtheis/tess-two/master/COPYING">tess-two</a><p/><p/>]]>
+<![CDATA[<a href="https://raw.githubusercontent.com/nhaarman/mockito-kotlin/1.x/LICENSE">Mockito-Kotlin</a><p/><p/>]]>
+    </string>
+</resources>

@@ -14,6 +14,7 @@ import android.view.*
 import android.widget.Toast
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.andrewvora.apps.lensemblem.R
+import com.andrewvora.apps.lensemblem.acknowledgements.AcknowledgementsDialog
 import com.andrewvora.apps.lensemblem.dagger.component
 import kotlinx.android.synthetic.main.fragment_hero_list.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -115,7 +116,11 @@ class HeroesListFragment : Fragment(), HeroesListAdapter.ActionListener {
                 activity?.onBackPressed()
                 return true
             }
-            R.id.menu_acknowledgements -> {}
+            R.id.menu_acknowledgements -> {
+                activity?.fragmentManager?.let {
+                    AcknowledgementsDialog().show(it, "acknowledgements")
+                }
+            }
         }
         return super.onOptionsItemSelected(item)
     }

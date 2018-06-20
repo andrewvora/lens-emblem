@@ -13,6 +13,7 @@ import androidx.navigation.Navigation.findNavController
 import com.andrewvora.apps.lensemblem.BuildConfig
 import com.andrewvora.apps.lensemblem.LensEmblemService
 import com.andrewvora.apps.lensemblem.R
+import com.andrewvora.apps.lensemblem.acknowledgements.AcknowledgementsDialog
 import com.andrewvora.apps.lensemblem.dagger.component
 import com.andrewvora.apps.lensemblem.permissions.PermissionListener
 import com.andrewvora.apps.lensemblem.preferences.LensEmblemPreferences
@@ -148,7 +149,9 @@ class MainFragment : Fragment(), PermissionListener {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.menu_acknowledgements -> {
-
+                activity?.fragmentManager?.let {
+                    AcknowledgementsDialog().show(it, "acknowledgements")
+                }
             }
             R.id.menu_notifications -> {
                 activity?.let {
