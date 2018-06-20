@@ -19,6 +19,9 @@ interface HeroDao {
     @Query("SELECT * FROM $TABLE_HERO")
     fun getHeroes(): List<Hero>
 
+    @Query("SELECT * FROM $TABLE_HERO WHERE $COLUMN_NAME like :query")
+    fun getHeroes(query: String): List<Hero>
+
     @Query("SELECT * FROM $TABLE_HERO WHERE $COLUMN_TITLE like :title AND $COLUMN_NAME like :name")
     fun getHeroes(title: String, name: String): List<Hero>
 

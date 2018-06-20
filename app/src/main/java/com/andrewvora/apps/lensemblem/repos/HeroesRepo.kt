@@ -90,21 +90,19 @@ class HeroesRepo
     }
 
     /**
-     * Get the latest hero alias data from the network
-     */
-    fun fetchHeroAliases(): Completable {
-        return Completable.defer {
-            TODO("Remote download logic for this has not been added")
-        }
-    }
-
-    /**
      * Gets the most readily available hero data
      * Normally, the cache or database
      */
     fun getHeroes(): Single<List<Hero>> {
         return Single.defer {
             localSource.getHeroDataFromDatabase()
+        }
+    }
+
+    fun getHeroes(query: String): Single<List<Hero>> {
+        return Single.defer {
+            val heroes = localSource.getHeroesFromDatabase(query)
+            return@defer Single.just(heroes)
         }
     }
 

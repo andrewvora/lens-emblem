@@ -140,6 +140,10 @@ constructor(private val app: Application,
                 }
     }
 
+    fun getHeroesFromDatabase(query: String): List<Hero> {
+        return database.heroDao().getHeroes("%${query.toLowerCase()}%")
+    }
+
     fun getHeroDataFromDatabase(): Single<List<Hero>> {
         return Single.just(database.heroDao().getHeroes())
     }

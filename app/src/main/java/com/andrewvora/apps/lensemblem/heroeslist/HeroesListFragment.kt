@@ -9,13 +9,13 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.SearchView
 import android.view.*
 import android.widget.Toast
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.andrewvora.apps.lensemblem.R
 import com.andrewvora.apps.lensemblem.dagger.component
 import kotlinx.android.synthetic.main.fragment_hero_list.*
-import kotlinx.android.synthetic.main.fragment_notifications.*
 import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
 
@@ -96,6 +96,16 @@ class HeroesListFragment : Fragment(), HeroesListAdapter.ActionListener {
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater?.inflate(R.menu.menu_hero_list, menu)
+
+        val searchView = menu?.findItem(R.id.menu_search)?.actionView?.takeIf { it is SearchView } as SearchView?
+        searchView?.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?) = true
+            override fun onQueryTextChange(newText: String?): Boolean {
+                heroListViewModel.findHeroesMatching(newText)
+                return true
+            }
+        })
+
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -105,7 +115,6 @@ class HeroesListFragment : Fragment(), HeroesListAdapter.ActionListener {
                 activity?.onBackPressed()
                 return true
             }
-            R.id.menu_search -> {}
             R.id.menu_acknowledgements -> {}
         }
         return super.onOptionsItemSelected(item)
