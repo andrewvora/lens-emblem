@@ -52,7 +52,7 @@
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toEndOf="@+id/weapon_type_image_view"
                         app:layout_constraintTop_toBottomOf="@+id/hero_image_view"
-                        app:srcCompat="@android:drawable/btn_dialog"/>
+                        tools:srcCompat="@android:drawable/btn_dialog"/>
 
                     <ImageView
                         android:id="@+id/weapon_type_image_view"
@@ -65,7 +65,7 @@
                         app:layout_constraintHorizontal_bias="0.47"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/hero_image_view"
-                        app:srcCompat="@android:drawable/btn_dialog"/>
+                        tools:srcCompat="@android:drawable/btn_dialog"/>
 
                     <TextView
                         android:id="@+id/hero_title_text_view"
