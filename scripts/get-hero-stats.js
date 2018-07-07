@@ -258,9 +258,7 @@ function addWeaponTypeToHero(cheerioHtml, stats) {
     const weaponTypeUrl = weaponTypeCell.attr('srcset')
     stats['weaponTypeUrl'] = weaponTypeUrl
 
-    console.log('weapon')
     const typeString = weaponTypeCell.attr('alt').toLowerCase()
-    console.log(typeString)
     if (typeString.indexOf('red sword') >= 0) {
         stats['weaponType'] = 'red_sword'
     } else if (typeString.indexOf('red tome') >= 0) {
@@ -301,9 +299,7 @@ function addMovementTypeToHero(cheerioHtml, stats) {
     const movementTypeUrl = movementTypeCell.attr('srcset')
     stats['movementTypeUrl'] = movementTypeUrl
 
-    console.log('movement')
     const typeString = movementTypeCell.attr('alt').toLowerCase()
-    console.log(typeString)
     if (typeString.indexOf('cavalry') >= 0) {
         stats['movementType'] = 'cavalry'
     } else if (typeString.indexOf('infantry') >= 0) {
