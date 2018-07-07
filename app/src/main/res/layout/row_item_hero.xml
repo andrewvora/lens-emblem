@@ -5,11 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="@dimen/horizontal_margin"
     android:background="?selectableItemBackground"
     android:clickable="true"
-    android:focusable="true">
+    android:focusable="true"
+    android:orientation="vertical"
+    android:padding="@dimen/horizontal_margin">
 
     <TextView
         android:id="@+id/hero_title"
@@ -20,8 +20,6 @@
         android:maxLines="1"
         android:textSize="@dimen/small_text_size"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/hero_image_view"
         app:layout_constraintTop_toBottomOf="@+id/hero_name"
         app:layout_constraintVertical_bias="0.0"
@@ -32,14 +30,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="8dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:textColor="?android:textColorPrimary"
         android:textSize="@dimen/large_text_size"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/hero_image_view"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.3"
@@ -60,11 +55,37 @@
         android:id="@+id/hero_image_view"
         android:layout_width="@dimen/hero_list_photo_size"
         android:layout_height="@dimen/hero_list_photo_size"
-        android:contentDescription="@android:string/untitled"
         android:background="@drawable/shape_rounded_square_with_padding"
+        android:contentDescription="@android:string/untitled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars"/>
+
+    <ImageView
+        android:id="@+id/movement_type_image_view"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="8dp"
+        android:contentDescription="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/view_more_details"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/weapon_type_image_view"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.3"
+        tools:srcCompat="@android:drawable/btn_dialog"/>
+
+    <ImageView
+        android:id="@+id/weapon_type_image_view"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="8dp"
+        android:contentDescription="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/hero_name"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.3"
+        tools:srcCompat="@android:drawable/btn_dialog"/>
 
 </android.support.constraint.ConstraintLayout>

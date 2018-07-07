@@ -42,15 +42,40 @@
                         app:layout_constraintTop_toTopOf="parent"
                         tools:srcCompat="@tools:sample/avatars"/>
 
+                    <ImageView
+                        android:id="@+id/movement_type_image_view"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginTop="16dp"
+                        android:contentDescription="@null"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/weapon_type_image_view"
+                        app:layout_constraintTop_toBottomOf="@+id/hero_image_view"
+                        app:srcCompat="@android:drawable/btn_dialog"/>
+
+                    <ImageView
+                        android:id="@+id/weapon_type_image_view"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:contentDescription="@null"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.47"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/hero_image_view"
+                        app:srcCompat="@android:drawable/btn_dialog"/>
+
                     <TextView
                         android:id="@+id/hero_title_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="8dp"
                         android:textSize="@dimen/large_text_size"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/hero_image_view"
+                        app:layout_constraintTop_toBottomOf="@+id/movement_type_image_view"
                         tools:text="Obsessive Bride"/>
 
                     <TextView

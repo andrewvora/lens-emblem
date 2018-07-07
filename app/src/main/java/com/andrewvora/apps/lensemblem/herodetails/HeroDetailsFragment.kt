@@ -93,6 +93,16 @@ class HeroDetailsFragment : Fragment() {
                             .apply(RequestOptions().transforms(RoundedCorners(roundedCornerSize)))
                             .into(hero_image_view)
                 }
+                it.weaponTypeUrl?.let {
+                    Glide.with(this@HeroDetailsFragment)
+                            .load(it)
+                            .into(weapon_type_image_view)
+                }
+                it.movementTypeUrl?.let {
+                    Glide.with(this@HeroDetailsFragment)
+                            .load(it)
+                            .into(movement_type_image_view)
+                }
             }
         })
         heroDetailsViewModel.getStatsToDisplayLiveData().observe(this, Observer {  statsPair ->

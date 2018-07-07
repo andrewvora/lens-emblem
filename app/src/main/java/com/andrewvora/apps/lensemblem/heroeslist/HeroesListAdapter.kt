@@ -41,6 +41,16 @@ class HeroesListAdapter(var heroes: List<Hero>, val listener: ActionListener) : 
             view.hero_title.text = hero.title
             view.hero_name.text = hero.name
 
+            hero.weaponTypeUrl?.let {
+                Glide.with(view)
+                        .load(it)
+                        .into(view.weapon_type_image_view)
+            }
+            hero.movementTypeUrl?.let {
+                Glide.with(view)
+                        .load(it)
+                        .into(view.movement_type_image_view)
+            }
             hero.imageUrl?.let {
                 val cornerRadius = view.context.resources.getDimensionPixelSize(R.dimen.hero_details_photo_rounded_corner_size)
                 Glide.with(view)
