@@ -11,6 +11,7 @@ import com.andrewvora.apps.lensemblem.models.TABLE_HERO
  */
 class MigrationV1ToV2 : Migration(1, 2) {
     override fun migrate(database: SupportSQLiteDatabase) {
+        // add image URL column
         database.execSQL("ALTER TABLE $TABLE_HERO ADD COLUMN $COLUMN_IMAGE_URL TEXT")
     }
 }
