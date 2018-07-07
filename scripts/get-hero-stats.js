@@ -253,6 +253,70 @@ async function getHeroStats(url, name, title) {
     }
 }
 
+function addWeaponTypeToHero(cheerioHtml, stats) {
+    const weaponTypeCell = cheerioHtml.find('td:nth-child(5) img')
+    const weaponTypeUrl = weaponTypeCell.attr('srcset')
+    stats['weaponTypeUrl'] = weaponTypeUrl
+
+    console.log('weapon')
+    const typeString = weaponTypeCell.attr('alt').toLowerCase()
+    console.log(typeString)
+    if (typeString.indexOf('red sword') >= 0) {
+        stats['weaponType'] = 'red_sword'
+    } else if (typeString.indexOf('red tome') >= 0) {
+        stats['weaponType'] = 'red_tome'
+    } else if (typeString.indexOf('red breath') >= 0) {
+        stats['weaponType'] = 'red_breath'
+    } else if (typeString.indexOf('red bow') >= 0) {
+        stats['weaponType'] = 'red_bow'
+    } else if (typeString.indexOf('blue tome') >= 0) {
+        stats['weaponType'] = 'blue_tome'
+    } else if (typeString.indexOf('blue lance') >= 0) {
+        stats['weaponType'] = 'blue_lance'
+    } else if (typeString.indexOf('blue breath') >= 0) {
+        stats['weaponType'] = 'blue_breath'
+    } else if (typeString.indexOf('blue bow') >= 0) {
+        stats['weaponType'] = 'blue_bow'
+    } else if (typeString.indexOf('green axe') >= 0) {
+        stats['weaponType'] = 'green_axe'
+    } else if (typeString.indexOf('green tome') >= 0) {
+        stats['weaponType'] = 'green_tome'
+    } else if (typeString.indexOf('green breath') >= 0) {
+        stats['weaponType'] = 'green_breath'
+    } else if (typeString.indexOf('green bow') >= 0) {
+        stats['weaponType'] = 'green_bow'
+    } else if (typeString.indexOf('colorless staff') >= 0) {
+        stats['weaponType'] = 'colorless_staff'
+    } else if (typeString.indexOf('colorless bow') >= 0) {
+        stats['weaponType'] = 'colorless_bow'
+    } else if (typeString.indexOf('colorless breath') >= 0) {
+        stats['weaponType'] = 'colorless_breath'
+    } else {
+        stats['weaponType'] = 'UNKNOWN'
+    }
+}
+
+function addMovementTypeToHero(cheerioHtml, stats) {
+    const movementTypeCell = cheerioHtml.find('td:nth-child(6) img')
+    const movementTypeUrl = movementTypeCell.attr('srcset')
+    stats['movementTypeUrl'] = movementTypeUrl
+
+    console.log('movement')
+    const typeString = movementTypeCell.attr('alt').toLowerCase()
+    console.log(typeString)
+    if (typeString.indexOf('cavalry') >= 0) {
+        stats['movementType'] = 'cavalry'
+    } else if (typeString.indexOf('infantry') >= 0) {
+        stats['movementType'] = 'infantry'
+    } else if (typeString.indexOf('flying') >= 0) {
+        stats['movementType'] = 'flying'
+    } else if (typeString.indexOf('armored') >= 0) {
+        stats['movementType'] = 'armored'
+    } else {
+        stats['movementType'] = 'UNKNOWN'
+    }
+}
+
 /**
  * @return Promise that resolves to array of hero objects
  */
@@ -272,6 +336,8 @@ async function getHeroInfo(html) {
         const stats = await getHeroStats(heroUrl, name, title)
         const heroImgUrl = item.find('td:nth-child(1) img').attr('src')
         stats['imageUrl'] = heroImgUrl
+        addMovementTypeToHero(item, stats)
+        addWeaponTypeToHero(item, stats)
 
         heroes = heroes.concat(stats)
     }
@@ -284,7 +350,7 @@ function writeHeroInfoToFile(heroes) {
     return new Promise((resolve, reject) => {
         fs.writeFile(
             '../app/src/main/res/raw/hero_stats_v1.json',
-            //'./hero_stats_v1.json',
+            // './hero_stats_v1.json',
             JSON.stringify(heroes),
             'utf8',
             (err, data) => {
