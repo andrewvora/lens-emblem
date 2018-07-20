@@ -4,12 +4,20 @@
   "description": "utility scripts for Lens Emblem.",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "mocha **.spec.js"
   },
   "author": "Andrew Vorakrajangthiti",
   "license": "ISC",
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
     "request": "^2.85.0"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "chai-http": "^4.0.0",
+    "dirty-chai": "^2.0.1",
+    "mocha": "^5.2.0",
+    "require-uncached": "^1.0.3"
   }
 }
