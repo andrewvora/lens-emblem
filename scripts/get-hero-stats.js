@@ -58,9 +58,15 @@ async function getWeaponStats(html) {
         const range = parseInt(row.find('td:nth-child(3)').text())
         const effect = row.find('td:nth-child(4)').text()
         const cost = parseInt(row.find('td:nth-child(5)').text())
-        const defaultRarity = parseInt(row.find('td:nth-child(6)')
+        var defaultRarity = parseInt(row.find('td:nth-child(6)')
             .remove('span')
             .text())
+
+        // for some heroes, weapons do not have default rarity
+        // we need to infer based on the number of default weapons
+        if (isNaN(defaultRarity)) {
+          defaultRarity = 5 - numRows + 1 + i
+        }
 
         weaponStats.push({
             'name': name,
