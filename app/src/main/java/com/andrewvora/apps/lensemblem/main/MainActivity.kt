@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
             val heroId = it.getLong(EXTRA_HERO_ID).toInt()
 
             if (heroId != 0) {
+                intent.replaceExtras(Bundle()) // remove extras since it's now processed
                 findNavController(this, R.id.nav_host_fragment)
                         .navigate(R.id.hero_details_fragment, Bundle().apply {
                             putInt(EXTRA_HERO_ID, heroId)

@@ -1,6 +1,5 @@
 package com.andrewvora.apps.lensemblem.main
 
-import android.app.Application
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
@@ -90,6 +89,10 @@ constructor(private val heroesRepo: HeroesRepo,
                     }
                     .subscribe())
         }
+    }
+
+    fun restoreViewState() {
+        state.value = state.value
     }
 
     fun loadHeroSyncTimestamp() {
