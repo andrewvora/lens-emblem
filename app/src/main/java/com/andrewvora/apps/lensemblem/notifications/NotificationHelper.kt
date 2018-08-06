@@ -71,7 +71,7 @@ constructor(private val app: Application) {
         val message = app.getString(R.string.found_hero_notification_message, "\'$heroTitle - $heroName\'")
 
         val launchAppIntent = MainActivity.goToHeroDetailsActivity(app, heroId)
-        val pendingIntent = PendingIntent.getActivity(app, 0, launchAppIntent, 0)
+        val pendingIntent = PendingIntent.getActivity(app, 0, launchAppIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         return NotificationCompat.Builder(app, DEFAULT_NOTIFICATION_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(title)
