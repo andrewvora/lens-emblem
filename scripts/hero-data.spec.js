@@ -54,8 +54,6 @@ describe('Hero Data v1 JSON', () => {
     const sharena = heroData.find((hero) => {
       return hero.name === 'Sharena' && hero.title === 'Princess of Askr'
     })
-    expect(sharena.stats.find((stat) => { return stat.rarity === 2 })).to.be.not.undefined()
-    expect(sharena.stats.find((stat) => { return stat.rarity === 3 })).to.be.not.undefined()
     expect(sharena.stats.find((stat) => { return stat.rarity === 4 })).to.be.not.undefined()
     expect(sharena.stats.find((stat) => { return stat.rarity === 5 })).to.be.not.undefined()
 
