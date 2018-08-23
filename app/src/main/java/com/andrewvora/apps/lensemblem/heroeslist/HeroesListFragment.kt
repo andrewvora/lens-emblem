@@ -3,6 +3,7 @@ package com.andrewvora.apps.lensemblem.heroeslist
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
@@ -11,6 +12,7 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
 import android.view.*
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.andrewvora.apps.lensemblem.R
@@ -126,9 +128,16 @@ class HeroesListFragment : Fragment(), HeroesListAdapter.ActionListener {
     }
 
     override fun onClicked(position: Int) {
+        closeKeyboard()
+
         val toHeroDetailsDirection = HeroesListFragmentDirections.actionToHeroDetails()
         toHeroDetailsDirection.setHeroId(heroListAdapter.heroes[position].id)
 
         findNavController(this).navigate(toHeroDetailsDirection)
+    }
+
+    private fun closeKeyboard() {
+        val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+        imm?.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 }
