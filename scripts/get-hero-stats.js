@@ -8,6 +8,7 @@ const gamepediaUrl = 'https://feheroes.gamepedia.com'
 const heroListUrl = `${gamepediaUrl}/Hero_List`
 const outputDir = '../app/src/main/res/raw/'
 const outputFile = 'hero_stats_v1.json'
+const debug = false
 
 /**
  * @return Promise that resolves to HTML from the given URL
@@ -327,8 +328,8 @@ async function getHeroInfo(html) {
     const rowItems = $('tr.hero-filter-element')
     var heroes = []
 
-    for (var i = 0; i < rowItems.length; i++) {
-    // for (var i = 0; i < 3; i++) {
+    const upperLimit = debug ? 3 : rowItems.length
+    for (var i = 0; i < upperLimit; i++) {
         const item = $(rowItems[i])
         const heroNameItem = item.find('td:nth-child(2) > a')
         const heroUrl = `${gamepediaUrl}${heroNameItem.attr('href')}`
@@ -348,11 +349,9 @@ async function getHeroInfo(html) {
 }
 
 function writeHeroInfoToFile(heroes) {
-    // console.log(JSON.stringify(heroes))
     return new Promise((resolve, reject) => {
         fs.writeFile(
-            '../app/src/main/res/raw/hero_stats_v1.json',
-            // './hero_stats_v1.json',
+            debug ? './hero_stats_v1.json' : '../app/src/main/res/raw/hero_stats_v1.json',
             JSON.stringify(heroes),
             'utf8',
             (err, data) => {
