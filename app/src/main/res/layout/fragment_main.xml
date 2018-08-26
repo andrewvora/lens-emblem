@@ -64,17 +64,9 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="12dp"
                         android:lineSpacingMultiplier="1.15"
                         android:textSize="@dimen/small_text_size"
                         android:text="@string/permissions_rationale"/>
-
-                    <fragment
-                        android:id="@+id/permissions_fragment"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:name="com.andrewvora.apps.lensemblem.permissions.PermissionsFragment"
-                        tools:layout="@layout/fragment_permissions"/>
 
                 </LinearLayout>
 

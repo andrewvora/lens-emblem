@@ -9,6 +9,7 @@ import androidx.navigation.Navigation.findNavController
 import com.andrewvora.apps.lensemblem.LensEmblemService
 import com.andrewvora.apps.lensemblem.R
 import com.andrewvora.apps.lensemblem.dagger.component
+import com.andrewvora.apps.lensemblem.imageprocessing.ScreenshotHelper
 import com.andrewvora.apps.lensemblem.preferences.LensEmblemPreferences
 import javax.inject.Inject
 
@@ -19,6 +20,7 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity() {
 
     @Inject lateinit var lensEmblemPreferences: LensEmblemPreferences
+    @Inject lateinit var screenshotHelper: ScreenshotHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         application.component().inject(this)
@@ -46,6 +48,7 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         if (isFinishing) {
+            screenshotHelper.cleanUp()
             stopService(LensEmblemService.start(application))
         }
     }

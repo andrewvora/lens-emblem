@@ -14,7 +14,9 @@ import com.andrewvora.apps.lensemblem.LensEmblemService
 import com.andrewvora.apps.lensemblem.R
 import com.andrewvora.apps.lensemblem.acknowledgements.AcknowledgementsDialog
 import com.andrewvora.apps.lensemblem.dagger.component
+import com.andrewvora.apps.lensemblem.imageprocessing.ScreenshotHelper
 import com.andrewvora.apps.lensemblem.permissions.PermissionListener
+import com.andrewvora.apps.lensemblem.permissions.PermissionsFragment
 import com.andrewvora.apps.lensemblem.preferences.LensEmblemPreferences
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.fragment_main.view.*
@@ -28,6 +30,7 @@ import javax.inject.Inject
 class MainFragment : Fragment(), PermissionListener {
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
     @Inject lateinit var lensEmblemPreferences: LensEmblemPreferences
+    @Inject lateinit var screenshotHelper: ScreenshotHelper
 
     private lateinit var mainViewModel: MainViewModel
     private var notificationMenuItem: MenuItem? = null
@@ -61,15 +64,39 @@ class MainFragment : Fragment(), PermissionListener {
         }
 
         start_service_button.setOnClickListener {
-            activity?.let {
-                it.startService(LensEmblemService.start(it.applicationContext))
-                mainViewModel.currentState = MainViewModel.State.SERVICE_STARTED
+            if (screenshotHelper.hasPermission()) {
+                startLensEmblemService()
+            } else {
+                getPermissionsFragment()?.getScreenCapturePermission()
             }
         }
+
         bound_picker_button.setOnClickListener { v ->
             activity?.let {
                 findNavController(v).navigate(R.id.open_bounds_picker)
             }
+        }
+    }
+
+    private fun getPermissionsFragment(): PermissionsFragment? {
+        val permissionFragment = childFragmentManager.findFragmentByTag(PermissionsFragment.TAG)
+        return if (permissionFragment == null) {
+            val newInstance = PermissionsFragment()
+            childFragmentManager
+                    .beginTransaction()
+                    .add(newInstance, PermissionsFragment.TAG)
+                    .commitNow()
+
+            newInstance
+        } else {
+            permissionFragment as? PermissionsFragment
+        }
+    }
+
+    private fun startLensEmblemService() {
+        activity?.let {
+            it.startService(LensEmblemService.start(it.applicationContext))
+            mainViewModel.currentState = MainViewModel.State.SERVICE_STARTED
         }
     }
 
@@ -84,9 +111,7 @@ class MainFragment : Fragment(), PermissionListener {
         })
 
         mainViewModel.getHeroesLoaded().observe(this, Observer {
-            if (mainViewModel.currentState == MainViewModel.State.PERMISSION_GRANTED) {
-                start_service_button.isEnabled = true
-            }
+            start_service_button.isEnabled = true
         })
 
         mainViewModel.getError().observe(this, Observer { throwable ->
@@ -117,13 +142,8 @@ class MainFragment : Fragment(), PermissionListener {
     private fun applyViewState(state: MainViewModel.State) {
         when(state) {
             MainViewModel.State.DEFAULT -> {
-                start_service_button.isEnabled = false
+                start_service_button.isEnabled = mainViewModel.heroesLoaded()
                 bound_picker_button.isEnabled = false
-            }
-            MainViewModel.State.PERMISSION_GRANTED -> {
-                if (mainViewModel.heroesLoaded()) {
-                    start_service_button.isEnabled = true
-                }
             }
             MainViewModel.State.SERVICE_STARTED -> {
                 start_service_button.isEnabled = true
@@ -181,7 +201,13 @@ class MainFragment : Fragment(), PermissionListener {
     }
 
     override fun onScreenCapturePermissionGranted() {
-        mainViewModel.currentState = MainViewModel.State.PERMISSION_GRANTED
+        // automatically run service if
+        // - app has permission intent
+        val canTurnOnService = screenshotHelper.hasPermission()
+
+        if (canTurnOnService) {
+            startLensEmblemService()
+        }
     }
 
     override fun onScreenCapturePermissionDenied() {

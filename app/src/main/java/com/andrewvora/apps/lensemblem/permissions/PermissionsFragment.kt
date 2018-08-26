@@ -4,14 +4,9 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import com.andrewvora.apps.lensemblem.R
 import com.andrewvora.apps.lensemblem.dagger.component
 import com.andrewvora.apps.lensemblem.imageprocessing.ScreenshotHelper
 import com.andrewvora.apps.lensemblem.imageprocessing.ScreenshotHelper.Companion.REQUEST_CODE_SCREENSHOT_PERMISSION
-import kotlinx.android.synthetic.main.fragment_permissions.*
 import javax.inject.Inject
 
 /**
@@ -27,19 +22,7 @@ class PermissionsFragment : Fragment() {
         activity?.application?.component()?.inject(this)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_permissions, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        screen_capture_permission_button.setOnClickListener {
-            getScreenCapturePermission()
-        }
-    }
-
-    private fun getScreenCapturePermission() {
+    fun getScreenCapturePermission() {
         val permissionIntent = screenshotHelper.getPermissionIntent()
         startActivityForResult(permissionIntent, REQUEST_CODE_SCREENSHOT_PERMISSION)
     }
@@ -50,8 +33,9 @@ class PermissionsFragment : Fragment() {
         if (requestCode == REQUEST_CODE_SCREENSHOT_PERMISSION && resultCode == Activity.RESULT_OK) {
             when (resultCode) {
                 Activity.RESULT_OK -> {
-                    alertPermissionGranted(true)
                     screenshotHelper.setPermissionResult(resultCode, data)
+                    // alert only after updating
+                    alertPermissionGranted(true)
                 }
                 else -> {
                     alertPermissionGranted(false)
@@ -71,5 +55,7 @@ class PermissionsFragment : Fragment() {
         }
     }
 
-
+    companion object {
+        const val TAG = "PermissionsFragment"
+    }
 }

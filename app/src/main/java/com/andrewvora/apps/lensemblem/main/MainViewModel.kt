@@ -163,7 +163,7 @@ constructor(private val notificationsRepo: NotificationsRepo,
     }
 
     enum class State {
-        DEFAULT, HEROES_LOADED, PERMISSION_GRANTED, SERVICE_STARTED
+        DEFAULT, HEROES_LOADED, SERVICE_STARTED
     }
 
     companion object {

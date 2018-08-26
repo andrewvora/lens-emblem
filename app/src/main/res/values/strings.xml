@@ -30,7 +30,7 @@
     <string name="fetching_heroes">Downloading Hero Data</string>
     <string name="network_error">Something went wrong. Please try again.</string>
 
-    <string name="permissions_title">Start Here</string>
+    <string name="permissions_title">Note on Screenshots</string>
     <string name="permissions_rationale">We can\'t process your screen without certain permissions. Don\'t worry, we only take screenshots when you prompt us to.</string>
     <string name="service_title">Begin Capturing</string>
     <string name="service_rationale">Start the service to begin processing heroes. It shows up as a notification.</string>
@@ -56,6 +56,7 @@
     <string name="hero_stats">Hero Stats</string>
 
     <string name="could_not_parse">Whoops! Something went wrong. Try checking your bounds.</string>
+    <string name="missing_screenshot_permission">Missing screenshot permission! Please try again.</string>
 
     <string name="heroes_last_updated">Heroes last synced on %1$s</string>
 

@@ -10,7 +10,8 @@ import android.hardware.display.VirtualDisplay
 import android.media.ImageReader
 import android.media.projection.MediaProjection
 import android.media.projection.MediaProjectionManager
-import com.andrewvora.apps.lensemblem.permissions.PermissionsFragment
+import com.andrewvora.apps.lensemblem.R
+import com.andrewvora.apps.lensemblem.alerts.LensEmblemAlerts
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -19,9 +20,10 @@ import javax.inject.Singleton
  * @author Andrew Vorakrajangthiti
  */
 @Singleton
-class ScreenshotHelper
+open class ScreenshotHelper
 @Inject
-constructor(private val app: Application) {
+constructor(private val app: Application,
+            private val alerts: LensEmblemAlerts) {
 
     private val mediaProjectionManager = app.getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
     private val screenWidth = app.resources.displayMetrics.widthPixels
@@ -40,8 +42,12 @@ constructor(private val app: Application) {
         this.permissionIntent = permissionIntent
     }
 
-    fun getPermission() {
-        app.startActivity(Intent(app, PermissionsFragment::class.java))
+    private fun alertNoPermission() {
+        alerts.toast(app.getString(R.string.missing_screenshot_permission))
+    }
+
+    fun hasPermission(): Boolean {
+        return permissionIntent != null
     }
 
     fun getPermissionIntent(): Intent {
@@ -50,7 +56,7 @@ constructor(private val app: Application) {
 
     fun takeScreenshot(callback: (Bitmap) -> Unit) {
         if (permissionIntent == null) {
-            getPermission()
+            alertNoPermission()
             return
         }
 

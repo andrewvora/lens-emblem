@@ -51,6 +51,7 @@ constructor(private val sharedPreferences: SharedPreferences) {
         const val HAS_LOADED_DEFAULT_DATA = "loadedDefaultData"
         const val LAST_CHECKED_NOTIFICATION_TIME = "lastCheckedNotificationTime"
         const val LAST_HERO_SYNC = "lastTimeHeroesWereSynced"
+        const val HAS_SCREENSHOT_PERMISSION = "hasScreenshotPermission"
         private const val PREF_USE_DARK_THEME = "useDarkTheme"
     }
 }
