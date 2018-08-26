@@ -12,6 +12,7 @@ const weaponMods = {
   'light brand': { stat: 'def', mod: 3 },
   'meisterschwert': { stat: 'spd', mod: -5 },
   'resolute blade': { stat: 'atk', mod: 3 },
+  'royal sword': { stat: 'spd', mod: 3 },
 
   // red tomes
   'grima\'s truth': { stat: 'def', mod: 3 },
@@ -37,6 +38,8 @@ const weaponMods = {
   'giga excalibur': { stat: 'spd', mod: 3 },
   'muninn\'s egg': { stat: 'res', mod: 3 },
   'nifl frostflowers': { stat: 'atk', mod: 3 },
+  'wolf berg': { stat: 'def', mod: 3 },
+  'garm': { stat: 'atk', mod: 3 },
 
   // breaths
   'great flame': { stat: 'atk', mod: 3 },
@@ -47,7 +50,11 @@ const weaponMods = {
   'mulagir': { stat: 'spd', mod: 3 },
   'skadi': { stat: 'spd', mod: 3 },
   'swift mulagir': { stat: 'res', mod: 3 },
-  'warrior princess': { stat: 'spd', mod: 3 }
+  'warrior princess': { stat: 'spd', mod: 3 },
+  'thögn': { stat: 'spd', mod: 3 },
+
+  // daggers
+  'dawn suzu': { stat: 'atk', mod: 3 }
 }
 
 module.exports.weaponMods = weaponMods
