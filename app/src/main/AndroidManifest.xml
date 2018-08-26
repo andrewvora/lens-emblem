@@ -7,7 +7,7 @@
 
     <application
         android:name=".LensEmblemApp"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -20,6 +20,13 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+            <intent-filter android:label="@string/app_name">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="app"
+                      android:host="lensemblem" />
+            </intent-filter>
         </activity>
 
         <activity
@@ -28,6 +35,11 @@
 
         <service
             android:name=".LensEmblemService"
+            android:exported="false"/>
+
+        <service
+            android:name=".updater.HeroUpdaterService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
             android:exported="false"/>
 
     </application>

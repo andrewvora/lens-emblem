@@ -142,12 +142,4 @@ class HeroesRepo
             localSource.getHeroFromDatabase(title, name)
         }
     }
-
-    fun deleteAllHeroes(): Completable {
-        return Completable.defer {
-            val deleteHeroesCompletable = localSource.deleteAllHeroAliasesFromDatabase()
-            val deleteAliasesCompletable = localSource.deleteAllHeroesFromDatabase()
-            return@defer deleteHeroesCompletable.andThen(deleteAliasesCompletable)
-        }
-    }
 }

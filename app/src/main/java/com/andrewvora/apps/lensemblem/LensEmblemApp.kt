@@ -4,6 +4,8 @@ import android.app.Application
 import com.andrewvora.apps.lensemblem.dagger.AppComponent
 import com.andrewvora.apps.lensemblem.dagger.AppModule
 import com.andrewvora.apps.lensemblem.dagger.DaggerAppComponent
+import com.crashlytics.android.Crashlytics
+import io.fabric.sdk.android.Fabric
 
 /**
  * Created on 2/27/2018.
@@ -17,5 +19,11 @@ class LensEmblemApp : Application() {
         component = DaggerAppComponent.builder()
                 .appModule(AppModule(this))
                 .build()
+
+        initFabric()
+    }
+
+    private fun initFabric() {
+        Fabric.with(this, Crashlytics())
     }
 }

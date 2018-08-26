@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModel
 import com.andrewvora.apps.lensemblem.models.Hero
 import com.andrewvora.apps.lensemblem.repos.HeroesRepo
 import com.andrewvora.apps.lensemblem.rxjava.useStandardObserveSubscribe
+import com.andrewvora.apps.lensemblem.updater.HeroUpdater
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -19,7 +20,8 @@ import javax.inject.Inject
  */
 class HeroesListViewModel
 @Inject
-constructor(private val heroesRepo: HeroesRepo): ViewModel() {
+constructor(private val heroesRepo: HeroesRepo,
+            private val heroUpdater: HeroUpdater): ViewModel() {
 
     private val heroes = MutableLiveData<List<Hero>>()
     private val error = MutableLiveData<Throwable>()
@@ -35,6 +37,14 @@ constructor(private val heroesRepo: HeroesRepo): ViewModel() {
                     searchForHeroes(it)
                 }, {
                     // do nothing
+                }))
+
+        disposables.add(heroUpdater.subject
+                .useStandardObserveSubscribe()
+                .subscribe({
+                    loadHeroes()
+                }, {
+                    error.value = it
                 }))
     }
 
@@ -57,13 +67,7 @@ constructor(private val heroesRepo: HeroesRepo): ViewModel() {
     }
 
     fun refreshHeroes() {
-        disposables.add(heroesRepo.fetchHeroes()
-                .useStandardObserveSubscribe()
-                .subscribe({
-                    loadHeroes()
-                }, {
-                    error.value = it
-                }))
+        heroUpdater.load()
     }
 
     private fun searchForHeroes(query: String) {

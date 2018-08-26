@@ -11,6 +11,7 @@ import com.andrewvora.apps.lensemblem.heroeslist.HeroesListFragment
 import com.andrewvora.apps.lensemblem.main.MainFragment
 import com.andrewvora.apps.lensemblem.notifications.NotificationFragment
 import com.andrewvora.apps.lensemblem.permissions.PermissionsFragment
+import com.andrewvora.apps.lensemblem.updater.HeroUpdaterService
 import dagger.Component
 import javax.inject.Singleton
 
@@ -22,6 +23,8 @@ import javax.inject.Singleton
 @Singleton
 interface AppComponent {
     fun inject(service: LensEmblemService)
+    fun inject(service: HeroUpdaterService)
+
     fun inject(fragment: PermissionsFragment)
     fun inject(activity: BoundsPickerActivity)
     fun inject(fragment: NotificationFragment)

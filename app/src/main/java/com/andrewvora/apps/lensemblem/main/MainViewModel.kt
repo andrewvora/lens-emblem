@@ -7,9 +7,9 @@ import com.andrewvora.apps.lensemblem.data.SystemConfig
 import com.andrewvora.apps.lensemblem.data.TimestampFormatter
 import com.andrewvora.apps.lensemblem.models.AppMessage
 import com.andrewvora.apps.lensemblem.preferences.LensEmblemPreferences
-import com.andrewvora.apps.lensemblem.repos.HeroesRepo
 import com.andrewvora.apps.lensemblem.repos.NotificationsRepo
 import com.andrewvora.apps.lensemblem.rxjava.useStandardObserveSubscribe
+import com.andrewvora.apps.lensemblem.updater.HeroUpdater
 import io.reactivex.disposables.CompositeDisposable
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -21,8 +21,8 @@ import javax.inject.Inject
  */
 class MainViewModel
 @Inject
-constructor(private val heroesRepo: HeroesRepo,
-            private val notificationsRepo: NotificationsRepo,
+constructor(private val notificationsRepo: NotificationsRepo,
+            private val heroUpdater: HeroUpdater,
             private val lensEmblemPrefs: LensEmblemPreferences,
             private val timestampFormatter: TimestampFormatter,
             private val systemConfig: SystemConfig) : ViewModel() {
@@ -41,6 +41,25 @@ constructor(private val heroesRepo: HeroesRepo,
     private val disposables = CompositeDisposable()
     private val lastHeroSyncTimestamp = MutableLiveData<String>()
     private var isLoadingHeroes = false
+
+    init {
+        disposables.add(heroUpdater.subject
+                .useStandardObserveSubscribe()
+                .subscribe({
+                    // prevent app from automatically fetching data on app start
+                    lensEmblemPrefs.setLoadedDefaultData(true)
+
+                    isLoadingHeroes = false
+                    showProgress.value = false
+                    heroesLoaded.value = true
+
+                    updateLastHeroSyncTimestamp()
+                }, {
+                    error.value = it
+                    isLoadingHeroes = false
+                    showProgress.value = false
+                }))
+    }
 
     fun getHeroesLoaded(): LiveData<Boolean> {
         return heroesLoaded
@@ -75,19 +94,7 @@ constructor(private val heroesRepo: HeroesRepo,
             isLoadingHeroes = true
             showProgress.value = true
 
-            disposables.add(heroesRepo.loadDefaultData()
-                    .useStandardObserveSubscribe()
-                    .doOnError {
-                        error.value = it
-                        isLoadingHeroes = false
-                        showProgress.value = false
-                    }
-                    .doOnComplete {
-                        lensEmblemPrefs.setLoadedDefaultData(true)
-                        showProgress.value = false
-                        heroesLoaded.value = true
-                    }
-                    .subscribe())
+            heroUpdater.loadLocal()
         }
     }
 
@@ -107,21 +114,7 @@ constructor(private val heroesRepo: HeroesRepo,
             isLoadingHeroes = true
             showProgress.value = true
 
-            disposables.add(heroesRepo.fetchHeroes()
-                    .useStandardObserveSubscribe()
-                    .doOnError {
-                        error.value = it
-                        isLoadingHeroes = false
-                        showProgress.value = false
-                    }
-                    .doOnComplete {
-                        isLoadingHeroes = false
-                        showProgress.value = false
-                        heroesLoaded.value = true
-
-                        updateLastHeroSyncTimestamp()
-                    }
-                    .subscribe())
+            heroUpdater.load()
         }
     }
 
@@ -150,12 +143,11 @@ constructor(private val heroesRepo: HeroesRepo,
                         }
                     }
                     .useStandardObserveSubscribe()
-                    .doOnSuccess {
+                    .subscribe({
                         if (it.isNotEmpty()) {
                             notifications.value = it
                         }
-                    }
-                    .subscribe())
+                    }, {}))
         }
     }
 
