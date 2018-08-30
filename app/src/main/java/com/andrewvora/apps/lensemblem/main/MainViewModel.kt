@@ -90,11 +90,26 @@ constructor(private val notificationsRepo: NotificationsRepo,
     }
 
     fun loadHeroes() {
-        if (isLoadingHeroes.not()) {
-            isLoadingHeroes = true
-            showProgress.value = true
+        if (heroesLoaded().not()) {
+            if (isLoadingHeroes.not()) {
+                isLoadingHeroes = true
+                showProgress.value = true
 
-            heroUpdater.loadLocal()
+                heroUpdater.loadLocal()
+            }
+        } else {
+            fetchHeroesIfStaleData()
+        }
+    }
+
+    private fun fetchHeroesIfStaleData() {
+        val lastSync = Date(lensEmblemPrefs.lastHeroSync())
+        val now = Calendar.getInstance()
+        now.add(Calendar.DAY_OF_YEAR, -5)
+        val updateCutoff = now.time
+
+        if (lastSync.before(updateCutoff)) {
+            syncHeroData()
         }
     }
 

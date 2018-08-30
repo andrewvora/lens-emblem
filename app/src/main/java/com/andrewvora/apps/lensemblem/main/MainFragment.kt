@@ -154,9 +154,7 @@ class MainFragment : Fragment(), PermissionListener {
     }
 
     private fun loadHeroesIfNecessary() {
-        if (mainViewModel.heroesLoaded().not()) {
-            mainViewModel.loadHeroes()
-        }
+        mainViewModel.loadHeroes()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
