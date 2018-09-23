@@ -224,8 +224,7 @@ class LensEmblemService : Service() {
 
     private fun createNotification(): Notification {
         return notificationHelper.createProcessHeroNotification(
-                NotificationAction.StopServiceAction(application),
-                NotificationAction.ScreenshotAction(application)
+                NotificationAction.StopServiceAction(application)
         )
     }
 
