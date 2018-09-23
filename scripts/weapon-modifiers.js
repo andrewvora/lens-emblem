@@ -13,6 +13,9 @@ const weaponMods = {
   'meisterschwert': { stat: 'spd', mod: -5 },
   'resolute blade': { stat: 'atk', mod: 3 },
   'royal sword': { stat: 'spd', mod: 3 },
+  'laevatein': { stat: 'atk', mod: 3 },
+  'níu': { stat: 'spd', mod: 3 },
+  'niu': { stat: 'spd', mod: 3 },
 
   // red tomes
   'grima\'s truth': { stat: 'def', mod: 3 },
