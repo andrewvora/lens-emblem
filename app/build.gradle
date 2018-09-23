@@ -12,8 +12,8 @@ android {
         applicationId "com.andrewvora.apps.lensemblem"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 12
-        versionName "0.1.12"
+        versionCode 13
+        versionName "0.1.13"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         kapt {
