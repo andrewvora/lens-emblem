@@ -89,26 +89,9 @@ class LensEmblemService : Service() {
                 running = true
 
                 // determine what to do
-                when (requestedAction) {
-                    LensEmblemService.ServiceAction.START -> {
-                        setBoundingConfig()
-                        makeToast(getString(R.string.service_started))
-                    }
-                    LensEmblemService.ServiceAction.STOP -> {
-                        if (!disposables.isDisposed) {
-                            disposables.dispose()
-                        }
-                        stopSelf()
-                    }
-                    LensEmblemService.ServiceAction.PROCESS -> {
-                        takeScreenshotAndProcessHero()
-                    }
-                    LensEmblemService.ServiceAction.SCREENSHOT_ONLY -> {
-                        takeScreenshot()
-                    }
-                }
+                runCommandSafely(requestedAction)
 
-                // allow other messages to come through after 500 ms
+                // allow other messages to come through after 1000 ms
                 // this is debounce duplicate events within the same window
                 disposables.add(Completable.timer(1, TimeUnit.SECONDS)
                         .subscribeOn(Schedulers.io())
@@ -119,6 +102,38 @@ class LensEmblemService : Service() {
         }
 
         startForeground(SERVICE_ID, createNotification())
+    }
+
+    private fun runCommandSafely(action: ServiceAction?) {
+        try {
+            runCommand(action)
+        } catch (e: Exception) {
+            e.printStackTrace()
+
+            // do not allow service to get locked
+            running = false
+        }
+    }
+
+    private fun runCommand(action: ServiceAction?) {
+        when (action) {
+            LensEmblemService.ServiceAction.START -> {
+                setBoundingConfig()
+                makeToast(getString(R.string.service_started))
+            }
+            LensEmblemService.ServiceAction.STOP -> {
+                if (!disposables.isDisposed) {
+                    disposables.dispose()
+                }
+                stopSelf()
+            }
+            LensEmblemService.ServiceAction.PROCESS -> {
+                takeScreenshotAndProcessHero()
+            }
+            LensEmblemService.ServiceAction.SCREENSHOT_ONLY -> {
+                takeScreenshot()
+            }
+        }
     }
 
     private fun setBoundingConfig() {
