@@ -9,7 +9,6 @@ import com.andrewvora.apps.lensemblem.dagger.viewmodel.ViewModelModule
 import com.andrewvora.apps.lensemblem.herodetails.HeroDetailsFragment
 import com.andrewvora.apps.lensemblem.heroeslist.HeroesListFragment
 import com.andrewvora.apps.lensemblem.main.MainFragment
-import com.andrewvora.apps.lensemblem.notifications.NotificationFragment
 import com.andrewvora.apps.lensemblem.permissions.PermissionsFragment
 import com.andrewvora.apps.lensemblem.updater.HeroUpdaterService
 import dagger.Component
@@ -27,7 +26,6 @@ interface AppComponent {
 
     fun inject(fragment: PermissionsFragment)
     fun inject(activity: BoundsPickerActivity)
-    fun inject(fragment: NotificationFragment)
     fun inject(fragment: HeroesListFragment)
     fun inject(activity: MainActivity)
     fun inject(fragment: MainFragment)

@@ -33,7 +33,6 @@ class MainFragment : Fragment(), PermissionListener {
     @Inject lateinit var screenshotHelper: ScreenshotHelper
 
     private lateinit var mainViewModel: MainViewModel
-    private var notificationMenuItem: MenuItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +50,6 @@ class MainFragment : Fragment(), PermissionListener {
         initObservers()
         loadHeroesIfNecessary()
         mainViewModel.restoreViewState()
-        mainViewModel.loadNotifications()
         mainViewModel.loadHeroSyncTimestamp()
     }
 
@@ -124,10 +122,6 @@ class MainFragment : Fragment(), PermissionListener {
             }
         })
 
-        mainViewModel.getNotifications().observe(this, Observer {
-            notificationMenuItem?.setIcon(R.drawable.ic_notifications_active_24dp)
-        })
-
         mainViewModel.getState().observe(this, Observer {
             if (it != null) {
                 applyViewState(it)
@@ -159,7 +153,6 @@ class MainFragment : Fragment(), PermissionListener {
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater?.inflate(R.menu.menu_main, menu)
-        notificationMenuItem = menu?.findItem(R.id.menu_notifications)
         menu?.findItem(R.id.menu_use_light_theme)?.isChecked = lensEmblemPreferences.useDarkTheme()
         super.onCreateOptionsMenu(menu, inflater)
     }
@@ -169,14 +162,6 @@ class MainFragment : Fragment(), PermissionListener {
             R.id.menu_acknowledgements -> {
                 activity?.fragmentManager?.let {
                     AcknowledgementsDialog().show(it, "acknowledgements")
-                }
-            }
-            R.id.menu_notifications -> {
-                activity?.let {
-                    // use normal icon after click to show "read" status
-                    notificationMenuItem?.setIcon(R.drawable.ic_notifications_24dp)
-
-                    findNavController(toolbar).navigate(R.id.open_notifications)
                 }
             }
             R.id.menu_sync_data -> {

@@ -11,11 +11,6 @@
         android:label="BoundsPickerActivity"
         tools:layout="@layout/activity_bounds_picker"/>
     <fragment
-        android:id="@+id/notifications_fragment"
-        android:name="com.andrewvora.apps.lensemblem.notifications.NotificationFragment"
-        android:label="NotificationFragment"
-        tools:layout="@layout/fragment_notifications"/>
-    <fragment
         android:id="@+id/heroes_list_fragment"
         android:name="com.andrewvora.apps.lensemblem.heroeslist.HeroesListFragment"
         android:label="HeroesListFragment"
@@ -32,9 +27,6 @@
         <action
             android:id="@+id/open_bounds_picker"
             app:destination="@+id/bounds_picker"/>
-        <action
-            android:id="@+id/open_notifications"
-            app:destination="@id/notifications_fragment"/>
         <action
             android:id="@+id/open_heroes_list"
             app:destination="@id/heroes_list_fragment"/>

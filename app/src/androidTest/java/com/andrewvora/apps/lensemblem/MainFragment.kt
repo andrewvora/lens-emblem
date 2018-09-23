@@ -2,7 +2,6 @@ package com.andrewvora.apps.lensemblem
 
 import android.content.pm.ActivityInfo
 import android.support.test.espresso.Espresso.onView
-import android.support.test.espresso.Espresso.pressBack
 import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers.*
@@ -27,23 +26,22 @@ class MainFragment {
 
     @Test
     fun checkBasicNavigation() {
-        onView(withId(R.id.screen_capture_permission_button)).check(matches(isDisplayed()))
+        onView(withId(R.id.start_service_button))
+                .check(matches(isDisplayed()))
+                .check(matches(isEnabled()))
 
         onView(withId(R.id.menu_view_heroes)).perform(click())
         onView(withId(R.id.hero_list_recycler_view)).check(matches(isDisplayed()))
 
         onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click())
-        onView(withId(R.id.screen_capture_permission_button)).check(matches(isDisplayed()))
-
-        onView(withId(R.id.menu_notifications)).perform(click())
-        pressBack()
-        onView(withId(R.id.screen_capture_permission_button)).check(matches(isDisplayed()))
+        onView(withId(R.id.start_service_button))
+                .check(matches(isDisplayed()))
+                .check(matches(isEnabled()))
     }
 
     @Test
     fun checkOverflowMenuVisibility() {
         onView(withId(R.id.menu_view_heroes)).check(matches(isDisplayed()))
-        onView(withId(R.id.menu_notifications)).check(matches(isDisplayed()))
     }
 
     @Test

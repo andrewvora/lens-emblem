@@ -16,12 +16,11 @@ internal const val DB_NAME = "lens_emblem"
  * Created on 3/3/2018.
  * @author Andrew Vorakrajangthiti
  */
-@Database(version = 3, entities = [
+@Database(version = 4, entities = [
     Hero::class,
     NameAlias::class,
     TitleAlias::class,
     Stats::class,
-    AppMessage::class,
     Bounds::class
 ])
 @TypeConverters(
@@ -34,6 +33,5 @@ abstract class LensEmblemDatabase : RoomDatabase() {
     abstract fun heroDao(): HeroDao
     abstract fun aliasDao(): AliasDao
     abstract fun statsDao(): StatsDao
-    abstract fun messageDao(): MessageDao
     abstract fun boundsDao(): BoundsDao
 }

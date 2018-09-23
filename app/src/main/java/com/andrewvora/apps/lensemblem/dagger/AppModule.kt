@@ -8,6 +8,7 @@ import com.andrewvora.apps.lensemblem.database.DB_NAME
 import com.andrewvora.apps.lensemblem.database.LensEmblemDatabase
 import com.andrewvora.apps.lensemblem.database.migrations.MigrationV1ToV2
 import com.andrewvora.apps.lensemblem.database.migrations.MigrationV2ToV3
+import com.andrewvora.apps.lensemblem.database.migrations.MigrationV3ToV4
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -27,6 +28,7 @@ class AppModule(private val app: Application) {
             .databaseBuilder(app, LensEmblemDatabase::class.java, DB_NAME)
             .addMigrations(MigrationV1ToV2())
             .addMigrations(MigrationV2ToV3())
+            .addMigrations(MigrationV3ToV4())
             .build()
 
     @Provides @Singleton
