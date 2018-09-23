@@ -18,6 +18,10 @@ import com.andrewvora.apps.lensemblem.ocr.OCRHeroProcessor
 import com.andrewvora.apps.lensemblem.repos.BoundsRepo
 import com.andrewvora.apps.lensemblem.repos.HeroesRepo
 import com.andrewvora.apps.lensemblem.statprocessing.IVProcessor
+import io.reactivex.Completable
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
@@ -49,6 +53,8 @@ class LensEmblemService : Service() {
     @Inject lateinit var ivProcessor: IVProcessor
     @Inject lateinit var heroesRepo: HeroesRepo
     @Inject lateinit var latestScreenshot: LatestScreenshot
+
+    private val disposables = CompositeDisposable()
 
     private lateinit var serviceHandler: Handler
     private lateinit var serviceLooper: Looper
@@ -89,6 +95,9 @@ class LensEmblemService : Service() {
                         makeToast(getString(R.string.service_started))
                     }
                     LensEmblemService.ServiceAction.STOP -> {
+                        if (!disposables.isDisposed) {
+                            disposables.dispose()
+                        }
                         stopSelf()
                     }
                     LensEmblemService.ServiceAction.PROCESS -> {
@@ -99,8 +108,13 @@ class LensEmblemService : Service() {
                     }
                 }
 
-                // allow other messages to come through
-                running = false
+                // allow other messages to come through after 500 ms
+                // this is debounce duplicate events within the same window
+                disposables.add(Completable.timer(1, TimeUnit.SECONDS)
+                        .subscribeOn(Schedulers.io())
+                        .subscribe {
+                            running = false
+                        })
             }
         }
 
