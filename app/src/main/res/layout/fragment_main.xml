@@ -10,12 +10,14 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:fitsSystemWindows="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:fitsSystemWindows="true">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -167,7 +169,7 @@
                 android:layout_marginTop="@dimen/vertical_margin"
                 android:paddingBottom="8dp"
                 android:layout_centerHorizontal="true"
-                android:gravity="center"
+                android:gravity="center_horizontal|bottom"
                 android:textSize="14sp"
                 android:textColor="?android:textColorTertiary"
                 tools:text="Last updated June 16, 2018"/>
