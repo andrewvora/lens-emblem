@@ -18,6 +18,7 @@ import com.andrewvora.apps.lensemblem.ocr.OCRHeroProcessor
 import com.andrewvora.apps.lensemblem.repos.BoundsRepo
 import com.andrewvora.apps.lensemblem.repos.HeroesRepo
 import com.andrewvora.apps.lensemblem.statprocessing.IVProcessor
+import com.bumptech.glide.Glide
 import io.reactivex.Completable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -91,9 +92,9 @@ class LensEmblemService : Service() {
                 // determine what to do
                 runCommandSafely(requestedAction)
 
-                // allow other messages to come through after 1000 ms
+                // allow other messages to come through after 2000 ms
                 // this is debounce duplicate events within the same window
-                disposables.add(Completable.timer(1, TimeUnit.SECONDS)
+                disposables.add(Completable.timer(2, TimeUnit.SECONDS)
                         .subscribeOn(Schedulers.io())
                         .subscribe {
                             running = false
@@ -186,6 +187,19 @@ class LensEmblemService : Service() {
 
         if (capturedStats != null && sourceStats != null) {
             val baneBoon = ivProcessor.calculateIVs(sourceStats, capturedStats)
+            val icon = try {
+                Glide.with(applicationContext).asBitmap().load(heroFromDb.imageUrl).submit().get()
+            } catch (e: Exception) {
+                null
+            }
+
+            // create the summary notification
+            notificationHelper.showHeroIvResultsSummaryNotification()
+
+            // then show the matched notification
+            val heroIvsNotification = notificationHelper.createMatchedHeroNotification(heroFromDb, baneBoon, icon)
+            val notificationId = NotificationHelper.IV_RESULTS_NOTIFICATION_ID * heroFromDb.id
+            notificationHelper.showAppNotification(heroIvsNotification, notificationId)
 
             makeToast(getString(R.string.hero_boon_bane,
                     heroFromDb.name,

@@ -10,6 +10,8 @@ import android.hardware.display.VirtualDisplay
 import android.media.ImageReader
 import android.media.projection.MediaProjection
 import android.media.projection.MediaProjectionManager
+import android.util.DisplayMetrics
+import android.view.WindowManager
 import com.andrewvora.apps.lensemblem.R
 import com.andrewvora.apps.lensemblem.alerts.LensEmblemAlerts
 import javax.inject.Inject
@@ -26,8 +28,12 @@ constructor(private val app: Application,
             private val alerts: LensEmblemAlerts) {
 
     private val mediaProjectionManager = app.getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
-    private val screenWidth = app.resources.displayMetrics.widthPixels
-    private val screenHeight = app.resources.displayMetrics.heightPixels
+    private val windowManager = app.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+    private val displayMetrics = DisplayMetrics().apply {
+        windowManager.defaultDisplay.getRealMetrics(this)
+    }
+    private val screenWidth = displayMetrics.widthPixels
+    private val screenHeight = displayMetrics.heightPixels
     private val screenDensity = app.resources.displayMetrics.densityDpi
 
     private var projection: MediaProjection? = null
@@ -86,7 +92,7 @@ constructor(private val app: Application,
     }
 
     private fun captureScreenshot(reader: ImageReader?, callback: (Bitmap) -> Unit) {
-        reader?.setOnImageAvailableListener({
+        reader?.setOnImageAvailableListener({ _ ->
             reader.acquireLatestImage()?.let {
                 val planes = it.planes
                 val buffer = planes[0].buffer

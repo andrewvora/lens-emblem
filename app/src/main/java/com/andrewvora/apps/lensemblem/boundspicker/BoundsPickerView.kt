@@ -90,8 +90,8 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
         val transX = matrixValues[Matrix.MTRANS_X]
         val transY = matrixValues[Matrix.MTRANS_Y]
 
-        val drawableIntrinsicWidth = drawable.intrinsicWidth
-        val drawableIntrinsicHeight = drawable.intrinsicHeight
+        val drawableIntrinsicWidth = resources.displayMetrics.widthPixels
+        val drawableIntrinsicHeight = resources.displayMetrics.heightPixels
 
         val drawableDisplayWidth = Math.round(drawableIntrinsicWidth * scaleX)
         val drawableDisplayHeight = Math.round(drawableIntrinsicHeight * scaleY)

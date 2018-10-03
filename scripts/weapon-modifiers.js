@@ -14,6 +14,7 @@ const weaponMods = {
   'resolute blade': { stat: 'atk', mod: 3 },
   'royal sword': { stat: 'spd', mod: 3 },
   'laevatein': { stat: 'atk', mod: 3 },
+  'exalted falchion': { stat: 'spd', mod: 3 },
   'níu': { stat: 'spd', mod: 3 },
   'niu': { stat: 'spd', mod: 3 },
 

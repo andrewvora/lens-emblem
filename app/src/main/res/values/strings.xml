@@ -15,6 +15,9 @@
     <string name="start_service_btn_text">Start Background Service</string>
     <string name="adjust_bounds_btn_text">Adjust OCR Bounds</string>
 
+    <string name="iv_results_summary_title">IV Results</string>
+    <string name="iv_results_summary_short_description">View IVs of previously scanned heroes</string>
+
     <string name="content_description_back">Go back</string>
     <string name="content_description_save">Save</string>
 
