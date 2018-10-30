@@ -12,7 +12,7 @@
     <string name="menu_acknowledgements">Acknowledgements</string>
     <string name="menu_use_embla_theme">Use Embla theme</string>
 
-    <string name="start_service_btn_text">Start Background Service</string>
+    <string name="start_service_btn_text">Start Checker</string>
     <string name="adjust_bounds_btn_text">Adjust OCR Bounds</string>
 
     <string name="iv_results_summary_title">IV Results</string>
@@ -35,10 +35,20 @@
 
     <string name="permissions_title">Note on Screenshots</string>
     <string name="permissions_rationale">We can\'t process your screen without certain permissions. Don\'t worry, we only take screenshots when you prompt us to.</string>
+    <string name="tutorials_title">Tutorial</string>
+    <string name="tutorials_message">First-time user or just forgetful? Try the tutorial.</string>
+    <string name="tutorial_button">Begin Tutorial</string>
+    <string name="skip">Skip</string>
+    <string name="done">Done</string>
     <string name="service_title">Begin Capturing</string>
     <string name="service_rationale">Start the service to begin processing heroes. It shows up as a notification.</string>
     <string name="bounds_picker_title">Fine-Tune (optional)</string>
     <string name="bounds_picker_rationale">All phones are different! The bounds picker will help you adjust the regions the app reads when it processes screenshots.</string>
+
+    <string name="tutorial_1_text">Start the checker service by tapping the "Start Checker" button on the home screen.</string>
+    <string name="tutorial_2_text">Tap on the service notification to start the check.</string>
+    <string name="tutorial_3_text">Make sure you are viewing the hero\'s full profile!</string>
+    <string name="tutorial_4_text">Trouble matching IVs? Try adjusting the bounds.</string>
 
     <string name="service_started">Service is running! Check your notifications.</string>
     <string name="service_already_running">Service is already running</string>
@@ -75,6 +85,8 @@
     <string name="def">DEF</string>
     <string name="res">RES</string>
     <string name="stat_placeholder">-</string>
+
+    <string name="sample_notification_time">10m</string>
 
     <string name="acknowledgements">Acknowledgements</string>
 </resources>

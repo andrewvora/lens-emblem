@@ -7,6 +7,7 @@ import com.andrewvora.apps.lensemblem.R
 import com.andrewvora.apps.lensemblem.dagger.component
 import com.andrewvora.apps.lensemblem.repos.HeroesRepo
 import com.crashlytics.android.Crashlytics
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -30,8 +31,8 @@ class HeroUpdaterService : JobIntentService() {
             heroesRepo.fetchHeroes().blockingAwait()
             heroUpdaterSubject.subject.onNext(true)
         } catch (e: Exception) {
-            Crashlytics.logException(e)
-            Log.i(loggingTag, "Failed to update database.")
+            Timber.e(e)
+            Timber.i("$loggingTag: Failed to update database.")
         }
     }
 }

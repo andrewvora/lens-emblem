@@ -74,6 +74,12 @@ class MainFragment : Fragment(), PermissionListener {
                 findNavController(v).navigate(R.id.open_bounds_picker)
             }
         }
+
+        start_tutorial_button.setOnClickListener { v ->
+            activity?.let {
+                findNavController(v).navigate(R.id.open_tutorial)
+            }
+        }
     }
 
     private fun getPermissionsFragment(): PermissionsFragment? {

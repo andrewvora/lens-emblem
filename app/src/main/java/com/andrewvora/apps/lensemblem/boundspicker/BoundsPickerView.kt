@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.*
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
+import android.util.DisplayMetrics
 import android.view.MotionEvent
 import android.widget.ImageView
 import com.andrewvora.apps.lensemblem.R
@@ -34,6 +35,11 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
     private lateinit var bitmapRect: RectF
     private var touchOffset: PointF = PointF()
     private var pressedHandle: Handle? = null
+    private val bottomOfScreen by lazy {
+        val outMetrics = DisplayMetrics()
+        display.getRealMetrics(outMetrics)
+        outMetrics.heightPixels.toFloat()
+    }
 
     init {
         cornerTouchRadius  = resources.getDimension(R.dimen.bounds_picker_view_touch_radius)
@@ -118,9 +124,13 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
         val top = Edge.TOP.coordinate
         val bottom = Edge.BOTTOM.coordinate
 
+        // draw overlay above selection area
         canvas?.drawRect(bitmapRect.left, bitmapRect.top, bitmapRect.right, top, darkOverlayPaint)
-        canvas?.drawRect(bitmapRect.left, bottom, bitmapRect.right, bitmapRect.bottom, darkOverlayPaint)
+        // draw overlay below the selection area
+        canvas?.drawRect(bitmapRect.left, bottom, bitmapRect.right, bottomOfScreen, darkOverlayPaint)
+        // draw overlay to the left, bounded right by the selection area
         canvas?.drawRect(bitmapRect.left, top, left, bottom, darkOverlayPaint)
+        // draw overlay to the right, sized to height of selection area
         canvas?.drawRect(right, top, bitmapRect.right, bottom, darkOverlayPaint)
     }
 

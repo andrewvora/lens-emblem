@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bounds_picker_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:background="@color/md_white_1000">
 
     <TextView
         android:id="@+id/instructions_view"
@@ -12,6 +15,7 @@
         android:layout_gravity="center"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
+        android:fitsSystemWindows="true"
         android:textSize="20sp"
         android:text="@string/bounds_picker_instructions"/>
 
@@ -30,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/horizontal_margin"
-        android:layout_marginTop="@dimen/horizontal_margin"
+        android:layout_marginTop="@dimen/vertical_margin"
         android:layout_gravity="start|top"
         android:padding="12dp"
         android:elevation="8dp"
@@ -38,18 +42,23 @@
         android:contentDescription="@string/content_description_back"
         android:fitsSystemWindows="true"/>
 
-    <ImageButton
-        style="@style/Base.TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/save_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/horizontal_margin"
-        android:layout_marginTop="@dimen/vertical_margin"
-        android:layout_gravity="end|top"
-        android:padding="12dp"
+        android:layout_marginBottom="@dimen/horizontal_margin"
+        android:layout_gravity="bottom|end"
+        android:clickable="true"
+        android:focusable="true"
+        android:contentDescription="@string/content_description_save"
+        android:fitsSystemWindows="true"
         android:elevation="8dp"
-        android:src="@drawable/ic_check_24dp"
-        android:backgroundTint="@color/md_green_400"
-        android:contentDescription="@string/content_description_save"/>
+        app:elevation="8dp"
+        app:layout_anchorGravity="right|bottom"
+        app:backgroundTint="@color/md_green_400"
+        app:rippleColor="@color/md_green_700"
+        app:fabSize="normal"
+        app:srcCompat="@drawable/ic_check_24dp"/>
 
-</FrameLayout>
+</android.support.design.widget.CoordinatorLayout>

@@ -6,6 +6,7 @@ import com.andrewvora.apps.lensemblem.boundspicker.BoundsPickerViewModel
 import com.andrewvora.apps.lensemblem.herodetails.HeroDetailsViewModel
 import com.andrewvora.apps.lensemblem.heroeslist.HeroesListViewModel
 import com.andrewvora.apps.lensemblem.main.MainViewModel
+import com.andrewvora.apps.lensemblem.tutorial.TutorialViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -28,6 +29,9 @@ abstract class ViewModelModule {
 
     @Binds @IntoMap @ViewModelKey(HeroDetailsViewModel::class)
     internal abstract fun bindHeroDetailsViewModel(viewModel: HeroDetailsViewModel): ViewModel
+
+    @Binds @IntoMap @ViewModelKey(TutorialViewModel::class)
+    internal abstract fun bindTutorialViewModel(viewModel: TutorialViewModel): ViewModel
 
     // view model factories
     @Binds

@@ -21,6 +21,15 @@
         <item name="android:textColorSecondary">?android:textColorPrimary</item>
     </style>
 
+    <style name="TutorialButtonStyle" parent="TextStyle">
+        <item name="android:textSize">@dimen/medium_text_size</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:background">?selectableItemBackgroundBorderless</item>
+    </style>
+
     <!-- This will set the fade in animation on all your activities by default -->
     <style name="WindowAnimationTransition">
         <item name="android:windowEnterAnimation">@android:anim/fade_in</item>

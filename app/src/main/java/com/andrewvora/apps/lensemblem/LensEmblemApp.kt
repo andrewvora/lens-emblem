@@ -4,8 +4,10 @@ import android.app.Application
 import com.andrewvora.apps.lensemblem.dagger.AppComponent
 import com.andrewvora.apps.lensemblem.dagger.AppModule
 import com.andrewvora.apps.lensemblem.dagger.DaggerAppComponent
+import com.andrewvora.apps.lensemblem.logging.CrashlyticsTree
 import com.crashlytics.android.Crashlytics
 import io.fabric.sdk.android.Fabric
+import timber.log.Timber
 
 /**
  * Created on 2/27/2018.
@@ -21,9 +23,16 @@ class LensEmblemApp : Application() {
                 .build()
 
         initFabric()
+        initLogging()
     }
 
     private fun initFabric() {
-        Fabric.with(this, Crashlytics())
+        if (!BuildConfig.DEBUG) {
+            Fabric.with(this, Crashlytics())
+        }
+    }
+
+    private fun initLogging() {
+        Timber.plant(CrashlyticsTree())
     }
 }

@@ -30,6 +30,15 @@
         <action
             android:id="@+id/open_heroes_list"
             app:destination="@id/heroes_list_fragment"/>
+        <action
+            android:id="@+id/open_tutorial"
+            app:destination="@+id/tutorial_fragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/tutorial_fragment"
+        android:name="com.andrewvora.apps.lensemblem.tutorial.TutorialFragment"
+        android:label="TutorialFragment"
+        tools:layout="@layout/fragment_tutorial">
     </fragment>
     <fragment
         android:id="@+id/hero_details_fragment"

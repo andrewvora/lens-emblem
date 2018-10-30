@@ -9,6 +9,7 @@ import com.andrewvora.apps.lensemblem.rxjava.useStandardObserveSubscribe
 import com.crashlytics.android.Crashlytics
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -41,8 +42,8 @@ constructor(private val app: Application,
                 .subscribe({
                     subject.onNext(true)
                 }, {
-                    Log.e(HeroUpdater::class.java.simpleName, it.message)
-                    Crashlytics.logException(it)
+                    Timber.d("${HeroUpdater::class.java.simpleName}: ${it.message}")
+                    Timber.e(it)
                 })
     }
 }

@@ -8,6 +8,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.DisplayMetrics
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
@@ -17,6 +18,7 @@ import com.andrewvora.apps.lensemblem.models.Bounds
 import com.andrewvora.apps.lensemblem.models.BoundsType
 import kotlinx.android.synthetic.main.activity_bounds_picker.*
 import javax.inject.Inject
+import kotlin.math.min
 
 
 /**
@@ -31,7 +33,8 @@ class BoundsPickerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        makeFullscreen()
+        window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+        window.decorView.systemUiVisibility = getFullscreenFlags()
         setContentView(R.layout.activity_bounds_picker)
 
         application?.component()?.inject(this)
@@ -49,13 +52,12 @@ class BoundsPickerActivity : AppCompatActivity() {
         startSelectingBounds()
     }
 
-    private fun makeFullscreen() {
-        window.setFlags(
-                WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN)
-    }
-
     private fun initViews() {
+        val screenSize = getScreenSize()
+        val maxAllowableHeight = screenSize.widthPixels / 10.0 * 18
+        val currentHeight = screenSize.heightPixels
+        bounds_picker_view.layoutParams.height = min(maxAllowableHeight.toInt(), currentHeight)
+
         back_button.setOnClickListener {
             val prev = boundsPickerViewModel.getPreviousStep()
             if (prev == BoundsType.UNSPECIFIED) {
@@ -87,9 +89,14 @@ class BoundsPickerActivity : AppCompatActivity() {
         }
     }
 
+    private fun getScreenSize(): DisplayMetrics {
+        val displayMetrics = DisplayMetrics()
+        windowManager.defaultDisplay.getRealMetrics(displayMetrics)
+        return displayMetrics
+    }
+
     private fun initObservers() {
         boundsPickerViewModel.getError().observe(this, Observer {
-            // TODO: figure out better error handling
             Toast.makeText(this, it.toString(), Toast.LENGTH_SHORT).show()
         })
 
@@ -112,10 +119,21 @@ class BoundsPickerActivity : AppCompatActivity() {
 
         boundsPickerViewModel.getStatus().observe(this, Observer {
             if (it == BoundsPickerViewModel.Status.FINISHED) {
-                // TODO: show better finishing state
                 onBackPressed()
             }
         })
+    }
+
+    private fun getFullscreenFlags(): Int {
+        return (View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+        // Set the content to appear under the system bars so that the
+        // content doesn't resize when the system bars hide and show.
+        or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+        or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        // Hide the nav bar and status bar
+        or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+        or View.SYSTEM_UI_FLAG_FULLSCREEN)
     }
 
     private fun startSelectingBounds() {
@@ -124,15 +142,16 @@ class BoundsPickerActivity : AppCompatActivity() {
 
     private fun displayLatestScreenshot(bitmap: Bitmap) {
         bounds_picker_view.visibility = View.VISIBLE
-
         bounds_picker_view.setImageBitmap(bitmap)
         save_button.isEnabled = true
+        save_button.show()
     }
 
     private fun displayInstructions() {
         bounds_picker_view.visibility = View.GONE
         instructions_view.visibility = View.VISIBLE
         save_button.isEnabled = false
+        save_button.hide()
     }
 
     private fun applyBounds(bounds: Bounds) {
@@ -150,7 +169,6 @@ class BoundsPickerActivity : AppCompatActivity() {
     }
 
     private fun calculateBounds(): Bounds {
-        // TODO these calculations are not 1:1 to the actual bounds
         val width = bounds_picker_view.width
         val height = bounds_picker_view.height
 

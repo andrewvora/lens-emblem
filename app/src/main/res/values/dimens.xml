@@ -3,6 +3,8 @@
     <dimen name="horizontal_margin">16dp</dimen>
     <dimen name="vertical_margin">12dp</dimen>
     <dimen name="vertical_spacer_margin">8dp</dimen>
+
+    <dimen name="tutorial_bar">90dp</dimen>
     
     <dimen name="bounds_picker_view_border_line_size">3dp</dimen>
     <dimen name="bounds_picker_view_corner_line_size">5dp</dimen>
