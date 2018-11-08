@@ -143,11 +143,9 @@ class MainFragment : Fragment(), PermissionListener {
         when(state) {
             MainViewModel.State.DEFAULT -> {
                 start_service_button.isEnabled = mainViewModel.heroesLoaded()
-                bound_picker_button.isEnabled = false
             }
             MainViewModel.State.SERVICE_STARTED -> {
                 start_service_button.isEnabled = true
-                bound_picker_button.isEnabled = true
             }
             MainViewModel.State.HEROES_LOADED -> {}
         }

@@ -54,9 +54,8 @@ class BoundsPickerActivity : AppCompatActivity() {
 
     private fun initViews() {
         val screenSize = getScreenSize()
-        val maxAllowableHeight = screenSize.widthPixels / 10.0 * 18
         val currentHeight = screenSize.heightPixels
-        bounds_picker_view.layoutParams.height = min(maxAllowableHeight.toInt(), currentHeight)
+        bounds_picker_view.layoutParams.height = currentHeight
 
         back_button.setOnClickListener {
             val prev = boundsPickerViewModel.getPreviousStep()

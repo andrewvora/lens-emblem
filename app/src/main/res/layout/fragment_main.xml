@@ -161,7 +161,7 @@
                         android:id="@+id/bound_picker_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:enabled="false"
+                        android:enabled="true"
                         android:textColor="@color/md_white_1000"
                         android:text="@string/adjust_bounds_btn_text"/>
 
