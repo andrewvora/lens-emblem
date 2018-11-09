@@ -17,8 +17,9 @@ import javax.inject.Inject
  * @author Andrew Vorakrajangthiti
  */
 class BoundsPickerViewModel
-@Inject constructor(private val latestScreenshot: LatestScreenshot,
-                    private val boundsRepo: BoundsRepo) : ViewModel() {
+@Inject
+constructor(private val latestScreenshot: LatestScreenshot,
+            private val boundsRepo: BoundsRepo) : ViewModel() {
 
     private val boundsMap: MutableLiveData<MutableMap<BoundsType, Bounds>> = MutableLiveData()
     private val screenshot: MutableLiveData<Bitmap> = MutableLiveData()
