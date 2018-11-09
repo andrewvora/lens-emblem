@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "utility scripts for Lens Emblem.",
   "main": "index.js",
+  "repository": "https://github.com/andrewvora/lens-emblem",
   "scripts": {
     "test": "mocha **.spec.js"
   },
@@ -18,6 +19,7 @@
     "chai-http": "^4.0.0",
     "dirty-chai": "^2.0.1",
     "mocha": "^5.2.0",
-    "require-uncached": "^1.0.3"
+    "require-uncached": "^1.0.3",
+    "cryptiles": ">=4.1.2"
   }
 }
