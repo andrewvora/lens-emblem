@@ -261,8 +261,8 @@ async function getHeroStats(url, name, title) {
 }
 
 function addWeaponTypeToHero(cheerioHtml, stats) {
-    const weaponTypeCell = cheerioHtml.find('td:nth-child(5) img')
-    const weaponTypeUrl = weaponTypeCell.attr('srcset')
+    const weaponTypeCell = cheerioHtml.find('td:nth-child(4) img')
+    const weaponTypeUrl = weaponTypeCell.attr('src')
     stats['weaponTypeUrl'] = weaponTypeUrl
 
     const typeString = weaponTypeCell.attr('alt').toLowerCase()
@@ -302,10 +302,10 @@ function addWeaponTypeToHero(cheerioHtml, stats) {
 }
 
 function addMovementTypeToHero(cheerioHtml, stats) {
-    const movementTypeCell = cheerioHtml.find('td:nth-child(6) img')
-    const movementTypeUrl = movementTypeCell.attr('srcset')
+    const movementTypeCell = cheerioHtml.find('td:nth-child(5) img')
+    const movementTypeUrl = movementTypeCell.attr('src')
     stats['movementTypeUrl'] = movementTypeUrl
-
+    
     const typeString = movementTypeCell.attr('alt').toLowerCase()
     if (typeString.indexOf('cavalry') >= 0) {
         stats['movementType'] = 'cavalry'
@@ -333,8 +333,9 @@ async function getHeroInfo(html) {
         const item = $(rowItems[i])
         const heroNameItem = item.find('td:nth-child(2) > a')
         const heroUrl = `${gamepediaUrl}${heroNameItem.attr('href')}`
-        const name = heroNameItem.text()
-        const title = item.find('td:nth-child(3)').text()
+        const fullName = heroNameItem.text().split(':')
+        const name = fullName[0].trim()
+        const title = fullName[1].trim()
 
         const stats = await getHeroStats(heroUrl, name, title)
         const heroImgUrl = item.find('td:nth-child(1) img').attr('src')
